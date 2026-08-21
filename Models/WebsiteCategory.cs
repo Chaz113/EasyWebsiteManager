@@ -10,5 +10,5 @@ public class WebsiteCategory
 
     public bool IsExpanded { get; set; } = true;
 
-    public ObservableCollection<WebsiteItem> Websites { get; set; } = new();
+    public ObservableCollection<WebsiteItem> Websites { get; } = new();
 }
