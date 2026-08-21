@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EasyWebsiteManager.MainPage">
+
+    <Grid Padding="15">
+
+        <!-- Main Content -->
+        <VerticalStackLayout Spacing="10">
+
+            <SearchBar Placeholder="Search websites..." />
+
+            <CollectionView ItemsSource="{Binding Categories}">
+
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <Border StrokeThickness="1"
+                                Stroke="{AppThemeBinding Light=LightGray, Dark=Gray}"
+                                Padding="12"
+                                Margin="0,5">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+
+                            <Label Text="{Binding Name}"
+                                   FontAttributes="Bold"
+                                   FontSize="18"/>
+
+                        </Border>
+
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+
+        <!-- Floating Add Button -->
+        <Button x:Name="AddButton"
+                Text="+"
+                FontSize="30"
+                WidthRequest="64"
+                HeightRequest="64"
+                CornerRadius="32"
+                BackgroundColor="#2E4A7F"
+                TextColor="White"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0,0,10,10"
+                Clicked="AddButton_Clicked"/>
+
+    </Grid>
+
+</ContentPage>
