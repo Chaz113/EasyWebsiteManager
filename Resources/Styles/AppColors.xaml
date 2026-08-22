@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="EasyWebsiteManager.Resources.Styles.AppColors">
+
+    <!-- Brand -->
+    <Color x:Key="AccentBlue">#2E4A7F</Color>
+
+    <!-- Expanded category glow -->
+    <Color x:Key="ExpandedGlow">#BFD8FF</Color>
+
+    <!-- Delete -->
+    <Color x:Key="DeleteRed">#FFD8D8</Color>
+
+    <!-- Note indicator -->
+    <Color x:Key="NoteGold">#FFD700</Color>
+
+</ResourceDictionary>

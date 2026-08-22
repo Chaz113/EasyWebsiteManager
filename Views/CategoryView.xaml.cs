@@ -9,7 +9,7 @@ public partial class CategoryView : ContentView
         InitializeComponent();
     }
 
-    private void CategoryTapped(object sender, TappedEventArgs e)
+    private void CategoryTapped(object? sender, TappedEventArgs e)
     {
         if (BindingContext is WebsiteCategory category)
         {

@@ -6,7 +6,9 @@
 
     <VerticalStackLayout Spacing="4">
 
+        <!-- Entire header is now tappable -->
         <Border
+            x:Name="CategoryBorder"
             Margin="0,5"
             Padding="12"
             Stroke="{AppThemeBinding Light=LightGray, Dark=Gray}"
@@ -15,6 +17,36 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10"/>
             </Border.StrokeShape>
+
+            <!-- Soft Fluent-style highlight -->
+            <Border.Triggers>
+
+                <DataTrigger TargetType="Border"
+                             Binding="{Binding IsExpanded}"
+                             Value="True">
+
+                    <Setter Property="Stroke" Value="#BFD8FF"/>
+                    <Setter Property="BackgroundColor"
+                            Value="{AppThemeBinding Light=#F8FBFF, Dark=#1B2430}"/>
+
+                </DataTrigger>
+
+                <DataTrigger TargetType="Border"
+                             Binding="{Binding IsExpanded}"
+                             Value="False">
+
+                    <Setter Property="Stroke"
+                            Value="{AppThemeBinding Light=LightGray, Dark=Gray}"/>
+                    <Setter Property="BackgroundColor"
+                            Value="Transparent"/>
+
+                </DataTrigger>
+
+            </Border.Triggers>
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="CategoryTapped"/>
+            </Border.GestureRecognizers>
 
             <Grid ColumnDefinitions="*,Auto">
 
@@ -25,14 +57,29 @@
                     FontSize="18"
                     VerticalOptions="Center"/>
 
+                <!-- Rotating chevron -->
                 <Label
                     Grid.Column="1"
-                    Text="▼"
-                    FontSize="18"
+                    Text="›"
+                    FontSize="22"
                     VerticalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CategoryTapped"/>
-                    </Label.GestureRecognizers>
+
+                    <Label.Triggers>
+
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding IsExpanded}"
+                                     Value="True">
+                            <Setter Property="Rotation" Value="90"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding IsExpanded}"
+                                     Value="False">
+                            <Setter Property="Rotation" Value="0"/>
+                        </DataTrigger>
+
+                    </Label.Triggers>
+
                 </Label>
 
             </Grid>

@@ -10,7 +10,7 @@ public partial class MainPage : ContentPage
         BindingContext = new MainViewModel();
     }
 
-    private async void AddButton_Clicked(object sender, EventArgs e)
+    private async void AddButton_Clicked(object? sender, EventArgs e)
     {
         var category = await DisplayPromptAsync(
             "Category",
