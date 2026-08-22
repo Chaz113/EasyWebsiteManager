@@ -74,7 +74,12 @@
 	<ItemGroup>
 	  <Folder Include="Helpers\" />
 	  <Folder Include="Services\" />
-	  <Folder Include="Views\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\CategoryView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

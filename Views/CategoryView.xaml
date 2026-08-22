@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="EasyWebsiteManager.Views.CategoryView">
+
+    <Border
+        Margin="0,5"
+        Padding="12"
+        Stroke="{AppThemeBinding Light=LightGray, Dark=Gray}"
+        StrokeThickness="1">
+
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="10"/>
+        </Border.StrokeShape>
+
+        <Grid ColumnDefinitions="*,Auto">
+
+            <Label
+                Grid.Column="0"
+                Text="{Binding Name}"
+                FontAttributes="Bold"
+                FontSize="18"
+                VerticalOptions="Center"/>
+
+            <Label
+                Grid.Column="1"
+                Text="▼"
+                FontSize="18"
+                VerticalOptions="Center"/>
+
+        </Grid>
+
+    </Border>
+
+</ContentView>
