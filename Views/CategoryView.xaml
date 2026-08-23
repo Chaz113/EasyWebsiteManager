@@ -96,9 +96,43 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
 
-                        <Label
-                            Text="{Binding Name}"
-                            FontSize="15"/>
+                        <Grid
+        ColumnDefinitions="*,Auto,Auto,Auto"
+        Padding="6,4">
+
+                            <!-- Website Name -->
+                            <Label
+            Grid.Column="0"
+            Text="{Binding Name}"
+            FontSize="15"
+            VerticalOptions="Center"/>
+
+                            <!-- Edit -->
+                            <Button
+            Grid.Column="1"
+            Text="✎"
+            FontSize="16"
+            BackgroundColor="Transparent"
+            WidthRequest="36"/>
+
+                            <!-- Note -->
+                            <Button
+            Grid.Column="2"
+            Text="📝"
+            FontSize="16"
+            BackgroundColor="Transparent"
+            WidthRequest="36"/>
+
+                            <!-- Delete -->
+                            <Button
+            Grid.Column="3"
+            Text="🗑"
+            FontSize="16"
+            BackgroundColor="Transparent"
+            TextColor="{StaticResource DeleteRed}"
+            WidthRequest="36"/>
+
+                        </Grid>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
