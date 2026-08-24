@@ -1,5 +1,5 @@
 using EasyWebsiteManager.Models;
-using EasyWebsiteManager.Services;
+using System.Linq;
 
 namespace EasyWebsiteManager.Views;
 
@@ -19,12 +19,31 @@ public partial class CategoryView : ContentView
     }
     private async void EditWebsite_Clicked(object? sender, EventArgs e)
     {
-        if (Window?.Page is Page page)
+        if (sender is not Button button)
+            return;
+
+        if (button.BindingContext is not WebsiteItem website)
+            return;
+
+        if (BindingContext is not WebsiteCategory category)
+            return;
+
+        var editPage = new EditWebsitePage(website);
+
+        editPage.WebsiteUpdated += updatedWebsite =>
         {
-            await DialogService.ShowMessageAsync(
-    page,
-    "Edit Website",
-    "The edit window is our next feature.");
-        }
+            var sortedWebsites = category.Websites
+                .OrderBy(w => w.Name)
+                .ToList();
+
+            category.Websites.Clear();
+
+            foreach (var item in sortedWebsites)
+            {
+                category.Websites.Add(item);
+            }
+        };
+
+        await Navigation.PushModalAsync(editPage);
     }
 }
