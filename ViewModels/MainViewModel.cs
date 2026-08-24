@@ -6,6 +6,7 @@ namespace EasyWebsiteManager.ViewModels;
 
 public class MainViewModel
 {
+    public AppSettings Settings { get; } = new();
     public ObservableCollection<WebsiteCategory> Categories { get; } = new();
 
     public MainViewModel()

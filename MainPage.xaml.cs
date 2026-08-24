@@ -34,11 +34,23 @@ public partial class MainPage : ContentPage
 
         await Navigation.PushModalAsync(addPage);
     }
+    private async void SettingsButton_Clicked(object? sender, EventArgs e)
+    {
+        if (BindingContext is not MainViewModel vm)
+            return;
+
+        var settingsPage = new SettingsPage(vm.Settings);
+
+        await Navigation.PushModalAsync(settingsPage);
+    }
 
     private void CategoryListView_ChildAdded(object? sender, ElementEventArgs e)
     {
-        if (e.Element is CategoryView categoryView)
+        if (e.Element is CategoryView categoryView &&
+            BindingContext is MainViewModel vm)
         {
+            categoryView.Settings = vm.Settings;
+
             categoryView.WebsiteDeleted -= CategoryView_WebsiteDeleted;
             categoryView.WebsiteDeleted += CategoryView_WebsiteDeleted;
         }

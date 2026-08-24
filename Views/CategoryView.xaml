@@ -114,15 +114,46 @@
 
                                 <!-- Delete -->
                                 <Button
-                                    Text="⌫"
-                                    FontSize="17"
-                                    BackgroundColor="Transparent"
-                                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                                    WidthRequest="32"
-                                    HeightRequest="32"
-                                    Padding="0"
-                                    Margin="5,0,0,0"
-                                    Clicked="DeleteWebsite_Clicked"/>
+    Text="⌫"
+    FontSize="17"
+    BackgroundColor="Transparent"
+    WidthRequest="32"
+    HeightRequest="32"
+    Padding="0"
+    Margin="5,0,0,0"
+    Clicked="DeleteWebsite_Clicked">
+
+                                    <Button.Triggers>
+
+                                        <!-- Confirm Delete ON = neutral -->
+                                        <DataTrigger
+            TargetType="Button"
+            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
+                              Path=Settings.ConfirmDelete}"
+            Value="True">
+
+                                            <Setter
+                Property="TextColor"
+                Value="{AppThemeBinding Light=Black, Dark=White}"/>
+
+                                        </DataTrigger>
+
+                                        <!-- Confirm Delete OFF = red -->
+                                        <DataTrigger
+            TargetType="Button"
+            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
+                              Path=Settings.ConfirmDelete}"
+            Value="False">
+
+                                            <Setter
+                Property="TextColor"
+                Value="#FF0000"/>
+
+                                        </DataTrigger>
+
+                                    </Button.Triggers>
+
+                                </Button>
 
                             </HorizontalStackLayout>
 

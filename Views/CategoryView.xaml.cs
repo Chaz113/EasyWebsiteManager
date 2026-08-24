@@ -6,6 +6,17 @@ namespace EasyWebsiteManager.Views;
 
 public partial class CategoryView : ContentView
 {
+    public static readonly BindableProperty SettingsProperty =
+     BindableProperty.Create(
+         nameof(Settings),
+         typeof(AppSettings),
+         typeof(CategoryView));
+
+    public AppSettings? Settings
+    {
+        get => (AppSettings?)GetValue(SettingsProperty);
+        set => SetValue(SettingsProperty, value);
+    }
     public event Action<WebsiteCategory, WebsiteItem>? WebsiteDeleted;
     private async void DeleteWebsite_Clicked(object? sender, EventArgs e)
     {
@@ -18,23 +29,28 @@ public partial class CategoryView : ContentView
         if (BindingContext is not WebsiteCategory category)
             return;
 
-        if (Window?.Page is not Page page)
-            return;
+        bool confirmDelete = Settings?.ConfirmDelete ?? true;
 
-        var confirmed = await DialogService.ConfirmAsync(
-            page,
-            "Delete Website",
-            $"Delete {website.Name}?");
+        if (confirmDelete)
+        {
+            if (Window?.Page is not Page page)
+                return;
 
-        if (!confirmed)
-            return;
+            var confirmed = await DialogService.ConfirmAsync(
+                page,
+                "Delete Website",
+                $"Delete {website.Name}?");
+
+            if (!confirmed)
+                return;
+        }
 
         if (category.Websites.Remove(website))
         {
             WebsiteDeleted?.Invoke(category, website);
         }
     }
-    
+
     public CategoryView()
     {
         InitializeComponent();

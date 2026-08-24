@@ -1,40 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:EasyWebsiteManager.Views"
-             x:Class="EasyWebsiteManager.MainPage">
 
-    <Grid Padding="15">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:EasyWebsiteManager.Views"
+    x:Class="EasyWebsiteManager.MainPage">
 
-        <!-- Main Content -->
-        <VerticalStackLayout Spacing="10">
+    <Grid
+        Padding="15"
+        RowDefinitions="Auto,*">
 
-            <SearchBar Placeholder="Search websites..." />
+        <!-- Top Bar -->
+        <Grid
+            Grid.Row="0"
+            ColumnDefinitions="*,Auto"
+            ColumnSpacing="10">
 
-            <CollectionView
-    x:Name="CategoryListView"
-    ItemsSource="{Binding Categories}">
+            <!-- Search -->
+            <SearchBar
+                Grid.Column="0"
+                Placeholder="Search websites..."
+                VerticalOptions="Center"/>
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <views:CategoryView />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+            <!-- Temporary Settings button -->
+            <Button
+                Grid.Column="1"
+                Text="⚙"
+                FontSize="20"
+                WidthRequest="44"
+                HeightRequest="44"
+                Padding="0"
+                BackgroundColor="Transparent"
+                TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                VerticalOptions="Center"
+                Clicked="SettingsButton_Clicked"/>
 
-            </CollectionView>
+        </Grid>
 
-        </VerticalStackLayout>
+        <!-- Categories -->
+        <CollectionView
+            x:Name="CategoryListView"
+            Grid.Row="1"
+            Margin="0,8,0,0"
+            ItemsSource="{Binding Categories}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <views:CategoryView/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
         <!-- Undo Delete Banner -->
         <Border
-    x:Name="UndoBanner"
-    IsVisible="False"
-    HorizontalOptions="Center"
-    VerticalOptions="End"
-    Margin="0,0,0,90"
-    Padding="14,10"
-    BackgroundColor="{AppThemeBinding Light=#F2F2F2, Dark=#2B2B2B}"
-    Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#4A4A4A}"
-    StrokeThickness="1">
+            x:Name="UndoBanner"
+            Grid.RowSpan="2"
+            IsVisible="False"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            Margin="0,0,0,90"
+            Padding="14,10"
+            BackgroundColor="{AppThemeBinding Light=#F2F2F2, Dark=#2B2B2B}"
+            Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#4A4A4A}"
+            StrokeThickness="1"
+            ZIndex="20">
 
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10"/>
@@ -43,16 +73,16 @@
             <HorizontalStackLayout Spacing="14">
 
                 <Label
-            x:Name="UndoMessageLabel"
-            Text="Website deleted"
-            VerticalOptions="Center"/>
+                    x:Name="UndoMessageLabel"
+                    Text="Website deleted"
+                    VerticalOptions="Center"/>
 
                 <Button
-            Text="Undo"
-            BackgroundColor="Transparent"
-            TextColor="#3478F6"
-            Padding="8,0"
-            Clicked="UndoDelete_Clicked"/>
+                    Text="Undo"
+                    BackgroundColor="Transparent"
+                    TextColor="#3478F6"
+                    Padding="8,0"
+                    Clicked="UndoDelete_Clicked"/>
 
             </HorizontalStackLayout>
 
@@ -60,31 +90,34 @@
 
         <!-- Floating Add Button -->
         <Button
-    x:Name="AddButton"
-    Text="+"
-    FontSize="32"
-    FontAttributes="Bold"
-    WidthRequest="64"
-    HeightRequest="64"
-    CornerRadius="32"
-    BackgroundColor="#3478F6"
-    TextColor="White"
-    BorderWidth="0"
-    Padding="0"
-    HorizontalOptions="End"
-    VerticalOptions="End"
-    Margin="0,0,12,12"
-    Clicked="AddButton_Clicked">
+            x:Name="AddButton"
+            Grid.RowSpan="2"
+            Text="+"
+            FontSize="32"
+            FontAttributes="Bold"
+            WidthRequest="64"
+            HeightRequest="64"
+            CornerRadius="32"
+            BackgroundColor="#3478F6"
+            TextColor="White"
+            BorderWidth="0"
+            Padding="0"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            Margin="0,0,12,12"
+            Clicked="AddButton_Clicked"
+            ZIndex="10">
 
             <Button.Shadow>
                 <Shadow
-            Brush="Black"
-            Offset="0,4"
-            Radius="8"
-            Opacity="0.30"/>
+                    Brush="Black"
+                    Offset="0,4"
+                    Radius="8"
+                    Opacity="0.30"/>
             </Button.Shadow>
 
         </Button>
+
     </Grid>
 
 </ContentPage>
