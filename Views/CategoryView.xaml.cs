@@ -6,6 +6,21 @@ namespace EasyWebsiteManager.Views;
 
 public partial class CategoryView : ContentView
 {
+    private void EditCategory_Clicked(object? sender, EventArgs e)
+    {
+        if (BindingContext is not WebsiteCategory category)
+            return;
+
+        CategoryEditRequested?.Invoke(category);
+    }
+
+    private void DeleteCategory_Clicked(object? sender, EventArgs e)
+    {
+        if (BindingContext is not WebsiteCategory category)
+            return;
+
+        CategoryDeleteRequested?.Invoke(category);
+    }
     public static readonly BindableProperty SettingsProperty =
      BindableProperty.Create(
          nameof(Settings),
@@ -20,6 +35,8 @@ public partial class CategoryView : ContentView
     public event Action<WebsiteCategory, WebsiteItem>? WebsiteDeleted;
     public event Action<WebsiteItem>? WebsiteNoteChanged;
     public event Action<WebsiteItem>? WebsiteUpdated;
+    public event Action<WebsiteCategory>? CategoryEditRequested;
+    public event Action<WebsiteCategory>? CategoryDeleteRequested;
 
     private async void NotepadButton_Clicked(object? sender, EventArgs e)
     {

@@ -9,13 +9,9 @@ public partial class MainPage : ContentPage
 {
     private WebsiteCategory? _deletedCategory;
     private WebsiteItem? _deletedWebsite;
-    private CancellationTokenSource? _undoCancellation;
-    private async void CategoryView_WebsiteNoteChanged(
-    WebsiteItem website)
-    {
-        await SaveCurrentDataAsync();
-    }
+    private WebsiteCategory? _deletedWholeCategory;
 
+    private CancellationTokenSource? _undoCancellation;
     private bool _dataLoaded;
 
     public MainPage()
@@ -57,11 +53,6 @@ public partial class MainPage : ContentPage
 
         await StorageService.SaveAsync(data);
     }
-    private async void CategoryView_WebsiteUpdated(
-    WebsiteItem website)
-    {
-        await SaveCurrentDataAsync();
-    }
 
     private async void AddButton_Clicked(object? sender, EventArgs e)
     {
@@ -99,19 +90,28 @@ public partial class MainPage : ContentPage
         object? sender,
         ElementEventArgs e)
     {
-        if (e.Element is CategoryView categoryView &&
-     BindingContext is MainViewModel vm)
-        {
-            categoryView.Settings = vm.Settings;
+        if (e.Element is not CategoryView categoryView)
+            return;
 
-            categoryView.WebsiteDeleted -= CategoryView_WebsiteDeleted;
-            categoryView.WebsiteDeleted += CategoryView_WebsiteDeleted;
+        if (BindingContext is not MainViewModel vm)
+            return;
 
-            categoryView.WebsiteNoteChanged -= CategoryView_WebsiteNoteChanged;
-            categoryView.WebsiteNoteChanged += CategoryView_WebsiteNoteChanged;
-            categoryView.WebsiteUpdated -= CategoryView_WebsiteUpdated;
-            categoryView.WebsiteUpdated += CategoryView_WebsiteUpdated;
-        }
+        categoryView.Settings = vm.Settings;
+
+        categoryView.WebsiteDeleted -= CategoryView_WebsiteDeleted;
+        categoryView.WebsiteDeleted += CategoryView_WebsiteDeleted;
+
+        categoryView.WebsiteNoteChanged -= CategoryView_WebsiteNoteChanged;
+        categoryView.WebsiteNoteChanged += CategoryView_WebsiteNoteChanged;
+
+        categoryView.WebsiteUpdated -= CategoryView_WebsiteUpdated;
+        categoryView.WebsiteUpdated += CategoryView_WebsiteUpdated;
+
+        categoryView.CategoryEditRequested -= CategoryView_CategoryEditRequested;
+        categoryView.CategoryEditRequested += CategoryView_CategoryEditRequested;
+
+        categoryView.CategoryDeleteRequested -= CategoryView_CategoryDeleteRequested;
+        categoryView.CategoryDeleteRequested += CategoryView_CategoryDeleteRequested;
     }
 
     private async void CategoryView_WebsiteDeleted(
@@ -120,6 +120,7 @@ public partial class MainPage : ContentPage
     {
         _deletedCategory = category;
         _deletedWebsite = website;
+        _deletedWholeCategory = null;
 
         await SaveCurrentDataAsync();
 
@@ -145,17 +146,113 @@ public partial class MainPage : ContentPage
         }
     }
 
+    private async void CategoryView_WebsiteNoteChanged(
+        WebsiteItem website)
+    {
+        await SaveCurrentDataAsync();
+    }
+
+    private async void CategoryView_WebsiteUpdated(
+        WebsiteItem website)
+    {
+        await SaveCurrentDataAsync();
+    }
+
+    private async void CategoryView_CategoryEditRequested(
+       WebsiteCategory category)
+    {
+        if (BindingContext is not MainViewModel vm)
+            return;
+
+        var editPage = new EditCategoryPage(category);
+
+        editPage.CategoryUpdated += async updatedCategory =>
+        {
+            vm.ResortCategories();
+
+            await SaveCurrentDataAsync();
+        };
+
+        await Navigation.PushModalAsync(editPage);
+    }
+    private async void CategoryView_CategoryDeleteRequested(
+        WebsiteCategory category)
+    {
+        if (BindingContext is not MainViewModel vm)
+            return;
+
+        if (vm.Settings.ConfirmDelete)
+        {
+            if (Window?.Page is not Page page)
+                return;
+
+            var confirmed = await DialogService.ConfirmAsync(
+                page,
+                "Delete Category",
+                $"Delete {category.Name} and all websites inside it?");
+
+            if (!confirmed)
+                return;
+        }
+
+        if (!vm.DeleteCategory(category))
+            return;
+
+        _deletedWholeCategory = category;
+
+        _deletedCategory = null;
+        _deletedWebsite = null;
+
+        await SaveCurrentDataAsync();
+
+        UndoMessageLabel.Text =
+            $"{category.Name} category deleted";
+
+        UndoBanner.IsVisible = true;
+
+        _undoCancellation?.Cancel();
+        _undoCancellation = new CancellationTokenSource();
+
+        try
+        {
+            await Task.Delay(
+                TimeSpan.FromSeconds(5),
+                _undoCancellation.Token);
+
+            UndoBanner.IsVisible = false;
+            _deletedWholeCategory = null;
+        }
+        catch (TaskCanceledException)
+        {
+        }
+    }
+
     private async void UndoDelete_Clicked(
         object? sender,
         EventArgs e)
     {
+        _undoCancellation?.Cancel();
+
+        if (_deletedWholeCategory != null)
+        {
+            if (BindingContext is MainViewModel vm)
+            {
+                vm.RestoreCategory(_deletedWholeCategory);
+
+                await SaveCurrentDataAsync();
+            }
+
+            _deletedWholeCategory = null;
+            UndoBanner.IsVisible = false;
+
+            return;
+        }
+
         if (_deletedCategory == null ||
             _deletedWebsite == null)
         {
             return;
         }
-
-        _undoCancellation?.Cancel();
 
         _deletedCategory.Websites.Add(_deletedWebsite);
 
@@ -177,5 +274,4 @@ public partial class MainPage : ContentPage
         _deletedCategory = null;
         _deletedWebsite = null;
     }
-
 }

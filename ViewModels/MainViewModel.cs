@@ -7,6 +7,53 @@ namespace EasyWebsiteManager.ViewModels;
 public class MainViewModel
 {
     private string _searchText = "";
+    public bool DeleteCategory(WebsiteCategory category)
+    {
+        var removed = Categories.Remove(category);
+
+        if (removed)
+        {
+            ApplySearch();
+        }
+
+        return removed;
+    }
+    public void ResortCategories()
+    {
+        var sortedCategories = Categories
+            .OrderBy(c => c.Name)
+            .ToList();
+
+        Categories.Clear();
+
+        foreach (var category in sortedCategories)
+        {
+            Categories.Add(category);
+        }
+
+        ApplySearch();
+    }
+
+    public void RestoreCategory(WebsiteCategory category)
+    {
+        if (Categories.Contains(category))
+            return;
+
+        Categories.Add(category);
+
+        var sortedCategories = Categories
+            .OrderBy(c => c.Name)
+            .ToList();
+
+        Categories.Clear();
+
+        foreach (var item in sortedCategories)
+        {
+            Categories.Add(item);
+        }
+
+        ApplySearch();
+    }
 
     public AppSettings Settings { get; } = new();
 
