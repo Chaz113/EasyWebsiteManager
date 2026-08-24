@@ -41,5 +41,29 @@ public class MainViewModel
             Name = websiteName,
             Url = url
         });
+
+        // Keep websites in alphabetical order
+        var sortedWebsites = category.Websites
+            .OrderBy(w => w.Name)
+            .ToList();
+
+        category.Websites.Clear();
+
+        foreach (var website in sortedWebsites)
+        {
+            category.Websites.Add(website);
+        }
     }
+    public async Task OpenWebsite(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return;
+
+        if (!url.StartsWith("http://") && !url.StartsWith("https://"))
+        {
+            url = "https://" + url;
+        }
+
+        await Browser.Default.OpenAsync(url, BrowserLaunchMode.SystemPreferred);
     }
+}
