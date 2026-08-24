@@ -22,5 +22,5 @@ public class WebsiteCategory : ObservableObject
         set => SetProperty(ref isExpanded, value);
     }
 
-    public ObservableCollection<WebsiteItem> Websites { get; } = new();
+    public ObservableCollection<WebsiteItem> Websites { get; set; } = new();
 }

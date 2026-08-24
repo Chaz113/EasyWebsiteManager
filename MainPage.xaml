@@ -22,7 +22,9 @@
                 Placeholder="Search websites..."
                 VerticalOptions="Center"/>
 
-            <!-- Temporary Settings button -->
+          
+
+            <!-- Settings -->
             <Button
                 Grid.Column="1"
                 Text="⚙"

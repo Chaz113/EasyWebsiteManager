@@ -6,6 +6,38 @@ namespace EasyWebsiteManager.ViewModels;
 
 public class MainViewModel
 {
+    public AppData CreateAppData()
+    {
+        return new AppData
+        {
+            Categories = Categories.ToList(),
+            Settings = Settings
+        };
+    }
+
+    public void LoadAppData(AppData data)
+    {
+        Categories.Clear();
+
+        foreach (var category in data.Categories
+            .OrderBy(c => c.Name))
+        {
+            var sortedWebsites = category.Websites
+                .OrderBy(w => w.Name)
+                .ToList();
+
+            category.Websites.Clear();
+
+            foreach (var website in sortedWebsites)
+            {
+                category.Websites.Add(website);
+            }
+
+            Categories.Add(category);
+        }
+
+        Settings.ConfirmDelete = data.Settings.ConfirmDelete;
+    }
     public AppSettings Settings { get; } = new();
     public ObservableCollection<WebsiteCategory> Categories { get; } = new();
 

@@ -18,7 +18,9 @@ public partial class CategoryView : ContentView
         set => SetValue(SettingsProperty, value);
     }
     public event Action<WebsiteCategory, WebsiteItem>? WebsiteDeleted;
- 
+    public event Action<WebsiteItem>? WebsiteNoteChanged;
+    public event Action<WebsiteItem>? WebsiteUpdated;
+
     private async void NotepadButton_Clicked(object? sender, EventArgs e)
     {
         if (sender is not Button button)
@@ -29,11 +31,15 @@ public partial class CategoryView : ContentView
 
         var notepadPage = new NotepadPage(website);
 
+        notepadPage.NoteSaved += updatedWebsite =>
+        {
+            WebsiteNoteChanged?.Invoke(updatedWebsite);
+        };
+
         await Navigation.PushModalAsync(notepadPage);
     }
 
 
-   
     private async void DeleteWebsite_Clicked(object? sender, EventArgs e)
     {
         if (sender is not Button button)
@@ -104,6 +110,8 @@ public partial class CategoryView : ContentView
             {
                 category.Websites.Add(item);
             }
+
+            WebsiteUpdated?.Invoke(updatedWebsite);
         };
 
         await Navigation.PushModalAsync(editPage);
