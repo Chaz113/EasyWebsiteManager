@@ -1,10 +1,40 @@
 using EasyWebsiteManager.Models;
 using System.Linq;
+using EasyWebsiteManager.Services;
 
 namespace EasyWebsiteManager.Views;
 
 public partial class CategoryView : ContentView
 {
+    public event Action<WebsiteCategory, WebsiteItem>? WebsiteDeleted;
+    private async void DeleteWebsite_Clicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button button)
+            return;
+
+        if (button.BindingContext is not WebsiteItem website)
+            return;
+
+        if (BindingContext is not WebsiteCategory category)
+            return;
+
+        if (Window?.Page is not Page page)
+            return;
+
+        var confirmed = await DialogService.ConfirmAsync(
+            page,
+            "Delete Website",
+            $"Delete {website.Name}?");
+
+        if (!confirmed)
+            return;
+
+        if (category.Websites.Remove(website))
+        {
+            WebsiteDeleted?.Invoke(category, website);
+        }
+    }
+    
     public CategoryView()
     {
         InitializeComponent();

@@ -11,7 +11,9 @@
 
             <SearchBar Placeholder="Search websites..." />
 
-            <CollectionView ItemsSource="{Binding Categories}">
+            <CollectionView
+    x:Name="CategoryListView"
+    ItemsSource="{Binding Categories}">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -22,6 +24,39 @@
             </CollectionView>
 
         </VerticalStackLayout>
+        <!-- Undo Delete Banner -->
+        <Border
+    x:Name="UndoBanner"
+    IsVisible="False"
+    HorizontalOptions="Center"
+    VerticalOptions="End"
+    Margin="0,0,0,90"
+    Padding="14,10"
+    BackgroundColor="{AppThemeBinding Light=#F2F2F2, Dark=#2B2B2B}"
+    Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#4A4A4A}"
+    StrokeThickness="1">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+
+            <HorizontalStackLayout Spacing="14">
+
+                <Label
+            x:Name="UndoMessageLabel"
+            Text="Website deleted"
+            VerticalOptions="Center"/>
+
+                <Button
+            Text="Undo"
+            BackgroundColor="Transparent"
+            TextColor="#3478F6"
+            Padding="8,0"
+            Clicked="UndoDelete_Clicked"/>
+
+            </HorizontalStackLayout>
+
+        </Border>
 
         <!-- Floating Add Button -->
         <Button

@@ -121,7 +121,8 @@
                                     WidthRequest="32"
                                     HeightRequest="32"
                                     Padding="0"
-                                    Margin="5,0,0,0"/>
+                                    Margin="5,0,0,0"
+                                    Clicked="DeleteWebsite_Clicked"/>
 
                             </HorizontalStackLayout>
 
