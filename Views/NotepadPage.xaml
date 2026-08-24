@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="EasyWebsiteManager.Views.NotepadPage"
+    Title="Notepad"
+    BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
+
+    <Grid
+        Padding="24"
+        RowDefinitions="*,Auto,*">
+
+        <Border
+            Grid.Row="1"
+            MaximumWidthRequest="520"
+            MinimumWidthRequest="360"
+            Padding="20"
+            HorizontalOptions="Center"
+            BackgroundColor="#F5EFE1"
+            Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#41628F}"
+            StrokeThickness="1"
+            x:Name="NoteCard">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="14">
+
+                <Label
+                    Text="Website Note"
+                    FontSize="22"
+                    FontAttributes="Bold"
+                    TextColor="Black"/>
+
+                <Editor
+                    x:Name="NoteEditor"
+                    HeightRequest="220"
+                    AutoSize="TextChanges"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    Placeholder="Enter note..."
+                    PlaceholderColor="#666666"/>
+
+                <Label
+                    Text="Notepad Color"
+                    FontSize="14"
+                    TextColor="Black"/>
+
+                <HorizontalStackLayout
+                    Spacing="8"
+                    HorizontalOptions="Start">
+
+                    <Button
+                        BackgroundColor="#FFFFFF"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        Clicked="WhiteColor_Clicked"/>
+
+                    <Button
+                        BackgroundColor="#F5EFE1"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        Clicked="IvoryColor_Clicked"/>
+
+                    <Button
+                        BackgroundColor="#DDDBDD"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        Clicked="CreamyGreyColor_Clicked"/>
+
+                    <Button
+                        BackgroundColor="#C5E1B0"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        Clicked="MilkyOliveColor_Clicked"/>
+
+                    <Button
+                        BackgroundColor="#B8C3F6"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        Clicked="MilkyGrapeColor_Clicked"/>
+
+                    <Button
+                        BackgroundColor="#E9CACB"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        Clicked="CreamyRoseColor_Clicked"/>
+
+                    <Button
+                        BackgroundColor="#EDD2FF"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        Clicked="MilkyMauveColor_Clicked"/>
+
+                    <Button
+                        BackgroundColor="#F1D1B0"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        Clicked="MilkyBronzeColor_Clicked"/>
+
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout
+                    HorizontalOptions="End"
+                    Spacing="10"
+                    Margin="0,8,0,0">
+
+                    <Button
+                        Text="Clear"
+                        WidthRequest="90"
+                        Clicked="ClearButton_Clicked"/>
+
+                    <Button
+                        Text="Cancel"
+                        WidthRequest="90"
+                        Clicked="CancelButton_Clicked"/>
+
+                    <Button
+                        Text="Save"
+                        WidthRequest="90"
+                        BackgroundColor="#3478F6"
+                        TextColor="White"
+                        BorderWidth="0"
+                        Clicked="SaveButton_Clicked"/>
+
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+
+        </Border>
+
+    </Grid>
+
+</ContentPage>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -104,33 +105,21 @@
 
                                 <!-- Notepad -->
                                 <Button
-                                    Text="▤"
-                                    FontSize="17"
-                                    BackgroundColor="Transparent"
-                                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                                    WidthRequest="32"
-                                    HeightRequest="32"
-                                    Padding="0"/>
-
-                                <!-- Delete -->
-                                <Button
-    Text="⌫"
+    Text="▤"
     FontSize="17"
     BackgroundColor="Transparent"
     WidthRequest="32"
     HeightRequest="32"
     Padding="0"
-    Margin="5,0,0,0"
-    Clicked="DeleteWebsite_Clicked">
+    Clicked="NotepadButton_Clicked">
 
                                     <Button.Triggers>
 
-                                        <!-- Confirm Delete ON = neutral -->
+                                        <!-- No note = neutral -->
                                         <DataTrigger
             TargetType="Button"
-            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
-                              Path=Settings.ConfirmDelete}"
-            Value="True">
+            Binding="{Binding Note.HasNote}"
+            Value="False">
 
                                             <Setter
                 Property="TextColor"
@@ -138,16 +127,58 @@
 
                                         </DataTrigger>
 
-                                        <!-- Confirm Delete OFF = red -->
+                                        <!-- Note exists = yellow -->
                                         <DataTrigger
             TargetType="Button"
-            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
-                              Path=Settings.ConfirmDelete}"
-            Value="False">
+            Binding="{Binding Note.HasNote}"
+            Value="True">
 
                                             <Setter
                 Property="TextColor"
-                Value="#FF0000"/>
+                Value="#FFD700"/>
+
+                                        </DataTrigger>
+
+                                    </Button.Triggers>
+
+                                </Button>
+
+                                <!-- Delete -->
+                                <Button
+                                    Text="⌫"
+                                    FontSize="17"
+                                    BackgroundColor="Transparent"
+                                    WidthRequest="32"
+                                    HeightRequest="32"
+                                    Padding="0"
+                                    Margin="5,0,0,0"
+                                    Clicked="DeleteWebsite_Clicked">
+
+                                    <Button.Triggers>
+
+                                        <!-- Confirm Delete ON = neutral -->
+                                        <DataTrigger
+                                            TargetType="Button"
+                                            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
+                                                              Path=Settings.ConfirmDelete}"
+                                            Value="True">
+
+                                            <Setter
+                                                Property="TextColor"
+                                                Value="{AppThemeBinding Light=Black, Dark=White}"/>
+
+                                        </DataTrigger>
+
+                                        <!-- Confirm Delete OFF = red -->
+                                        <DataTrigger
+                                            TargetType="Button"
+                                            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
+                                                              Path=Settings.ConfirmDelete}"
+                                            Value="False">
+
+                                            <Setter
+                                                Property="TextColor"
+                                                Value="#FF0000"/>
 
                                         </DataTrigger>
 
@@ -168,4 +199,4 @@
 
     </Border>
 
-</ContentView> 
+</ContentView>

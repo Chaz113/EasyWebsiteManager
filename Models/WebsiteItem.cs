@@ -7,4 +7,6 @@ public class WebsiteItem
     public string Name { get; set; } = "";
 
     public string Url { get; set; } = "";
+
+    public WebsiteNote Note { get; set; } = new();
 }

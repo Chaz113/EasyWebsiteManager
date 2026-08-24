@@ -18,6 +18,22 @@ public partial class CategoryView : ContentView
         set => SetValue(SettingsProperty, value);
     }
     public event Action<WebsiteCategory, WebsiteItem>? WebsiteDeleted;
+ 
+    private async void NotepadButton_Clicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button button)
+            return;
+
+        if (button.BindingContext is not WebsiteItem website)
+            return;
+
+        var notepadPage = new NotepadPage(website);
+
+        await Navigation.PushModalAsync(notepadPage);
+    }
+
+
+   
     private async void DeleteWebsite_Clicked(object? sender, EventArgs e)
     {
         if (sender is not Button button)
@@ -92,4 +108,6 @@ public partial class CategoryView : ContentView
 
         await Navigation.PushModalAsync(editPage);
     }
+   
+    
 }
