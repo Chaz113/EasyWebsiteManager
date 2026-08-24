@@ -18,10 +18,10 @@
 
             <!-- Search -->
             <SearchBar
-                Grid.Column="0"
-                Placeholder="Search websites..."
-                VerticalOptions="Center"/>
-
+    Grid.Column="0"
+    Placeholder="Search websites..."
+    Text="{Binding SearchText}"
+    VerticalOptions="Center"/>
           
 
             <!-- Settings -->
@@ -44,7 +44,7 @@
             x:Name="CategoryListView"
             Grid.Row="1"
             Margin="0,8,0,0"
-            ItemsSource="{Binding Categories}">
+            ItemsSource="{Binding FilteredCategories}">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
