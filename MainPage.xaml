@@ -24,19 +24,32 @@
         </VerticalStackLayout>
 
         <!-- Floating Add Button -->
-        <Button x:Name="AddButton"
-                Text="+"
-                FontSize="30"
-                WidthRequest="64"
-                HeightRequest="64"
-                CornerRadius="32"
-                BackgroundColor="#2E4A7F"
-                TextColor="White"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                Margin="0,0,10,10"
-                Clicked="AddButton_Clicked"/>
+        <Button
+    x:Name="AddButton"
+    Text="+"
+    FontSize="32"
+    FontAttributes="Bold"
+    WidthRequest="64"
+    HeightRequest="64"
+    CornerRadius="32"
+    BackgroundColor="#3478F6"
+    TextColor="White"
+    BorderWidth="0"
+    Padding="0"
+    HorizontalOptions="End"
+    VerticalOptions="End"
+    Margin="0,0,12,12"
+    Clicked="AddButton_Clicked">
 
+            <Button.Shadow>
+                <Shadow
+            Brush="Black"
+            Offset="0,4"
+            Radius="8"
+            Opacity="0.30"/>
+            </Button.Shadow>
+
+        </Button>
     </Grid>
 
 </ContentPage>

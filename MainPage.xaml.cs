@@ -1,4 +1,5 @@
 ﻿using EasyWebsiteManager.ViewModels;
+using EasyWebsiteManager.Views;
 
 namespace EasyWebsiteManager;
 
@@ -12,30 +13,16 @@ public partial class MainPage : ContentPage
 
     private async void AddButton_Clicked(object? sender, EventArgs e)
     {
-        var category = await DisplayPromptAsync(
-            "Category",
-            "Enter category name:");
-
-        if (string.IsNullOrWhiteSpace(category))
+        if (BindingContext is not MainViewModel vm)
             return;
 
-        var website = await DisplayPromptAsync(
-            "Website",
-            "Enter website name:");
+        var addPage = new AddWebsitePage(vm.Categories);
 
-        if (string.IsNullOrWhiteSpace(website))
-            return;
-
-        var url = await DisplayPromptAsync(
-            "URL",
-            "Enter website address:");
-
-        if (string.IsNullOrWhiteSpace(url))
-            return;
-
-        if (BindingContext is MainViewModel vm)
+        addPage.WebsiteSaved += (category, website, url) =>
         {
             vm.AddWebsite(category, website, url);
-        }
+        };
+
+        await Navigation.PushModalAsync(addPage);
     }
 }

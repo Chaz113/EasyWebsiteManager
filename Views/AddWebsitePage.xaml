@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="EasyWebsiteManager.Views.AddWebsitePage"
+    Title="Add Website"
+    BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
+
+    <Grid
+        Padding="24"
+        RowDefinitions="*,Auto,*">
+
+        <Border
+            Grid.Row="1"
+            MaximumWidthRequest="500"
+            HorizontalOptions="Center"
+            Padding="24"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=#1B2940}"
+            Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#41628F}"
+            StrokeThickness="1">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="14">
+
+                <Label
+                    Text="Add Website"
+                    FontSize="24"
+                    FontAttributes="Bold"/>
+
+                <!-- Category -->
+                <Label
+                    Text="Category"
+                    FontSize="14"/>
+
+                <Picker
+                    x:Name="CategoryPicker"
+                    Title="Select existing category"
+                    ItemsSource="{Binding Categories}"
+                    ItemDisplayBinding="{Binding Name}"/>
+
+                <HorizontalStackLayout Spacing="8">
+
+                    <CheckBox
+                        x:Name="NewCategoryCheckBox"
+                        CheckedChanged="NewCategoryCheckBox_CheckedChanged"/>
+
+                    <Label
+                        Text="Create new category"
+                        VerticalOptions="Center"/>
+
+                </HorizontalStackLayout>
+
+                <Entry
+                    x:Name="NewCategoryEntry"
+                    Placeholder="New category name"
+                    IsVisible="False"/>
+
+                <!-- Website Name -->
+                <Label
+                    Text="Website Name"
+                    FontSize="14"/>
+
+                <Entry
+                    x:Name="WebsiteNameEntry"
+                    Placeholder="Example: Amazon"/>
+
+                <!-- URL -->
+                <Label
+                    Text="Website URL"
+                    FontSize="14"/>
+
+                <Entry
+                    x:Name="UrlEntry"
+                    Placeholder="Example: https://amazon.ca"
+                    Keyboard="Url"/>
+
+                <!-- Buttons -->
+                <HorizontalStackLayout
+                    HorizontalOptions="End"
+                    Spacing="10"
+                    Margin="0,8,0,0">
+
+                    <Button
+                        Text="Cancel"
+                        WidthRequest="90"
+                        Clicked="CancelButton_Clicked"/>
+
+                    <Button
+                        Text="Save"
+                        WidthRequest="90"
+                        BackgroundColor="#3478F6"
+                        TextColor="White"
+                        BorderWidth="0"
+                        Clicked="SaveButton_Clicked"/>
+
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+
+        </Border>
+
+    </Grid>
+
+</ContentPage>
