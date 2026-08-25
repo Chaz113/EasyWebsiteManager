@@ -1,17 +1,66 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿namespace EasyWebsiteManager;
 
-namespace EasyWebsiteManager
+public partial class App : Application
 {
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-        }
+    private const double DefaultWidth = 760;
+    private const double DefaultHeight = 680;
 
-        protected override Window CreateWindow(IActivationState? activationState)
+    private const double MinimumWidth = 650;
+    private const double MinimumHeight = 550;
+
+    public App()
+    {
+        InitializeComponent();
+    }
+
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        var window = new Window(new MainPage())
         {
-            return new Window(new AppShell());
-        }
+            Width = Preferences.Default.Get("WindowWidth", DefaultWidth),
+            Height = Preferences.Default.Get("WindowHeight", DefaultHeight),
+
+            X = Preferences.Default.Get("WindowX", 100.0),
+            Y = Preferences.Default.Get("WindowY", 100.0),
+
+            MinimumWidth = MinimumWidth,
+            MinimumHeight = MinimumHeight
+        };
+
+        window.SizeChanged += Window_SizeChanged;
+        window.Destroying += Window_Destroying;
+
+        return window;
+    }
+
+    private void Window_SizeChanged(object? sender, EventArgs e)
+    {
+        if (sender is not Window window)
+            return;
+
+        SaveWindowBounds(window);
+    }
+
+    private void Window_Destroying(object? sender, EventArgs e)
+    {
+        if (sender is not Window window)
+            return;
+
+        SaveWindowBounds(window);
+    }
+
+    private static void SaveWindowBounds(Window window)
+    {
+        if (window.Width > 0)
+            Preferences.Default.Set("WindowWidth", window.Width);
+
+        if (window.Height > 0)
+            Preferences.Default.Set("WindowHeight", window.Height);
+
+        if (window.X >= 0)
+            Preferences.Default.Set("WindowX", window.X);
+
+        if (window.Y >= 0)
+            Preferences.Default.Set("WindowY", window.Y);
     }
 }

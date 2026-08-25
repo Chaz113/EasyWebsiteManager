@@ -117,7 +117,8 @@ public class MainViewModel
         category.Websites.Add(new WebsiteItem
         {
             Name = websiteName,
-            Url = url
+            Url = url,
+            TextColor = category.TextColor
         });
 
         var sortedWebsites = category.Websites
@@ -145,6 +146,28 @@ public class MainViewModel
 
     public void LoadAppData(AppData data)
     {
+        // One-time migration for text colors created
+        // before character-color support was added.
+        if (data.DataVersion < 2)
+        {
+            foreach (var category in data.Categories)
+            {
+                if (category.TextColor == "#000000")
+                {
+                    category.TextColor = "#FFFFFF";
+                }
+
+                foreach (var website in category.Websites)
+                {
+                    if (website.TextColor == "#000000")
+                    {
+                        website.TextColor = "#FFFFFF";
+                    }
+                }
+            }
+
+            data.DataVersion = 2;
+        }
         Categories.Clear();
 
         foreach (var category in data.Categories

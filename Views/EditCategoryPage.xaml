@@ -26,11 +26,13 @@
 
             <VerticalStackLayout Spacing="14">
 
+                <!-- Heading -->
                 <Label
                     Text="Edit Category"
                     FontSize="24"
                     FontAttributes="Bold"/>
 
+                <!-- Category Name -->
                 <Label
                     Text="Category Name"
                     FontSize="14"/>
@@ -39,6 +41,132 @@
                     x:Name="CategoryNameEntry"
                     Placeholder="Category name"/>
 
+                <!-- Category Text Color -->
+                <Label
+                    Text="Category Text Color"
+                    FontSize="14"/>
+
+                <Grid
+                    ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                    RowDefinitions="Auto,Auto"
+                    ColumnSpacing="8"
+                    RowSpacing="8">
+
+                    <!-- Row 1 -->
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        BackgroundColor="#000000"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="BlackColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        BackgroundColor="#FFFFFF"
+                        BorderColor="#888888"
+                        BorderWidth="1"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="WhiteColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        BackgroundColor="#0000CD"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="BlueColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        BackgroundColor="#FF0000"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="RedColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="4"
+                        BackgroundColor="#00FF00"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="GreenColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="5"
+                        BackgroundColor="#FFA500"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="OrangeColor_Clicked"/>
+
+                    <!-- Row 2 -->
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        BackgroundColor="#4B0082"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="PurpleColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        BackgroundColor="#8F00FF"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="VioletColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        BackgroundColor="#D3D3D3"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="LightGreyColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        BackgroundColor="#808080"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="MediumGreyColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        BackgroundColor="#008080"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="TealColor_Clicked"/>
+
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        BackgroundColor="#FFD700"
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        CornerRadius="16"
+                        Clicked="YellowColor_Clicked"/>
+
+                </Grid>
+
+                <!-- Cancel / Save -->
                 <HorizontalStackLayout
                     HorizontalOptions="End"
                     Spacing="10"

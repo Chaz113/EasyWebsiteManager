@@ -31,11 +31,12 @@
 
                 <!-- Category Name -->
                 <Label
-                    Grid.Column="0"
-                    Text="{Binding Name}"
-                    FontAttributes="Bold"
-                    FontSize="18"
-                    VerticalOptions="Center"/>
+    Grid.Column="0"
+    Text="{Binding Name}"
+    TextColor="{Binding TextColor, Converter={StaticResource TextColorConverter}}"
+    FontAttributes="Bold"
+    FontSize="18"
+    VerticalOptions="Center"/>
 
                 <!-- Category Edit -->
                 <Button
@@ -139,11 +140,11 @@
 
                             <!-- Website Name -->
                             <Label
-                                Grid.Column="0"
-                                Text="{Binding Name}"
-                                FontSize="15"
-                                VerticalOptions="Center"/>
-
+    Grid.Column="0"
+    Text="{Binding Name}"
+    TextColor="{Binding TextColor, Converter={StaticResource TextColorConverter}}"
+    FontSize="15"
+    VerticalOptions="Center"/>
                             <!-- Website Actions -->
                             <HorizontalStackLayout
                                 Grid.Column="1"
