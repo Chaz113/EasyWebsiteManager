@@ -144,7 +144,15 @@
     Text="{Binding Name}"
     TextColor="{Binding TextColor, Converter={StaticResource TextColorConverter}}"
     FontSize="15"
-    VerticalOptions="Center"/>
+    VerticalOptions="Center"
+    ToolTipProperties.Text="{Binding Url}">
+
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="WebsiteName_Tapped"/>
+                                </Label.GestureRecognizers>
+
+                            </Label>
+                            
                             <!-- Website Actions -->
                             <HorizontalStackLayout
                                 Grid.Column="1"

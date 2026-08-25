@@ -37,6 +37,51 @@ public partial class CategoryView : ContentView
     public event Action<WebsiteItem>? WebsiteUpdated;
     public event Action<WebsiteCategory>? CategoryEditRequested;
     public event Action<WebsiteCategory>? CategoryDeleteRequested;
+    private async void WebsiteName_Tapped(object? sender, TappedEventArgs e)
+    {
+        if (sender is not Label label)
+            return;
+
+        if (label.BindingContext is not WebsiteItem website)
+            return;
+
+        if (string.IsNullOrWhiteSpace(website.Url))
+            return;
+
+        var originalOpacity = label.Opacity;
+        var originalScale = label.Scale;
+
+        try
+        {
+            // Immediate visual feedback
+            label.Opacity = 0.55;
+            label.Scale = 0.98;
+
+            await Task.Delay(120);
+
+            var url = website.Url.Trim();
+
+            if (!url.StartsWith(
+                    "http://",
+                    StringComparison.OrdinalIgnoreCase) &&
+                !url.StartsWith(
+                    "https://",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                url = "https://" + url;
+            }
+
+            await Browser.Default.OpenAsync(
+                url,
+                BrowserLaunchMode.SystemPreferred);
+        }
+        finally
+        {
+            // Restore the user's normal website appearance
+            label.Opacity = originalOpacity;
+            label.Scale = originalScale;
+        }
+    }
 
     private async void NotepadButton_Clicked(object? sender, EventArgs e)
     {
