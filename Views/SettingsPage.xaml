@@ -82,6 +82,17 @@
                         VerticalOptions="Center"/>
 
                 </Grid>
+                <Button
+    Text="Export Data"
+    HorizontalOptions="Start"
+    WidthRequest="120"
+    Clicked="ExportDataButton_Clicked"/>
+
+                <Button
+    Text="Import Data"
+    HorizontalOptions="Start"
+    WidthRequest="120"
+    Clicked="ImportDataButton_Clicked"/>
 
                 <Button
                     Text="Close"

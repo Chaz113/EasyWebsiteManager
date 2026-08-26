@@ -15,6 +15,18 @@ public static class StorageService
         WriteIndented = true,
         PropertyNameCaseInsensitive = true
     };
+    public static async Task ExportAsync(
+    AppData data,
+    string destinationPath)
+    {
+        var json = JsonSerializer.Serialize(
+            data,
+            JsonOptions);
+
+        await File.WriteAllTextAsync(
+            destinationPath,
+            json);
+    }
 
     public static async Task SaveAsync(AppData data)
     {

@@ -5,6 +5,21 @@ namespace EasyWebsiteManager.Views;
 public partial class SettingsPage : ContentPage
 {
     public event Action? SettingsChanged;
+    public event Action? ExportDataRequested;
+ 
+    private void ExportDataButton_Clicked(
+    object? sender,
+    EventArgs e)
+    {
+        ExportDataRequested?.Invoke();
+    }
+    public event Action? ImportDataRequested;
+    private void ImportDataButton_Clicked(
+    object? sender,
+    EventArgs e)
+    {
+        ImportDataRequested?.Invoke();
+    }
 
     private readonly AppSettings _settings;
 

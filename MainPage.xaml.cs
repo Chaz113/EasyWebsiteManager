@@ -42,8 +42,93 @@ public partial class MainPage : ContentPage
         {
             vm.LoadAppData(data);
 
-            // Persist any one-time migrations immediately.
+            // Persist any one-time migrations.
             await SaveCurrentDataAsync();
+        }
+    }
+    private async Task ImportDataAsync()
+    {
+        try
+        {
+            var result = await FilePicker.Default.PickAsync(
+                new PickOptions
+                {
+                    PickerTitle = "Import EasyWebsiteManager Backup"
+                });
+
+            if (result == null)
+                return;
+
+            var json = await File.ReadAllTextAsync(
+                result.FullPath);
+
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                await DisplayAlertAsync(
+                    "Import Failed",
+                    "This is not a valid EasyWebsiteManager backup.",
+                    "OK");
+
+                return;
+            }
+
+            AppData? importedData;
+
+            try
+            {
+                importedData =
+                    System.Text.Json.JsonSerializer.Deserialize<AppData>(
+                        json,
+                        new System.Text.Json.JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+            }
+            catch
+            {
+                importedData = null;
+            }
+
+            if (importedData == null ||
+                importedData.Categories == null ||
+                importedData.Settings == null)
+            {
+                await DisplayAlertAsync(
+                    "Import Failed",
+                    "This is not a valid EasyWebsiteManager backup.",
+                    "OK");
+
+                return;
+            }
+
+            var confirmed =
+                await DisplayAlertAsync(
+                    "Import Data",
+                    "Import this EasyWebsiteManager backup?",
+                    "Import",
+                    "Cancel");
+
+            if (!confirmed)
+                return;
+
+            if (BindingContext is not MainViewModel vm)
+                return;
+
+            vm.LoadAppData(importedData);
+
+            await SaveCurrentDataAsync();
+
+            await DisplayAlertAsync(
+                "Import Complete",
+                "Your data was imported successfully.",
+                "OK");
+        }
+        catch
+        {
+            await DisplayAlertAsync(
+                "Import Failed",
+                "This is not a valid EasyWebsiteManager backup.",
+                "OK");
         }
     }
 
@@ -57,36 +142,65 @@ public partial class MainPage : ContentPage
         await StorageService.SaveAsync(data);
     }
 
-    private async void AddButton_Clicked(object? sender, EventArgs e)
+    private async void AddButton_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (BindingContext is not MainViewModel vm)
             return;
 
-        var addPage = new AddWebsitePage(vm.Categories);
+        var addPage =
+            new AddWebsitePage(vm.Categories);
 
-        addPage.WebsiteSaved += async (category, website, url) =>
-        {
-            vm.AddWebsite(category, website, url);
+        addPage.WebsiteSaved +=
+            async (category, website, url) =>
+            {
+                vm.AddWebsite(
+                    category,
+                    website,
+                    url);
 
-            await SaveCurrentDataAsync();
-        };
+                await SaveCurrentDataAsync();
+            };
 
         await Navigation.PushModalAsync(addPage);
     }
 
-    private async void SettingsButton_Clicked(object? sender, EventArgs e)
+    private async void SettingsButton_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (BindingContext is not MainViewModel vm)
             return;
 
-        var settingsPage = new SettingsPage(vm.Settings);
+        var settingsPage =
+            new SettingsPage(vm.Settings);
 
         settingsPage.SettingsChanged += async () =>
         {
             await SaveCurrentDataAsync();
         };
 
+        settingsPage.ExportDataRequested += async () =>
+        {
+            await ExportDataAsync();
+        };
+        settingsPage.ImportDataRequested += async () =>
+        {
+            await ImportDataAsync();
+        };
+
         await Navigation.PushModalAsync(settingsPage);
+    }
+
+    private void HomeButton_Clicked(
+        object? sender,
+        EventArgs e)
+    {
+        if (BindingContext is not MainViewModel vm)
+            return;
+
+        vm.SearchText = string.Empty;
     }
 
     private void CategoryListView_ChildAdded(
@@ -101,20 +215,35 @@ public partial class MainPage : ContentPage
 
         categoryView.Settings = vm.Settings;
 
-        categoryView.WebsiteDeleted -= CategoryView_WebsiteDeleted;
-        categoryView.WebsiteDeleted += CategoryView_WebsiteDeleted;
+        categoryView.WebsiteDeleted -=
+            CategoryView_WebsiteDeleted;
 
-        categoryView.WebsiteNoteChanged -= CategoryView_WebsiteNoteChanged;
-        categoryView.WebsiteNoteChanged += CategoryView_WebsiteNoteChanged;
+        categoryView.WebsiteDeleted +=
+            CategoryView_WebsiteDeleted;
 
-        categoryView.WebsiteUpdated -= CategoryView_WebsiteUpdated;
-        categoryView.WebsiteUpdated += CategoryView_WebsiteUpdated;
+        categoryView.WebsiteNoteChanged -=
+            CategoryView_WebsiteNoteChanged;
 
-        categoryView.CategoryEditRequested -= CategoryView_CategoryEditRequested;
-        categoryView.CategoryEditRequested += CategoryView_CategoryEditRequested;
+        categoryView.WebsiteNoteChanged +=
+            CategoryView_WebsiteNoteChanged;
 
-        categoryView.CategoryDeleteRequested -= CategoryView_CategoryDeleteRequested;
-        categoryView.CategoryDeleteRequested += CategoryView_CategoryDeleteRequested;
+        categoryView.WebsiteUpdated -=
+            CategoryView_WebsiteUpdated;
+
+        categoryView.WebsiteUpdated +=
+            CategoryView_WebsiteUpdated;
+
+        categoryView.CategoryEditRequested -=
+            CategoryView_CategoryEditRequested;
+
+        categoryView.CategoryEditRequested +=
+            CategoryView_CategoryEditRequested;
+
+        categoryView.CategoryDeleteRequested -=
+            CategoryView_CategoryDeleteRequested;
+
+        categoryView.CategoryDeleteRequested +=
+            CategoryView_CategoryDeleteRequested;
     }
 
     private async void CategoryView_WebsiteDeleted(
@@ -127,11 +256,15 @@ public partial class MainPage : ContentPage
 
         await SaveCurrentDataAsync();
 
-        UndoMessageLabel.Text = $"{website.Name} deleted";
+        UndoMessageLabel.Text =
+            $"{website.Name} deleted";
+
         UndoBanner.IsVisible = true;
 
         _undoCancellation?.Cancel();
-        _undoCancellation = new CancellationTokenSource();
+
+        _undoCancellation =
+            new CancellationTokenSource();
 
         try
         {
@@ -162,29 +295,25 @@ public partial class MainPage : ContentPage
     }
 
     private async void CategoryView_CategoryEditRequested(
-       WebsiteCategory category)
+        WebsiteCategory category)
     {
         if (BindingContext is not MainViewModel vm)
             return;
 
-        var editPage = new EditCategoryPage(category);
+        var editPage =
+            new EditCategoryPage(category);
 
-        editPage.CategoryUpdated += async updatedCategory =>
-        {
-            vm.ResortCategories();
+        editPage.CategoryUpdated +=
+            async updatedCategory =>
+            {
+                vm.ResortCategories();
 
-            await SaveCurrentDataAsync();
-        };
+                await SaveCurrentDataAsync();
+            };
 
         await Navigation.PushModalAsync(editPage);
     }
-    private void HomeButton_Clicked(object? sender, EventArgs e)
-    {
-        if (BindingContext is not MainViewModel vm)
-            return;
 
-        vm.SearchText = string.Empty;
-    }
     private async void CategoryView_CategoryDeleteRequested(
         WebsiteCategory category)
     {
@@ -196,10 +325,11 @@ public partial class MainPage : ContentPage
             if (Window?.Page is not Page page)
                 return;
 
-            var confirmed = await DialogService.ConfirmAsync(
-                page,
-                "Delete Category",
-                $"Delete {category.Name} and all websites inside it?");
+            var confirmed =
+                await DialogService.ConfirmAsync(
+                    page,
+                    "Delete Category",
+                    $"Delete {category.Name} and all websites inside it?");
 
             if (!confirmed)
                 return;
@@ -221,7 +351,9 @@ public partial class MainPage : ContentPage
         UndoBanner.IsVisible = true;
 
         _undoCancellation?.Cancel();
-        _undoCancellation = new CancellationTokenSource();
+
+        _undoCancellation =
+            new CancellationTokenSource();
 
         try
         {
@@ -230,6 +362,7 @@ public partial class MainPage : ContentPage
                 _undoCancellation.Token);
 
             UndoBanner.IsVisible = false;
+
             _deletedWholeCategory = null;
         }
         catch (TaskCanceledException)
@@ -247,12 +380,14 @@ public partial class MainPage : ContentPage
         {
             if (BindingContext is MainViewModel vm)
             {
-                vm.RestoreCategory(_deletedWholeCategory);
+                vm.RestoreCategory(
+                    _deletedWholeCategory);
 
                 await SaveCurrentDataAsync();
             }
 
             _deletedWholeCategory = null;
+
             UndoBanner.IsVisible = false;
 
             return;
@@ -264,17 +399,20 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        _deletedCategory.Websites.Add(_deletedWebsite);
+        _deletedCategory.Websites.Add(
+            _deletedWebsite);
 
-        var sorted = _deletedCategory.Websites
-            .OrderBy(w => w.Name)
-            .ToList();
+        var sorted =
+            _deletedCategory.Websites
+                .OrderBy(w => w.Name)
+                .ToList();
 
         _deletedCategory.Websites.Clear();
 
         foreach (var website in sorted)
         {
-            _deletedCategory.Websites.Add(website);
+            _deletedCategory.Websites.Add(
+                website);
         }
 
         await SaveCurrentDataAsync();
@@ -283,5 +421,72 @@ public partial class MainPage : ContentPage
 
         _deletedCategory = null;
         _deletedWebsite = null;
+    }
+
+    private async Task ExportDataAsync()
+    {
+#if WINDOWS
+        if (BindingContext is not MainViewModel vm)
+            return;
+
+        try
+        {
+            var data = vm.CreateAppData();
+
+            var picker =
+                new Windows.Storage.Pickers.FileSavePicker();
+
+            picker.SuggestedFileName =
+                "EasyWebsiteManagerBackup";
+
+            picker.FileTypeChoices.Add(
+                "JSON Backup",
+                new List<string> { ".json" });
+
+            var window =
+                Application.Current?.Windows.FirstOrDefault();
+
+            if (window?.Handler?.PlatformView
+                is not Microsoft.UI.Xaml.Window nativeWindow)
+            {
+                return;
+            }
+
+            var hwnd =
+                WinRT.Interop.WindowNative.GetWindowHandle(
+                    nativeWindow);
+
+            WinRT.Interop.InitializeWithWindow.Initialize(
+                picker,
+                hwnd);
+
+            var file =
+                await picker.PickSaveFileAsync();
+
+            if (file == null)
+                return;
+
+            await StorageService.ExportAsync(
+                data,
+                file.Path);
+
+            await DisplayAlertAsync(
+                "Export Complete",
+                "Your EasyWebsiteManager backup was saved successfully.",
+                "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync(
+                "Export Failed",
+                ex.Message,
+                "OK");
+        }
+#else
+        await DisplayAlertAsync(
+            "Export",
+            "Export is currently implemented for Windows.",
+            "OK");
+#endif
     }
 }
