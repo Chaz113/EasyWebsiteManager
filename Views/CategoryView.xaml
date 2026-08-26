@@ -33,10 +33,88 @@
                 <Label
     Grid.Column="0"
     Text="{Binding Name}"
-    TextColor="{Binding TextColor, Converter={StaticResource TextColorConverter}}"
+    TextColor="{AppThemeBinding Light=Black, Dark=White}"
     FontAttributes="Bold"
     FontSize="18"
-    VerticalOptions="Center"/>
+    VerticalOptions="Center">
+
+                    <Label.Triggers>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#000000">
+                            <Setter Property="TextColor" Value="#000000"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#FFFFFF">
+                            <Setter Property="TextColor" Value="#FFFFFF"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#0000CD">
+                            <Setter Property="TextColor" Value="#0000CD"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#FF0000">
+                            <Setter Property="TextColor" Value="#FF0000"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#00FF00">
+                            <Setter Property="TextColor" Value="#00FF00"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#FFA500">
+                            <Setter Property="TextColor" Value="#FFA500"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#4B0082">
+                            <Setter Property="TextColor" Value="#4B0082"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#8F00FF">
+                            <Setter Property="TextColor" Value="#8F00FF"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#D3D3D3">
+                            <Setter Property="TextColor" Value="#D3D3D3"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#808080">
+                            <Setter Property="TextColor" Value="#808080"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#008080">
+                            <Setter Property="TextColor" Value="#008080"/>
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#FFD700">
+                            <Setter Property="TextColor" Value="#FFD700"/>
+                        </DataTrigger>
+
+                    </Label.Triggers>
+
+                </Label>
 
                 <!-- Category Edit -->
                 <Button
@@ -142,7 +220,7 @@
                             <Label
     Grid.Column="0"
     Text="{Binding Name}"
-    TextColor="{Binding TextColor, Converter={StaticResource TextColorConverter}}"
+    TextColor="{AppThemeBinding Light=Black, Dark=White}"
     FontSize="15"
     VerticalOptions="Center"
     ToolTipProperties.Text="{Binding Url}">
@@ -151,8 +229,84 @@
                                     <TapGestureRecognizer Tapped="WebsiteName_Tapped"/>
                                 </Label.GestureRecognizers>
 
+                                <Label.Triggers>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#000000">
+                                        <Setter Property="TextColor" Value="#000000"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#FFFFFF">
+                                        <Setter Property="TextColor" Value="#FFFFFF"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#0000CD">
+                                        <Setter Property="TextColor" Value="#0000CD"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#FF0000">
+                                        <Setter Property="TextColor" Value="#FF0000"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#00FF00">
+                                        <Setter Property="TextColor" Value="#00FF00"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#FFA500">
+                                        <Setter Property="TextColor" Value="#FFA500"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#4B0082">
+                                        <Setter Property="TextColor" Value="#4B0082"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#8F00FF">
+                                        <Setter Property="TextColor" Value="#8F00FF"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#D3D3D3">
+                                        <Setter Property="TextColor" Value="#D3D3D3"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#808080">
+                                        <Setter Property="TextColor" Value="#808080"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#008080">
+                                        <Setter Property="TextColor" Value="#008080"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Label"
+                     Binding="{Binding TextColor}"
+                     Value="#FFD700">
+                                        <Setter Property="TextColor" Value="#FFD700"/>
+                                    </DataTrigger>
+
+                                </Label.Triggers>
+
                             </Label>
-                            
+
                             <!-- Website Actions -->
                             <HorizontalStackLayout
                                 Grid.Column="1"

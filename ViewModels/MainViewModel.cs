@@ -7,53 +7,6 @@ namespace EasyWebsiteManager.ViewModels;
 public class MainViewModel
 {
     private string _searchText = "";
-    public bool DeleteCategory(WebsiteCategory category)
-    {
-        var removed = Categories.Remove(category);
-
-        if (removed)
-        {
-            ApplySearch();
-        }
-
-        return removed;
-    }
-    public void ResortCategories()
-    {
-        var sortedCategories = Categories
-            .OrderBy(c => c.Name)
-            .ToList();
-
-        Categories.Clear();
-
-        foreach (var category in sortedCategories)
-        {
-            Categories.Add(category);
-        }
-
-        ApplySearch();
-    }
-
-    public void RestoreCategory(WebsiteCategory category)
-    {
-        if (Categories.Contains(category))
-            return;
-
-        Categories.Add(category);
-
-        var sortedCategories = Categories
-            .OrderBy(c => c.Name)
-            .ToList();
-
-        Categories.Clear();
-
-        foreach (var item in sortedCategories)
-        {
-            Categories.Add(item);
-        }
-
-        ApplySearch();
-    }
 
     public AppSettings Settings { get; } = new();
 
@@ -102,16 +55,7 @@ public class MainViewModel
 
             Categories.Add(category);
 
-            var sortedCategories = Categories
-                .OrderBy(c => c.Name)
-                .ToList();
-
-            Categories.Clear();
-
-            foreach (var item in sortedCategories)
-            {
-                Categories.Add(item);
-            }
+            ResortCategories();
         }
 
         category.Websites.Add(new WebsiteItem
@@ -135,6 +79,44 @@ public class MainViewModel
         ApplySearch();
     }
 
+    public bool DeleteCategory(WebsiteCategory category)
+    {
+        var removed = Categories.Remove(category);
+
+        if (removed)
+        {
+            ApplySearch();
+        }
+
+        return removed;
+    }
+
+    public void RestoreCategory(WebsiteCategory category)
+    {
+        if (Categories.Contains(category))
+            return;
+
+        Categories.Add(category);
+
+        ResortCategories();
+    }
+
+    public void ResortCategories()
+    {
+        var sortedCategories = Categories
+            .OrderBy(c => c.Name)
+            .ToList();
+
+        Categories.Clear();
+
+        foreach (var category in sortedCategories)
+        {
+            Categories.Add(category);
+        }
+
+        ApplySearch();
+    }
+
     public AppData CreateAppData()
     {
         return new AppData
@@ -146,28 +128,33 @@ public class MainViewModel
 
     public void LoadAppData(AppData data)
     {
-        // One-time migration for text colors created
-        // before character-color support was added.
-        if (data.DataVersion < 2)
+        // One-time migration:
+        // old default white text becomes theme-aware "Default".
+        if (!data.Settings.TextColorDefaultsMigrated)
         {
             foreach (var category in data.Categories)
             {
-                if (category.TextColor == "#000000")
+                if (category.TextColor.Equals(
+                    "#FFFFFF",
+                    StringComparison.OrdinalIgnoreCase))
                 {
-                    category.TextColor = "#FFFFFF";
+                    category.TextColor = "Default";
                 }
 
                 foreach (var website in category.Websites)
                 {
-                    if (website.TextColor == "#000000")
+                    if (website.TextColor.Equals(
+                        "#FFFFFF",
+                        StringComparison.OrdinalIgnoreCase))
                     {
-                        website.TextColor = "#FFFFFF";
+                        website.TextColor = "Default";
                     }
                 }
             }
 
-            data.DataVersion = 2;
+            data.Settings.TextColorDefaultsMigrated = true;
         }
+
         Categories.Clear();
 
         foreach (var category in data.Categories
@@ -190,8 +177,17 @@ public class MainViewModel
         Settings.ConfirmDelete =
             data.Settings.ConfirmDelete;
 
+        Settings.Appearance =
+            string.IsNullOrWhiteSpace(data.Settings.Appearance)
+                ? "System"
+                : data.Settings.Appearance;
+
+        Settings.TextColorDefaultsMigrated =
+            data.Settings.TextColorDefaultsMigrated;
+
         ApplySearch();
     }
+
     private void ApplySearch()
     {
         FilteredCategories.Clear();
@@ -210,8 +206,6 @@ public class MainViewModel
 
         foreach (var category in Categories)
         {
-            // If the category name matches,
-            // show the entire category and all its websites.
             if (category.Name.Contains(
                 search,
                 StringComparison.OrdinalIgnoreCase))
@@ -220,7 +214,6 @@ public class MainViewModel
                 continue;
             }
 
-            // Otherwise search the website names.
             var matchingWebsites = category.Websites
                 .Where(w =>
                     w.Name.Contains(
@@ -236,7 +229,8 @@ public class MainViewModel
             {
                 Id = category.Id,
                 Name = category.Name,
-                IsExpanded = true
+                IsExpanded = true,
+                TextColor = category.TextColor
             };
 
             foreach (var website in matchingWebsites)
@@ -253,8 +247,12 @@ public class MainViewModel
         if (string.IsNullOrWhiteSpace(url))
             return;
 
-        if (!url.StartsWith("http://") &&
-            !url.StartsWith("https://"))
+        if (!url.StartsWith(
+                "http://",
+                StringComparison.OrdinalIgnoreCase) &&
+            !url.StartsWith(
+                "https://",
+                StringComparison.OrdinalIgnoreCase))
         {
             url = "https://" + url;
         }

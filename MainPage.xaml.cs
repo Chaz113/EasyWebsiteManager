@@ -41,6 +41,9 @@ public partial class MainPage : ContentPage
         if (data != null)
         {
             vm.LoadAppData(data);
+
+            // Persist any one-time migrations immediately.
+            await SaveCurrentDataAsync();
         }
     }
 
@@ -174,6 +177,13 @@ public partial class MainPage : ContentPage
         };
 
         await Navigation.PushModalAsync(editPage);
+    }
+    private void HomeButton_Clicked(object? sender, EventArgs e)
+    {
+        if (BindingContext is not MainViewModel vm)
+            return;
+
+        vm.SearchText = string.Empty;
     }
     private async void CategoryView_CategoryDeleteRequested(
         WebsiteCategory category)

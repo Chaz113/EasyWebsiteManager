@@ -54,114 +54,137 @@
 
                     <!-- Row 1 -->
                     <Button
+                        x:Name="BlackColorButton"
                         Grid.Row="0"
                         Grid.Column="0"
                         BackgroundColor="#000000"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="BlackColor_Clicked"/>
 
                     <Button
+                        x:Name="WhiteColorButton"
                         Grid.Row="0"
                         Grid.Column="1"
                         BackgroundColor="#FFFFFF"
-                        BorderColor="#888888"
-                        BorderWidth="1"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderColor="#888888"
+                        BorderWidth="1"
                         Clicked="WhiteColor_Clicked"/>
 
                     <Button
+                        x:Name="BlueColorButton"
                         Grid.Row="0"
                         Grid.Column="2"
                         BackgroundColor="#0000CD"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="BlueColor_Clicked"/>
 
                     <Button
+                        x:Name="RedColorButton"
                         Grid.Row="0"
                         Grid.Column="3"
                         BackgroundColor="#FF0000"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="RedColor_Clicked"/>
 
                     <Button
+                        x:Name="GreenColorButton"
                         Grid.Row="0"
                         Grid.Column="4"
                         BackgroundColor="#00FF00"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="GreenColor_Clicked"/>
 
                     <Button
+                        x:Name="OrangeColorButton"
                         Grid.Row="0"
                         Grid.Column="5"
                         BackgroundColor="#FFA500"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="OrangeColor_Clicked"/>
 
                     <!-- Row 2 -->
                     <Button
+                        x:Name="PurpleColorButton"
                         Grid.Row="1"
                         Grid.Column="0"
                         BackgroundColor="#4B0082"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="PurpleColor_Clicked"/>
 
                     <Button
+                        x:Name="VioletColorButton"
                         Grid.Row="1"
                         Grid.Column="1"
                         BackgroundColor="#8F00FF"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="VioletColor_Clicked"/>
 
                     <Button
+                        x:Name="LightGreyColorButton"
                         Grid.Row="1"
                         Grid.Column="2"
                         BackgroundColor="#D3D3D3"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="LightGreyColor_Clicked"/>
 
                     <Button
+                        x:Name="MediumGreyColorButton"
                         Grid.Row="1"
                         Grid.Column="3"
                         BackgroundColor="#808080"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="MediumGreyColor_Clicked"/>
 
                     <Button
+                        x:Name="TealColorButton"
                         Grid.Row="1"
                         Grid.Column="4"
                         BackgroundColor="#008080"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="TealColor_Clicked"/>
 
                     <Button
+                        x:Name="YellowColorButton"
                         Grid.Row="1"
                         Grid.Column="5"
                         BackgroundColor="#FFD700"
                         WidthRequest="32"
                         HeightRequest="32"
                         CornerRadius="16"
+                        BorderWidth="1"
                         Clicked="YellowColor_Clicked"/>
 
                 </Grid>

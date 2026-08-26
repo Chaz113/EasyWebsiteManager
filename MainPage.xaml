@@ -13,12 +13,20 @@
         <!-- Top Bar -->
         <Grid
             Grid.Row="0"
-            ColumnDefinitions="*,Auto"
+            ColumnDefinitions="Auto,*,Auto"
             ColumnSpacing="10">
+            <Button
+    Grid.Column="0"
+    Text="Home"
+    FontSize="14"
+    BackgroundColor="Transparent"
+    TextColor="{AppThemeBinding Light=Black, Dark=White}"
+    Padding="8,0"
+    Clicked="HomeButton_Clicked"/>
 
             <!-- Search -->
             <SearchBar
-    Grid.Column="0"
+    Grid.Column="1"
     Placeholder="Search websites..."
     Text="{Binding SearchText}"
     VerticalOptions="Center"/>
@@ -26,7 +34,7 @@
 
             <!-- Settings -->
             <Button
-                Grid.Column="1"
+                Grid.Column="2"
                 Text="⚙"
                 FontSize="20"
                 WidthRequest="44"

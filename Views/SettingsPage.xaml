@@ -24,35 +24,61 @@
                 <RoundRectangle CornerRadius="12"/>
             </Border.StrokeShape>
 
-            <VerticalStackLayout Spacing="18">
+            <VerticalStackLayout Spacing="22">
 
                 <Label
                     Text="Settings"
                     FontSize="24"
                     FontAttributes="Bold"/>
 
+                <!-- Confirm Delete -->
                 <Grid
-                    ColumnDefinitions="*,Auto"
-                    ColumnSpacing="16">
+                    ColumnDefinitions="*,Auto,Auto"
+                    ColumnSpacing="12">
 
-                    <VerticalStackLayout
+                    <Label
                         Grid.Column="0"
-                        Spacing="2">
+                        Text="Confirm Delete"
+                        FontSize="16"
+                        VerticalOptions="Center"/>
 
-                        <Label
-                            Text="Confirm Delete"
-                            FontSize="16"/>
-
-                        <Label
-                            Text="Ask before deleting a website."
-                            FontSize="13"
-                            Opacity="0.7"/>
-
-                    </VerticalStackLayout>
+                    <Label
+                        x:Name="ConfirmDeleteStatusLabel"
+                        Grid.Column="1"
+                        Text="ON"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center"/>
 
                     <Switch
                         x:Name="ConfirmDeleteSwitch"
+                        Grid.Column="2"
+                        VerticalOptions="Center"/>
+
+                </Grid>
+
+                <!-- Appearance -->
+                <Grid
+                    ColumnDefinitions="*,Auto,Auto"
+                    ColumnSpacing="12">
+
+                    <Label
+                        Grid.Column="0"
+                        Text="Appearance Mode"
+                        FontSize="16"
+                        VerticalOptions="Center"/>
+
+                    <Label
+                        x:Name="AppearanceStatusLabel"
                         Grid.Column="1"
+                        Text="Light"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center"/>
+
+                    <Switch
+                        x:Name="DarkModeSwitch"
+                        Grid.Column="2"
                         VerticalOptions="Center"/>
 
                 </Grid>

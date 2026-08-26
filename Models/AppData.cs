@@ -2,7 +2,7 @@
 
 public class AppData
 {
-    public int DataVersion { get; set; } = 2;
+    public int DataVersion { get; set; } = 3;
 
     public List<WebsiteCategory> Categories { get; set; } = new();
 

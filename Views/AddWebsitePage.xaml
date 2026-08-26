@@ -31,33 +31,27 @@
                     FontSize="24"
                     FontAttributes="Bold"/>
 
-                <!-- Category -->
+                <!-- Existing Category -->
                 <Label
-                    Text="Category"
+                    Text="Select Existing Category"
                     FontSize="14"/>
 
                 <Picker
                     x:Name="CategoryPicker"
-                    Title="Select existing category"
                     ItemsSource="{Binding Categories}"
-                    ItemDisplayBinding="{Binding Name}"/>
+                    ItemDisplayBinding="{Binding Name}"
+                    Title="Select a category"
+                    SelectedIndexChanged="CategoryPicker_SelectedIndexChanged"/>
 
-                <HorizontalStackLayout Spacing="8">
-
-                    <CheckBox
-                        x:Name="NewCategoryCheckBox"
-                        CheckedChanged="NewCategoryCheckBox_CheckedChanged"/>
-
-                    <Label
-                        Text="Create new category"
-                        VerticalOptions="Center"/>
-
-                </HorizontalStackLayout>
+                <!-- New Category -->
+                <Label
+                    Text="New Category Name (optional)"
+                    FontSize="14"/>
 
                 <Entry
                     x:Name="NewCategoryEntry"
-                    Placeholder="New category name"
-                    IsVisible="False"/>
+                    Placeholder="Enter a new category name"
+                    TextChanged="NewCategoryEntry_TextChanged"/>
 
                 <!-- Website Name -->
                 <Label
@@ -66,7 +60,7 @@
 
                 <Entry
                     x:Name="WebsiteNameEntry"
-                    Placeholder="Example: Amazon"/>
+                    Placeholder="Website name"/>
 
                 <!-- URL -->
                 <Label
@@ -75,10 +69,10 @@
 
                 <Entry
                     x:Name="UrlEntry"
-                    Placeholder="Example: https://amazon.ca"
+                    Placeholder="example.com"
                     Keyboard="Url"/>
 
-                <!-- Buttons -->
+                <!-- Cancel / Save -->
                 <HorizontalStackLayout
                     HorizontalOptions="End"
                     Spacing="10"
