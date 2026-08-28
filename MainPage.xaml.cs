@@ -46,6 +46,7 @@ public partial class MainPage : ContentPage
             await SaveCurrentDataAsync();
         }
     }
+
     private async Task ImportDataAsync()
     {
         try
@@ -142,6 +143,10 @@ public partial class MainPage : ContentPage
         await StorageService.SaveAsync(data);
     }
 
+    // ---------------------------------------------------------
+    // MAIN + BUTTON
+    // ---------------------------------------------------------
+
     private async void AddButton_Clicked(
         object? sender,
         EventArgs e)
@@ -166,6 +171,10 @@ public partial class MainPage : ContentPage
         await Navigation.PushModalAsync(addPage);
     }
 
+    // ---------------------------------------------------------
+    // SETTINGS
+    // ---------------------------------------------------------
+
     private async void SettingsButton_Clicked(
         object? sender,
         EventArgs e)
@@ -185,6 +194,7 @@ public partial class MainPage : ContentPage
         {
             await ExportDataAsync();
         };
+
         settingsPage.ImportDataRequested += async () =>
         {
             await ImportDataAsync();
@@ -192,6 +202,10 @@ public partial class MainPage : ContentPage
 
         await Navigation.PushModalAsync(settingsPage);
     }
+
+    // ---------------------------------------------------------
+    // HOME
+    // ---------------------------------------------------------
 
     private void HomeButton_Clicked(
         object? sender,
@@ -202,6 +216,10 @@ public partial class MainPage : ContentPage
 
         vm.SearchText = string.Empty;
     }
+
+    // ---------------------------------------------------------
+    // CATEGORY VIEW EVENT WIRING
+    // ---------------------------------------------------------
 
     private void CategoryListView_ChildAdded(
         object? sender,
@@ -246,6 +264,10 @@ public partial class MainPage : ContentPage
             CategoryView_CategoryDeleteRequested;
     }
 
+    // ---------------------------------------------------------
+    // WEBSITE DELETE
+    // ---------------------------------------------------------
+
     private async void CategoryView_WebsiteDeleted(
         WebsiteCategory category,
         WebsiteItem website)
@@ -282,17 +304,29 @@ public partial class MainPage : ContentPage
         }
     }
 
+    // ---------------------------------------------------------
+    // WEBSITE NOTE
+    // ---------------------------------------------------------
+
     private async void CategoryView_WebsiteNoteChanged(
         WebsiteItem website)
     {
         await SaveCurrentDataAsync();
     }
 
+    // ---------------------------------------------------------
+    // WEBSITE EDIT
+    // ---------------------------------------------------------
+
     private async void CategoryView_WebsiteUpdated(
         WebsiteItem website)
     {
         await SaveCurrentDataAsync();
     }
+
+    // ---------------------------------------------------------
+    // CATEGORY EDIT
+    // ---------------------------------------------------------
 
     private async void CategoryView_CategoryEditRequested(
         WebsiteCategory category)
@@ -311,8 +345,35 @@ public partial class MainPage : ContentPage
                 await SaveCurrentDataAsync();
             };
 
+        // Add Website directly to the category being edited.
+        editPage.AddWebsiteRequested +=
+            async selectedCategory =>
+            {
+                var addPage =
+                    new AddWebsitePage(
+                        vm.Categories,
+                        selectedCategory);
+
+                addPage.WebsiteSaved +=
+                    async (categoryName, websiteName, url) =>
+                    {
+                        vm.AddWebsite(
+                            categoryName,
+                            websiteName,
+                            url);
+
+                        await SaveCurrentDataAsync();
+                    };
+
+                await Navigation.PushModalAsync(addPage);
+            };
+
         await Navigation.PushModalAsync(editPage);
     }
+
+    // ---------------------------------------------------------
+    // CATEGORY DELETE
+    // ---------------------------------------------------------
 
     private async void CategoryView_CategoryDeleteRequested(
         WebsiteCategory category)
@@ -370,6 +431,10 @@ public partial class MainPage : ContentPage
         }
     }
 
+    // ---------------------------------------------------------
+    // UNDO DELETE
+    // ---------------------------------------------------------
+
     private async void UndoDelete_Clicked(
         object? sender,
         EventArgs e)
@@ -422,6 +487,10 @@ public partial class MainPage : ContentPage
         _deletedCategory = null;
         _deletedWebsite = null;
     }
+
+    // ---------------------------------------------------------
+    // EXPORT
+    // ---------------------------------------------------------
 
     private async Task ExportDataAsync()
     {

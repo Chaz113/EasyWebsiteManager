@@ -9,7 +9,10 @@ public partial class EditCategoryPage : ContentPage
 
     public event Action<WebsiteCategory>? CategoryUpdated;
 
-    public EditCategoryPage(WebsiteCategory category)
+    public event Action<WebsiteCategory>? AddWebsiteRequested;
+
+    public EditCategoryPage(
+        WebsiteCategory category)
     {
         InitializeComponent();
 
@@ -21,7 +24,9 @@ public partial class EditCategoryPage : ContentPage
         HighlightCurrentColor();
     }
 
-    private void SelectColor(Button selectedButton, string color)
+    private void SelectColor(
+        Button selectedButton,
+        string color)
     {
         _selectedTextColor = color;
 
@@ -66,126 +71,189 @@ public partial class EditCategoryPage : ContentPage
         switch (_selectedTextColor.ToUpperInvariant())
         {
             case "#000000":
-                SelectColor(BlackColorButton, "#000000");
+                SelectColor(
+                    BlackColorButton,
+                    "#000000");
                 break;
 
             case "#FFFFFF":
-                SelectColor(WhiteColorButton, "#FFFFFF");
+                SelectColor(
+                    WhiteColorButton,
+                    "#FFFFFF");
                 break;
 
             case "#0000CD":
-                SelectColor(BlueColorButton, "#0000CD");
+                SelectColor(
+                    BlueColorButton,
+                    "#0000CD");
                 break;
 
             case "#FF0000":
-                SelectColor(RedColorButton, "#FF0000");
+                SelectColor(
+                    RedColorButton,
+                    "#FF0000");
                 break;
 
             case "#00FF00":
-                SelectColor(GreenColorButton, "#00FF00");
+                SelectColor(
+                    GreenColorButton,
+                    "#00FF00");
                 break;
 
             case "#FFA500":
-                SelectColor(OrangeColorButton, "#FFA500");
+                SelectColor(
+                    OrangeColorButton,
+                    "#FFA500");
                 break;
 
             case "#4B0082":
-                SelectColor(PurpleColorButton, "#4B0082");
+                SelectColor(
+                    PurpleColorButton,
+                    "#4B0082");
                 break;
 
             case "#8F00FF":
-                SelectColor(VioletColorButton, "#8F00FF");
+                SelectColor(
+                    VioletColorButton,
+                    "#8F00FF");
                 break;
 
             case "#D3D3D3":
-                SelectColor(LightGreyColorButton, "#D3D3D3");
+                SelectColor(
+                    LightGreyColorButton,
+                    "#D3D3D3");
                 break;
 
             case "#808080":
-                SelectColor(MediumGreyColorButton, "#808080");
+                SelectColor(
+                    MediumGreyColorButton,
+                    "#808080");
                 break;
 
             case "#008080":
-                SelectColor(TealColorButton, "#008080");
+                SelectColor(
+                    TealColorButton,
+                    "#008080");
                 break;
 
             case "#FFD700":
-                SelectColor(YellowColorButton, "#FFD700");
+                SelectColor(
+                    YellowColorButton,
+                    "#FFD700");
                 break;
         }
     }
 
-    private void BlackColor_Clicked(object? sender, EventArgs e)
+    private void BlackColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#000000");
     }
 
-    private void WhiteColor_Clicked(object? sender, EventArgs e)
+    private void WhiteColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#FFFFFF");
     }
 
-    private void BlueColor_Clicked(object? sender, EventArgs e)
+    private void BlueColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#0000CD");
     }
 
-    private void RedColor_Clicked(object? sender, EventArgs e)
+    private void RedColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#FF0000");
     }
 
-    private void GreenColor_Clicked(object? sender, EventArgs e)
+    private void GreenColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#00FF00");
     }
 
-    private void OrangeColor_Clicked(object? sender, EventArgs e)
+    private void OrangeColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#FFA500");
     }
 
-    private void PurpleColor_Clicked(object? sender, EventArgs e)
+    private void PurpleColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#4B0082");
     }
 
-    private void VioletColor_Clicked(object? sender, EventArgs e)
+    private void VioletColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#8F00FF");
     }
 
-    private void LightGreyColor_Clicked(object? sender, EventArgs e)
+    private void LightGreyColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#D3D3D3");
     }
 
-    private void MediumGreyColor_Clicked(object? sender, EventArgs e)
+    private void MediumGreyColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#808080");
     }
 
-    private void TealColor_Clicked(object? sender, EventArgs e)
+    private void TealColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#008080");
     }
 
-    private void YellowColor_Clicked(object? sender, EventArgs e)
+    private void YellowColor_Clicked(
+        object? sender,
+        EventArgs e)
     {
         if (sender is Button button)
             SelectColor(button, "#FFD700");
     }
+
+    // ---------------------------------------------------------
+    // ADD WEBSITE
+    // ---------------------------------------------------------
+
+    private void AddWebsiteButton_Clicked(
+        object? sender,
+        EventArgs e)
+    {
+        AddWebsiteRequested?.Invoke(_category);
+    }
+
+    // ---------------------------------------------------------
+    // CANCEL
+    // ---------------------------------------------------------
 
     private async void CancelButton_Clicked(
         object? sender,
@@ -193,6 +261,10 @@ public partial class EditCategoryPage : ContentPage
     {
         await Navigation.PopModalAsync();
     }
+
+    // ---------------------------------------------------------
+    // SAVE
+    // ---------------------------------------------------------
 
     private async void SaveButton_Clicked(
         object? sender,

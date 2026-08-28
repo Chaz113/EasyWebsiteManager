@@ -93,6 +93,21 @@
     HorizontalOptions="Start"
     WidthRequest="120"
     Clicked="ImportDataButton_Clicked"/>
+                <Grid
+    ColumnDefinitions="*,*"
+    ColumnSpacing="12">
+
+                    <Button
+        Grid.Column="0"
+        Text="Help"
+        Clicked="HelpButton_Clicked"/>
+
+                    <Button
+        Grid.Column="1"
+        Text="About"
+        Clicked="AboutButton_Clicked"/>
+
+                </Grid>
 
                 <Button
                     Text="Close"

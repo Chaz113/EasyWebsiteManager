@@ -7,24 +7,67 @@ public partial class AddWebsitePage : ContentPage
 {
     private bool _updatingCategorySelection;
 
+    private readonly WebsiteCategory? _fixedCategory;
+
     public ObservableCollection<WebsiteCategory> Categories { get; }
 
     public event Action<string, string, string>? WebsiteSaved;
 
+    // ---------------------------------------------------------
+    // NORMAL + BUTTON
+    // ---------------------------------------------------------
+
     public AddWebsitePage(
         ObservableCollection<WebsiteCategory> categories)
+        : this(
+            categories,
+            null)
+    {
+    }
+
+    // ---------------------------------------------------------
+    // FIXED CATEGORY
+    // Used when Add Website is opened from Edit Category.
+    // ---------------------------------------------------------
+
+    public AddWebsitePage(
+        ObservableCollection<WebsiteCategory> categories,
+        WebsiteCategory? fixedCategory)
     {
         InitializeComponent();
 
         Categories = categories;
+        _fixedCategory = fixedCategory;
+
         BindingContext = this;
+
+        if (_fixedCategory != null)
+        {
+            CategorySelectionSection.IsVisible = false;
+            FixedCategorySection.IsVisible = true;
+
+            FixedCategoryNameLabel.Text =
+                _fixedCategory.Name;
+        }
+        else
+        {
+            CategorySelectionSection.IsVisible = true;
+            FixedCategorySection.IsVisible = false;
+        }
     }
+
+    // ---------------------------------------------------------
+    // NEW CATEGORY
+    // ---------------------------------------------------------
 
     private void NewCategoryEntry_TextChanged(
         object? sender,
         TextChangedEventArgs e)
     {
         if (_updatingCategorySelection)
+            return;
+
+        if (_fixedCategory != null)
             return;
 
         if (string.IsNullOrWhiteSpace(e.NewTextValue))
@@ -37,11 +80,18 @@ public partial class AddWebsitePage : ContentPage
         _updatingCategorySelection = false;
     }
 
+    // ---------------------------------------------------------
+    // EXISTING CATEGORY
+    // ---------------------------------------------------------
+
     private void CategoryPicker_SelectedIndexChanged(
         object? sender,
         EventArgs e)
     {
         if (_updatingCategorySelection)
+            return;
+
+        if (_fixedCategory != null)
             return;
 
         if (CategoryPicker.SelectedItem == null)
@@ -52,10 +102,15 @@ public partial class AddWebsitePage : ContentPage
 
         _updatingCategorySelection = true;
 
-        NewCategoryEntry.Text = string.Empty;
+        NewCategoryEntry.Text =
+            string.Empty;
 
         _updatingCategorySelection = false;
     }
+
+    // ---------------------------------------------------------
+    // CANCEL
+    // ---------------------------------------------------------
 
     private async void CancelButton_Clicked(
         object? sender,
@@ -64,15 +119,27 @@ public partial class AddWebsitePage : ContentPage
         await Navigation.PopModalAsync();
     }
 
+    // ---------------------------------------------------------
+    // SAVE
+    // ---------------------------------------------------------
+
     private async void SaveButton_Clicked(
         object? sender,
         EventArgs e)
     {
-        var selectedCategory =
-            CategoryPicker.SelectedItem as WebsiteCategory;
+        WebsiteCategory? selectedCategory = null;
 
-        var newCategoryName =
-            NewCategoryEntry.Text?.Trim();
+        string? newCategoryName = null;
+
+        if (_fixedCategory == null)
+        {
+            selectedCategory =
+                CategoryPicker.SelectedItem
+                    as WebsiteCategory;
+
+            newCategoryName =
+                NewCategoryEntry.Text?.Trim();
+        }
 
         var websiteName =
             WebsiteNameEntry.Text?.Trim();
@@ -80,7 +147,8 @@ public partial class AddWebsitePage : ContentPage
         var url =
             UrlEntry.Text?.Trim();
 
-        if (selectedCategory == null &&
+        if (_fixedCategory == null &&
+            selectedCategory == null &&
             string.IsNullOrWhiteSpace(newCategoryName))
         {
             await DisplayAlertAsync(
@@ -111,10 +179,23 @@ public partial class AddWebsitePage : ContentPage
             return;
         }
 
-        var categoryName =
-            !string.IsNullOrWhiteSpace(newCategoryName)
-                ? newCategoryName
-                : selectedCategory!.Name;
+        string categoryName;
+
+        if (_fixedCategory != null)
+        {
+            categoryName =
+                _fixedCategory.Name;
+        }
+        else if (!string.IsNullOrWhiteSpace(newCategoryName))
+        {
+            categoryName =
+                newCategoryName;
+        }
+        else
+        {
+            categoryName =
+                selectedCategory!.Name;
+        }
 
         WebsiteSaved?.Invoke(
             categoryName,

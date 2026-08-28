@@ -189,6 +189,21 @@
 
                 </Grid>
 
+                <!-- Add Website -->
+                <Button
+    Text="+  Add Website"
+    HorizontalOptions="Start"
+    WidthRequest="150"
+    HeightRequest="44"
+    Margin="0,8,0,0"
+    BackgroundColor="Transparent"
+    TextColor="{AppThemeBinding Light=#3478F6, Dark=#7FB0FF}"
+    BorderColor="{AppThemeBinding Light=#3478F6, Dark=#3478F6}"
+    BorderWidth="2"
+    CornerRadius="10"
+    FontAttributes="Bold"
+    Clicked="AddWebsiteButton_Clicked"/>
+
                 <!-- Cancel / Save -->
                 <HorizontalStackLayout
                     HorizontalOptions="End"

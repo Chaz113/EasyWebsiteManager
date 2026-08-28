@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="EasyWebsiteManager.Views.HelpPage"
+    Title="Help"
+    BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
+
+    <Grid
+        Padding="24"
+        RowDefinitions="*,Auto,*">
+
+        <Border
+            Grid.Row="1"
+            MaximumWidthRequest="520"
+            MaximumHeightRequest="600"
+            HorizontalOptions="Center"
+            Padding="24"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=#1B2940}"
+            Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#41628F}"
+            StrokeThickness="1">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+
+            <Grid RowDefinitions="Auto,*,Auto"
+                  RowSpacing="18">
+
+                <Label
+                    Grid.Row="0"
+                    Text="Help"
+                    FontSize="24"
+                    FontAttributes="Bold"/>
+
+                <ScrollView Grid.Row="1">
+
+                    <VerticalStackLayout Spacing="16">
+
+                        <VerticalStackLayout Spacing="3">
+                            <Label
+                                Text="Websites"
+                                FontSize="17"
+                                FontAttributes="Bold"/>
+
+                            <Label
+                                Text="Add, edit, open, or delete your websites."
+                                FontSize="14"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="3">
+                            <Label
+                                Text="Categories"
+                                FontSize="17"
+                                FontAttributes="Bold"/>
+
+                            <Label
+                                Text="Organize your websites into categories."
+                                FontSize="14"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="3">
+                            <Label
+                                Text="Search"
+                                FontSize="17"
+                                FontAttributes="Bold"/>
+
+                            <Label
+                                Text="Search for a website. Select Home or clear the search to return to the full list."
+                                FontSize="14"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="3">
+                            <Label
+                                Text="Notes"
+                                FontSize="17"
+                                FontAttributes="Bold"/>
+
+                            <Label
+                                Text="Add notes to a website using the notepad button."
+                                FontSize="14"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="3">
+                            <Label
+                                Text="Text Colors"
+                                FontSize="17"
+                                FontAttributes="Bold"/>
+
+                            <Label
+                                Text="Choose a text color when adding or editing a category or website."
+                                FontSize="14"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="3">
+                            <Label
+                                Text="Delete"
+                                FontSize="17"
+                                FontAttributes="Bold"/>
+
+                            <Label
+                                Text="Turn Confirm Delete on or off in Settings."
+                                FontSize="14"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="3">
+                            <Label
+                                Text="Appearance"
+                                FontSize="17"
+                                FontAttributes="Bold"/>
+
+                            <Label
+                                Text="Choose Light or Dark appearance in Settings."
+                                FontSize="14"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="3">
+                            <Label
+                                Text="Backup and Transfer"
+                                FontSize="17"
+                                FontAttributes="Bold"/>
+
+                            <Label
+                                Text="Use Export Data to create a backup. Use Import Data to restore your backup or move your data to another device."
+                                FontSize="14"/>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+
+                </ScrollView>
+
+                <Button
+                    Grid.Row="2"
+                    Text="Close"
+                    HorizontalOptions="End"
+                    WidthRequest="90"
+                    Clicked="CloseButton_Clicked"/>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</ContentPage>

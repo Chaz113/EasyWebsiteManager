@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="EasyWebsiteManager.Views.AboutPage"
+    Title="About"
+    BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
+
+    <Grid
+        Padding="24"
+        RowDefinitions="*,Auto,*">
+
+        <Border
+            Grid.Row="1"
+            MaximumWidthRequest="560"
+            MaximumHeightRequest="650"
+            HorizontalOptions="Center"
+            Padding="24"
+            BackgroundColor="{AppThemeBinding Light=White, Dark=#1B2940}"
+            Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#41628F}"
+            StrokeThickness="1">
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+
+            <Grid
+                RowDefinitions="Auto,*,Auto"
+                RowSpacing="18">
+
+                <Label
+                    Grid.Row="0"
+                    Text="About Easy Website Manager"
+                    FontSize="24"
+                    FontAttributes="Bold"/>
+
+                <ScrollView Grid.Row="1">
+
+                    <VerticalStackLayout Spacing="14">
+
+                        <Label
+                            Text="Easy Website Manager"
+                            FontSize="20"
+                            FontAttributes="Bold"/>
+
+                        <Label
+                            x:Name="VersionLabel"
+                            FontSize="14"/>
+
+                        <Label
+                            Text="Built with Microsoft Visual Studio and .NET MAUI"
+                            FontSize="14"/>
+
+                        <Label
+                            Text="Coding and development assistance: ChatGPT"
+                            FontSize="14"/>
+
+                        <Label
+                            Text="App icon created with Microsoft Copilot"
+                            FontSize="14"/>
+
+                        <Label
+                            Text="Developed by Charles Kuss"
+                            FontSize="14"/>
+
+                        <Label
+                            Text="© 2026 Charles Kuss. All rights reserved."
+                            FontSize="14"/>
+
+                        <BoxView
+                            HeightRequest="1"
+                            Opacity="0.25"
+                            Margin="0,6"/>
+
+                        <Label
+                            Text="Privacy Policy &amp; Disclaimer"
+                            FontSize="18"
+                            FontAttributes="Bold"/>
+
+                        <Label
+                            Text="Easy Website Manager is provided “as-is” without warranties of any kind. Users are responsible for regularly exporting their data to create backups. The developer is not liable for loss of information caused by accidental deletion, misuse, software behaviour, or device issues."
+                            FontSize="13"/>
+
+                        <Label
+                            Text="Easy Website Manager stores website information locally on your device. The app does not collect, transmit, or share personal data. Categories, website entries, notes, colors, and imported or exported backups remain under your control."
+                            FontSize="13"/>
+
+                        <Label
+                            Text="Your data is saved automatically. You may export your data to a backup file for backup or transfer purposes and import a previously exported backup at any time."
+                            FontSize="13"/>
+
+                        <Label
+                            Text="Easy Website Manager does not use analytics, advertising networks, cloud services, or tracking technologies. No information is sent to external servers."
+                            FontSize="13"/>
+
+                        <Label
+                            Text="Purchases and refunds are handled by the app retailer. The developer does not process payments or refunds."
+                            FontSize="13"/>
+
+                    </VerticalStackLayout>
+
+                </ScrollView>
+
+                <Button
+                    Grid.Row="2"
+                    Text="Close"
+                    HorizontalOptions="End"
+                    WidthRequest="90"
+                    Clicked="CloseButton_Clicked"/>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</ContentPage>

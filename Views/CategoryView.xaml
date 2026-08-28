@@ -6,7 +6,10 @@
     x:Class="EasyWebsiteManager.Views.CategoryView">
 
     <Border
-        Margin="0,4"
+        Margin="{OnPlatform WinUI='0,1',
+                            Android='0,3',
+                            iOS='0,3',
+                            MacCatalyst='0,2'}"
         Padding="0"
         Stroke="{AppThemeBinding Light=#B7CAE8, Dark=#41628F}"
         StrokeThickness="1"
@@ -16,14 +19,23 @@
             <RoundRectangle CornerRadius="10"/>
         </Border.StrokeShape>
 
-        <Grid RowDefinitions="Auto,Auto">
+        <Grid RowDefinitions="Auto,Auto,Auto">
 
-            <!-- Category Header -->
+            <!-- =====================================================
+                 CATEGORY HEADER
+                 ===================================================== -->
+
             <Grid
                 Grid.Row="0"
                 ColumnDefinitions="*,Auto,Auto,Auto"
-                ColumnSpacing="4"
-                Padding="12,9">
+                ColumnSpacing="{OnPlatform WinUI=2,
+                                           Android=4,
+                                           iOS=4,
+                                           MacCatalyst=3}"
+                Padding="{OnPlatform WinUI='12,0',
+                                     Android='12,3',
+                                     iOS='12,3',
+                                     MacCatalyst='12,2'}">
 
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Tapped="CategoryTapped"/>
@@ -31,84 +43,109 @@
 
                 <!-- Category Name -->
                 <Label
-    Grid.Column="0"
-    Text="{Binding Name}"
-    TextColor="{AppThemeBinding Light=Black, Dark=White}"
-    FontAttributes="Bold"
-    FontSize="18"
-    VerticalOptions="Center">
+                    Grid.Column="0"
+                    Text="{Binding Name}"
+                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    VerticalOptions="Center">
 
                     <Label.Triggers>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#000000">
-                            <Setter Property="TextColor" Value="#000000"/>
+                        <!--
+                            Black and White both mean:
+                            use the normal readable color
+                            for the current appearance.
+                        -->
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#000000">
+
+                            <Setter
+                                Property="TextColor"
+                                Value="{AppThemeBinding Light=#000000, Dark=#FFFFFF}"/>
+
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#FFFFFF">
-                            <Setter Property="TextColor" Value="#FFFFFF"/>
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#FFFFFF">
+
+                            <Setter
+                                Property="TextColor"
+                                Value="{AppThemeBinding Light=#000000, Dark=#FFFFFF}"/>
+
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#0000CD">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#0000CD">
                             <Setter Property="TextColor" Value="#0000CD"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#FF0000">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#FF0000">
                             <Setter Property="TextColor" Value="#FF0000"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#00FF00">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#00FF00">
                             <Setter Property="TextColor" Value="#00FF00"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#FFA500">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#FFA500">
                             <Setter Property="TextColor" Value="#FFA500"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#4B0082">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#4B0082">
                             <Setter Property="TextColor" Value="#4B0082"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#8F00FF">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#8F00FF">
                             <Setter Property="TextColor" Value="#8F00FF"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#D3D3D3">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#D3D3D3">
                             <Setter Property="TextColor" Value="#D3D3D3"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#808080">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#808080">
                             <Setter Property="TextColor" Value="#808080"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#008080">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#008080">
                             <Setter Property="TextColor" Value="#008080"/>
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#FFD700">
+                        <DataTrigger
+                            TargetType="Label"
+                            Binding="{Binding TextColor}"
+                            Value="#FFD700">
                             <Setter Property="TextColor" Value="#FFD700"/>
                         </DataTrigger>
 
@@ -119,42 +156,47 @@
                 <!-- Category Edit -->
                 <Button
                     Grid.Column="1"
-                    Text="✏"
-                    FontSize="17"
+                    ImageSource="{AppThemeBinding Light=edit_light.png, Dark=edit_dark.png}"
                     BackgroundColor="Transparent"
-                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                    WidthRequest="32"
-                    HeightRequest="32"
-                    Padding="0"
+                    WidthRequest="{OnPlatform WinUI=28,
+                                              Android=44,
+                                              iOS=44,
+                                              MacCatalyst=34}"
+                    HeightRequest="{OnPlatform WinUI=28,
+                                               Android=44,
+                                               iOS=44,
+                                               MacCatalyst=34}"
+                    MinimumHeightRequest="{OnPlatform WinUI=0}"
+                    Padding="{OnPlatform WinUI=3,
+                                         Android=14,
+                                         iOS=14,
+                                         MacCatalyst=9}"
+                    Opacity="0.82"
                     Clicked="EditCategory_Clicked"/>
 
                 <!-- Category Delete -->
                 <Button
                     Grid.Column="2"
-                    Text="⌫"
-                    FontSize="17"
+                    ImageSource="{AppThemeBinding Light=delete_light.png, Dark=delete_dark.png}"
                     BackgroundColor="Transparent"
-                    WidthRequest="32"
-                    HeightRequest="32"
-                    Padding="0"
+                    WidthRequest="{OnPlatform WinUI=28,
+                                              Android=44,
+                                              iOS=44,
+                                              MacCatalyst=34}"
+                    HeightRequest="{OnPlatform WinUI=28,
+                                               Android=44,
+                                               iOS=44,
+                                               MacCatalyst=34}"
+                    MinimumHeightRequest="{OnPlatform WinUI=0}"
+                    Padding="{OnPlatform WinUI=3,
+                                         Android=14,
+                                         iOS=14,
+                                         MacCatalyst=9}"
+                    Opacity="0.82"
                     Clicked="DeleteCategory_Clicked">
 
                     <Button.Triggers>
 
-                        <!-- Confirm Delete ON = neutral -->
-                        <DataTrigger
-                            TargetType="Button"
-                            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
-                                              Path=Settings.ConfirmDelete}"
-                            Value="True">
-
-                            <Setter
-                                Property="TextColor"
-                                Value="{AppThemeBinding Light=Black, Dark=White}"/>
-
-                        </DataTrigger>
-
-                        <!-- Confirm Delete OFF = red -->
                         <DataTrigger
                             TargetType="Button"
                             Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
@@ -162,8 +204,12 @@
                             Value="False">
 
                             <Setter
-                                Property="TextColor"
-                                Value="#FF0000"/>
+                                Property="ImageSource"
+                                Value="delete_red.png"/>
+
+                            <Setter
+                                Property="Opacity"
+                                Value="1"/>
 
                         </DataTrigger>
 
@@ -172,246 +218,342 @@
                 </Button>
 
                 <!-- Expand / Collapse -->
-                <Label
+                <Image
                     Grid.Column="3"
-                    Text="›"
-                    FontSize="22"
+                    Source="{AppThemeBinding Light=chevron_light.png, Dark=chevron_dark.png}"
+                    WidthRequest="{OnPlatform WinUI=18,
+                                              Android=28,
+                                              iOS=28,
+                                              MacCatalyst=22}"
+                    HeightRequest="{OnPlatform WinUI=18,
+                                               Android=28,
+                                               iOS=28,
+                                               MacCatalyst=22}"
+                    Margin="0"
+                    Opacity="0.82"
+                    HorizontalOptions="Center"
                     VerticalOptions="Center">
 
-                    <Label.Triggers>
+                    <Image.Triggers>
 
                         <DataTrigger
-                            TargetType="Label"
+                            TargetType="Image"
                             Binding="{Binding IsExpanded}"
                             Value="True">
                             <Setter Property="Rotation" Value="90"/>
                         </DataTrigger>
 
                         <DataTrigger
-                            TargetType="Label"
+                            TargetType="Image"
                             Binding="{Binding IsExpanded}"
                             Value="False">
                             <Setter Property="Rotation" Value="0"/>
                         </DataTrigger>
 
-                    </Label.Triggers>
+                    </Image.Triggers>
 
-                </Label>
+                </Image>
 
             </Grid>
 
-            <!-- Website Area -->
-            <VerticalStackLayout
+            <!-- =====================================================
+                 CATEGORY / WEBSITE SEPARATOR
+                 Slightly stronger than website separators
+                 ===================================================== -->
+
+            <BoxView
                 Grid.Row="1"
                 IsVisible="{Binding IsExpanded}"
+                HeightRequest="1"
+                Margin="16,0,16,0"
+                BackgroundColor="{AppThemeBinding
+                    Light=#C9D7EA,
+                    Dark=#3A5575}"/>
+
+            <!-- =====================================================
+                 WEBSITE AREA
+                 ===================================================== -->
+
+            <VerticalStackLayout
+                Grid.Row="2"
+                IsVisible="{Binding IsExpanded}"
                 BindableLayout.ItemsSource="{Binding Websites}"
-                Padding="12,0,12,7"
-                Spacing="1">
+                Padding="{OnPlatform WinUI='12,0',
+                                     Android='12,0,12,2',
+                                     iOS='12,0,12,2',
+                                     MacCatalyst='12,0,12,1'}"
+                Spacing="0">
 
                 <BindableLayout.ItemTemplate>
+
                     <DataTemplate>
 
                         <Grid
-                            ColumnDefinitions="*,Auto"
-                            Padding="4,2"
-                            MinimumHeightRequest="34">
+                            RowDefinitions="Auto,1"
+                            Margin="18,0,0,0">
 
-                            <!-- Website Name -->
-                            <Label
-    Grid.Column="0"
-    Text="{Binding Name}"
-    TextColor="{AppThemeBinding Light=Black, Dark=White}"
-    FontSize="15"
-    VerticalOptions="Center"
-    ToolTipProperties.Text="{Binding Url}">
+                            <!-- Website Row -->
+                            <Grid
+                                Grid.Row="0"
+                                ColumnDefinitions="*,Auto"
+                                Padding="{OnPlatform WinUI='4,1',
+                                                     Android='4,2',
+                                                     iOS='4,2',
+                                                     MacCatalyst='4,1'}"
+                                MinimumHeightRequest="{OnPlatform WinUI=30}">
 
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="WebsiteName_Tapped"/>
-                                </Label.GestureRecognizers>
-
-                                <Label.Triggers>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#000000">
-                                        <Setter Property="TextColor" Value="#000000"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#FFFFFF">
-                                        <Setter Property="TextColor" Value="#FFFFFF"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#0000CD">
-                                        <Setter Property="TextColor" Value="#0000CD"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#FF0000">
-                                        <Setter Property="TextColor" Value="#FF0000"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#00FF00">
-                                        <Setter Property="TextColor" Value="#00FF00"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#FFA500">
-                                        <Setter Property="TextColor" Value="#FFA500"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#4B0082">
-                                        <Setter Property="TextColor" Value="#4B0082"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#8F00FF">
-                                        <Setter Property="TextColor" Value="#8F00FF"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#D3D3D3">
-                                        <Setter Property="TextColor" Value="#D3D3D3"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#808080">
-                                        <Setter Property="TextColor" Value="#808080"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#008080">
-                                        <Setter Property="TextColor" Value="#008080"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger TargetType="Label"
-                     Binding="{Binding TextColor}"
-                     Value="#FFD700">
-                                        <Setter Property="TextColor" Value="#FFD700"/>
-                                    </DataTrigger>
-
-                                </Label.Triggers>
-
-                            </Label>
-
-                            <!-- Website Actions -->
-                            <HorizontalStackLayout
-                                Grid.Column="1"
-                                Spacing="5"
-                                VerticalOptions="Center">
-
-                                <!-- Edit -->
-                                <Button
-                                    Text="✏"
-                                    FontSize="17"
-                                    BackgroundColor="Transparent"
+                                <!-- Website Name -->
+                                <Label
+                                    Grid.Column="0"
+                                    Text="{Binding Name}"
                                     TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                                    WidthRequest="32"
-                                    HeightRequest="32"
-                                    Padding="0"
-                                    Clicked="EditWebsite_Clicked"/>
+                                    FontSize="15"
+                                    VerticalOptions="Center"
+                                    ToolTipProperties.Text="{Binding Url}">
 
-                                <!-- Notepad -->
-                                <Button
-                                    Text="▤"
-                                    FontSize="17"
-                                    BackgroundColor="Transparent"
-                                    WidthRequest="32"
-                                    HeightRequest="32"
-                                    Padding="0"
-                                    Clicked="NotepadButton_Clicked">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Tapped="WebsiteName_Tapped"/>
+                                    </Label.GestureRecognizers>
 
-                                    <Button.Triggers>
+                                    <Label.Triggers>
 
-                                        <!-- No note = neutral -->
+                                        <!--
+                                            Black and White both mean:
+                                            use the normal readable color
+                                            for the current appearance.
+                                        -->
                                         <DataTrigger
-                                            TargetType="Button"
-                                            Binding="{Binding Note.HasNote}"
-                                            Value="False">
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#000000">
 
                                             <Setter
                                                 Property="TextColor"
-                                                Value="{AppThemeBinding Light=Black, Dark=White}"/>
+                                                Value="{AppThemeBinding Light=#000000, Dark=#FFFFFF}"/>
 
                                         </DataTrigger>
 
-                                        <!-- Note exists = yellow -->
                                         <DataTrigger
-                                            TargetType="Button"
-                                            Binding="{Binding Note.HasNote}"
-                                            Value="True">
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#FFFFFF">
 
                                             <Setter
                                                 Property="TextColor"
-                                                Value="#FFD700"/>
+                                                Value="{AppThemeBinding Light=#000000, Dark=#FFFFFF}"/>
 
                                         </DataTrigger>
 
-                                    </Button.Triggers>
-
-                                </Button>
-
-                                <!-- Delete -->
-                                <Button
-                                    Text="⌫"
-                                    FontSize="17"
-                                    BackgroundColor="Transparent"
-                                    WidthRequest="32"
-                                    HeightRequest="32"
-                                    Padding="0"
-                                    Margin="5,0,0,0"
-                                    Clicked="DeleteWebsite_Clicked">
-
-                                    <Button.Triggers>
-
-                                        <!-- Confirm Delete ON = neutral -->
                                         <DataTrigger
-                                            TargetType="Button"
-                                            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
-                                                              Path=Settings.ConfirmDelete}"
-                                            Value="True">
-
-                                            <Setter
-                                                Property="TextColor"
-                                                Value="{AppThemeBinding Light=Black, Dark=White}"/>
-
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#0000CD">
+                                            <Setter Property="TextColor" Value="#0000CD"/>
                                         </DataTrigger>
 
-                                        <!-- Confirm Delete OFF = red -->
                                         <DataTrigger
-                                            TargetType="Button"
-                                            Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
-                                                              Path=Settings.ConfirmDelete}"
-                                            Value="False">
-
-                                            <Setter
-                                                Property="TextColor"
-                                                Value="#FF0000"/>
-
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#FF0000">
+                                            <Setter Property="TextColor" Value="#FF0000"/>
                                         </DataTrigger>
 
-                                    </Button.Triggers>
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#00FF00">
+                                            <Setter Property="TextColor" Value="#00FF00"/>
+                                        </DataTrigger>
 
-                                </Button>
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#FFA500">
+                                            <Setter Property="TextColor" Value="#FFA500"/>
+                                        </DataTrigger>
 
-                            </HorizontalStackLayout>
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#4B0082">
+                                            <Setter Property="TextColor" Value="#4B0082"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#8F00FF">
+                                            <Setter Property="TextColor" Value="#8F00FF"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#D3D3D3">
+                                            <Setter Property="TextColor" Value="#D3D3D3"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#808080">
+                                            <Setter Property="TextColor" Value="#808080"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#008080">
+                                            <Setter Property="TextColor" Value="#008080"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding TextColor}"
+                                            Value="#FFD700">
+                                            <Setter Property="TextColor" Value="#FFD700"/>
+                                        </DataTrigger>
+
+                                    </Label.Triggers>
+
+                                </Label>
+
+                                <!-- Website Actions -->
+                                <HorizontalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="{OnPlatform WinUI=2,
+                                                         Android=3,
+                                                         iOS=3,
+                                                         MacCatalyst=2}"
+                                    VerticalOptions="Center">
+
+                                    <!-- Website Edit -->
+                                    <Button
+                                        ImageSource="{AppThemeBinding Light=edit_light.png, Dark=edit_dark.png}"
+                                        BackgroundColor="Transparent"
+                                        WidthRequest="{OnPlatform WinUI=30,
+                                                                  Android=42,
+                                                                  iOS=42,
+                                                                  MacCatalyst=30}"
+                                        HeightRequest="{OnPlatform WinUI=30,
+                                                                   Android=42,
+                                                                   iOS=42,
+                                                                   MacCatalyst=30}"
+                                        MinimumHeightRequest="{OnPlatform WinUI=0}"
+                                        Padding="{OnPlatform WinUI=3,
+                                                             Android=13,
+                                                             iOS=13,
+                                                             MacCatalyst=8}"
+                                        Opacity="0.82"
+                                        Clicked="EditWebsite_Clicked"/>
+
+                                    <!-- Notepad -->
+                                    <Button
+                                        ImageSource="{AppThemeBinding Light=note_light.png, Dark=note_dark.png}"
+                                        BackgroundColor="Transparent"
+                                        WidthRequest="{OnPlatform WinUI=30,
+                                                                  Android=42,
+                                                                  iOS=42,
+                                                                  MacCatalyst=30}"
+                                        HeightRequest="{OnPlatform WinUI=30,
+                                                                   Android=42,
+                                                                   iOS=42,
+                                                                   MacCatalyst=30}"
+                                        MinimumHeightRequest="{OnPlatform WinUI=0}"
+                                        Padding="{OnPlatform WinUI=3,
+                                                             Android=13,
+                                                             iOS=13,
+                                                             MacCatalyst=8}"
+                                        Opacity="0.82"
+                                        Clicked="NotepadButton_Clicked">
+
+                                        <Button.Triggers>
+
+                                            <DataTrigger
+                                                TargetType="Button"
+                                                Binding="{Binding Note.HasNote}"
+                                                Value="True">
+
+                                                <Setter
+                                                    Property="ImageSource"
+                                                    Value="{AppThemeBinding
+                                                        Light=note_yellow_light.png,
+                                                        Dark=note_yellow.png}"/>
+
+                                                <Setter
+                                                    Property="Opacity"
+                                                    Value="1"/>
+
+                                            </DataTrigger>
+
+                                        </Button.Triggers>
+
+                                    </Button>
+
+                                    <!-- Website Delete -->
+                                    <Button
+                                        ImageSource="{AppThemeBinding Light=delete_light.png, Dark=delete_dark.png}"
+                                        BackgroundColor="Transparent"
+                                        WidthRequest="{OnPlatform WinUI=30,
+                                                                  Android=42,
+                                                                  iOS=42,
+                                                                  MacCatalyst=30}"
+                                        HeightRequest="{OnPlatform WinUI=30,
+                                                                   Android=42,
+                                                                   iOS=42,
+                                                                   MacCatalyst=30}"
+                                        MinimumHeightRequest="{OnPlatform WinUI=0}"
+                                        Padding="{OnPlatform WinUI=3,
+                                                             Android=13,
+                                                             iOS=13,
+                                                             MacCatalyst=8}"
+                                        Margin="{OnPlatform WinUI='1,0,0,0',
+                                                            Android='3,0,0,0',
+                                                            iOS='3,0,0,0',
+                                                            MacCatalyst='2,0,0,0'}"
+                                        Opacity="0.82"
+                                        Clicked="DeleteWebsite_Clicked">
+
+                                        <Button.Triggers>
+
+                                            <DataTrigger
+                                                TargetType="Button"
+                                                Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
+                                                                  Path=Settings.ConfirmDelete}"
+                                                Value="False">
+
+                                                <Setter
+                                                    Property="ImageSource"
+                                                    Value="delete_red.png"/>
+
+                                                <Setter
+                                                    Property="Opacity"
+                                                    Value="1"/>
+
+                                            </DataTrigger>
+
+                                        </Button.Triggers>
+
+                                    </Button>
+
+                                </HorizontalStackLayout>
+
+                            </Grid>
+
+                            <!-- Website Separator -->
+                            <BoxView
+                                Grid.Row="1"
+                                HeightRequest="1"
+                                Margin="4,0,4,0"
+                                BackgroundColor="{AppThemeBinding
+                                    Light=#D9E2F0,
+                                    Dark=#304866}"/>
 
                         </Grid>
 
                     </DataTemplate>
+
                 </BindableLayout.ItemTemplate>
 
             </VerticalStackLayout>

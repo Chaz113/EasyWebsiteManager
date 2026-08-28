@@ -85,6 +85,23 @@ public partial class SettingsPage : ContentPage
 
         SettingsChanged?.Invoke();
     }
+    private async void HelpButton_Clicked(
+    object? sender,
+    EventArgs e)
+    {
+        var page = new HelpPage();
+
+        await Navigation.PushModalAsync(page);
+    }
+
+    private async void AboutButton_Clicked(
+        object? sender,
+        EventArgs e)
+    {
+        var page = new AboutPage();
+
+        await Navigation.PushModalAsync(page);
+    }
 
     private void UpdateStatusLabels()
     {

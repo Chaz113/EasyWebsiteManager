@@ -31,27 +31,85 @@
                     FontSize="24"
                     FontAttributes="Bold"/>
 
-                <!-- Existing Category -->
-                <Label
-                    Text="Select Existing Category"
-                    FontSize="14"/>
+                <!-- =================================================
+                     NORMAL + BUTTON CATEGORY SELECTION
+                     ================================================= -->
 
-                <Picker
-                    x:Name="CategoryPicker"
-                    ItemsSource="{Binding Categories}"
-                    ItemDisplayBinding="{Binding Name}"
-                    Title="Select a category"
-                    SelectedIndexChanged="CategoryPicker_SelectedIndexChanged"/>
+                <VerticalStackLayout
+                    x:Name="CategorySelectionSection"
+                    Spacing="14">
 
-                <!-- New Category -->
-                <Label
-                    Text="New Category Name (optional)"
-                    FontSize="14"/>
+                    <!-- Existing Category -->
+                    <Label
+                        Text="Select Existing Category"
+                        FontSize="14"/>
 
-                <Entry
-                    x:Name="NewCategoryEntry"
-                    Placeholder="Enter a new category name"
-                    TextChanged="NewCategoryEntry_TextChanged"/>
+                    <Border
+                        Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
+                        StrokeThickness="1"
+                        BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
+                        Padding="0"
+                        HeightRequest="46">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="6"/>
+                        </Border.StrokeShape>
+
+                        <Picker
+                            x:Name="CategoryPicker"
+                            ItemsSource="{Binding Categories}"
+                            ItemDisplayBinding="{Binding Name}"
+                            BackgroundColor="Transparent"
+                            TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
+                            Margin="10,0"
+                            SelectedIndexChanged="CategoryPicker_SelectedIndexChanged"/>
+
+                    </Border>
+
+                    <!-- New Category -->
+                    <Label
+                        Text="New Category Name"
+                        FontSize="14"/>
+
+                    <Entry
+                        x:Name="NewCategoryEntry"
+                        Placeholder="Enter a new category name"
+                        TextChanged="NewCategoryEntry_TextChanged"/>
+
+                </VerticalStackLayout>
+
+                <!-- =================================================
+                     EDIT CATEGORY FIXED CATEGORY
+                     ================================================= -->
+
+                <VerticalStackLayout
+                    x:Name="FixedCategorySection"
+                    IsVisible="False"
+                    Spacing="6">
+
+                    <Label
+                        Text="Category"
+                        FontSize="14"/>
+
+                    <Border
+                        Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
+                        StrokeThickness="1"
+                        BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
+                        Padding="12,10">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="6"/>
+                        </Border.StrokeShape>
+
+                        <Label
+                            x:Name="FixedCategoryNameLabel"
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"/>
+
+                    </Border>
+
+                </VerticalStackLayout>
 
                 <!-- Website Name -->
                 <Label
