@@ -25,15 +25,14 @@
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
 		<!-- Display name -->
-		<ApplicationTitle>EasyWebsiteManager</ApplicationTitle>
+		<ApplicationTitle>Easy Website Manager</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.easywebsitemanager</ApplicationId>
+		<ApplicationId>com.easysoftwareproducts.easywebsitemanager</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
-
 		<!-- Windows package mode -->
 		<WindowsPackageType>None</WindowsPackageType>
 
@@ -102,6 +101,7 @@
 	  <MauiImage Include="Resources\Images\Icons\delete_red.png" />
 	  <MauiImage Include="Resources\Images\Icons\note_dark.png" />
 	  <MauiImage Include="Resources\Images\Icons\note_light.png" />
+	  <MauiImage Include="Resources\Images\Icons\note_yellow.png" />
 	  <MauiImage Include="Resources\Images\Icons\note_yellow_light.png" />
 	</ItemGroup>
 
@@ -120,10 +120,6 @@
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\edit_dark.png" />
 	  <MauiImage Include="Resources\Images\Icons\edit_light.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiImage Include="Resources\Images\Icons\note_yellow.png" />
 	</ItemGroup>
 
 	<ItemGroup>

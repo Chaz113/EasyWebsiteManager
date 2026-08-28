@@ -477,9 +477,7 @@
 
                                                 <Setter
                                                     Property="ImageSource"
-                                                    Value="{AppThemeBinding
-                                                        Light=note_yellow_light.png,
-                                                        Dark=note_yellow.png}"/>
+                                                    Value="note_yellow.png"/>
 
                                                 <Setter
                                                     Property="Opacity"
