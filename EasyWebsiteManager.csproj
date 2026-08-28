@@ -90,7 +90,6 @@
 	  <None Remove="Resources\Images\Icons\note_dark.png" />
 	  <None Remove="Resources\Images\Icons\note_light.png" />
 	  <None Remove="Resources\Images\Icons\note_yellow.png" />
-	  <None Remove="Resources\Images\Icons\note_yellow_light.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -102,7 +101,8 @@
 	  <MauiImage Include="Resources\Images\Icons\note_dark.png" />
 	  <MauiImage Include="Resources\Images\Icons\note_light.png" />
 	  <MauiImage Include="Resources\Images\Icons\note_yellow.png" />
-	  <MauiImage Include="Resources\Images\Icons\note_yellow_light.png" />
+	  <MauiImage Include="Resources\Images\Icons\edit_dark.png" />
+	  <MauiImage Include="Resources\Images\Icons\edit_light.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -114,11 +114,6 @@
 	</ItemGroup>
 
 	
-
-	<ItemGroup>
-	  <MauiImage Include="Resources\Images\Icons\edit_dark.png" />
-	  <MauiImage Include="Resources\Images\Icons\edit_light.png" />
-	</ItemGroup>
 
 	<ItemGroup>
 
