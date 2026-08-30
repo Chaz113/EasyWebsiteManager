@@ -47,21 +47,37 @@ public partial class MainPage : ContentPage
         }
     }
 
+    // ---------------------------------------------------------
+    // IMPORT
+    // ---------------------------------------------------------
+
     private async Task ImportDataAsync()
     {
         try
         {
-            var result = await FilePicker.Default.PickAsync(
-                new PickOptions
-                {
-                    PickerTitle = "Import EasyWebsiteManager Backup"
-                });
+            var result =
+                await FilePicker.Default.PickAsync(
+                    new PickOptions
+                    {
+                        PickerTitle =
+                            "Import EasyWebsiteManager Backup"
+                    });
 
             if (result == null)
                 return;
 
-            var json = await File.ReadAllTextAsync(
-                result.FullPath);
+            // Read through the FileResult stream instead of
+            // relying on FullPath. This is important on Android,
+            // where files may come from document providers,
+            // Downloads, USB storage, cloud storage, etc.
+            await using var stream =
+                await result.OpenReadAsync();
+
+            using var reader =
+                new StreamReader(stream);
+
+            var json =
+                await reader.ReadToEndAsync();
 
             if (string.IsNullOrWhiteSpace(json))
             {
@@ -608,25 +624,33 @@ public partial class MainPage : ContentPage
                 File.OpenRead(
                     temporaryFilePath);
 
-            await using var destinationStream =
-                contentResolver.OpenOutputStream(
-                    destinationUri);
-
-            if (destinationStream == null)
+            // Explicitly open the selected Android document for
+            // write + truncate. This prevents stale bytes from a
+            // previous, longer JSON file remaining at the end.
+            await using (
+                var destinationStream =
+                    contentResolver.OpenOutputStream(
+                        destinationUri,
+                        "wt"))
             {
-                await DisplayAlertAsync(
-                    "Export Failed",
-                    "The selected file could not be opened.",
-                    "OK");
+                if (destinationStream == null)
+                {
+                    await DisplayAlertAsync(
+                        "Export Failed",
+                        "The selected file could not be opened.",
+                        "OK");
 
-                return;
+                    return;
+                }
+
+                await sourceStream.CopyToAsync(
+                    destinationStream);
+
+                await destinationStream.FlushAsync();
             }
 
-            await sourceStream.CopyToAsync(
-                destinationStream);
-
-            await destinationStream.FlushAsync();
-
+            // The destination stream has been flushed and closed
+            // before reporting that the export is complete.
             await DisplayAlertAsync(
                 "Export Complete",
                 "Your EasyWebsiteManager backup was saved successfully.",
