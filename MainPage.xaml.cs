@@ -494,9 +494,10 @@ public partial class MainPage : ContentPage
 
     private async Task ExportDataAsync()
     {
-#if WINDOWS
         if (BindingContext is not MainViewModel vm)
             return;
+
+#if WINDOWS
 
         try
         {
@@ -551,11 +552,119 @@ public partial class MainPage : ContentPage
                 ex.Message,
                 "OK");
         }
+
+#elif ANDROID
+
+        string? temporaryFilePath = null;
+
+        try
+        {
+            var data = vm.CreateAppData();
+
+            temporaryFilePath =
+                Path.Combine(
+                    FileSystem.CacheDirectory,
+                    "EasyWebsiteManagerBackup.json");
+
+            // Create the JSON using the same export routine
+            // used by the Windows version.
+            await StorageService.ExportAsync(
+                data,
+                temporaryFilePath);
+
+            if (Platform.CurrentActivity
+                is not MainActivity activity)
+            {
+                await DisplayAlertAsync(
+                    "Export Failed",
+                    "Android file saving is unavailable.",
+                    "OK");
+
+                return;
+            }
+
+            var destinationUri =
+                await activity.CreateBackupFileAsync(
+                    "EasyWebsiteManagerBackup.json");
+
+            // User canceled the Android file picker.
+            if (destinationUri == null)
+                return;
+
+            var contentResolver =
+                activity.ContentResolver;
+
+            if (contentResolver == null)
+            {
+                await DisplayAlertAsync(
+                    "Export Failed",
+                    "Android file access is unavailable.",
+                    "OK");
+
+                return;
+            }
+
+            await using var sourceStream =
+                File.OpenRead(
+                    temporaryFilePath);
+
+            await using var destinationStream =
+                contentResolver.OpenOutputStream(
+                    destinationUri);
+
+            if (destinationStream == null)
+            {
+                await DisplayAlertAsync(
+                    "Export Failed",
+                    "The selected file could not be opened.",
+                    "OK");
+
+                return;
+            }
+
+            await sourceStream.CopyToAsync(
+                destinationStream);
+
+            await destinationStream.FlushAsync();
+
+            await DisplayAlertAsync(
+                "Export Complete",
+                "Your EasyWebsiteManager backup was saved successfully.",
+                "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync(
+                "Export Failed",
+                ex.Message,
+                "OK");
+        }
+        finally
+        {
+            if (!string.IsNullOrWhiteSpace(
+                    temporaryFilePath) &&
+                File.Exists(temporaryFilePath))
+            {
+                try
+                {
+                    File.Delete(
+                        temporaryFilePath);
+                }
+                catch
+                {
+                    // Failure to remove a temporary cache
+                    // file should not make the export fail.
+                }
+            }
+        }
+
 #else
+
         await DisplayAlertAsync(
             "Export",
-            "Export is currently implemented for Windows.",
+            "Export is not currently available on this platform.",
             "OK");
+
 #endif
     }
 }
