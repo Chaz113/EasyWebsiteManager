@@ -51,10 +51,10 @@
                         VerticalOptions="Center"/>
 
                     <Switch
-                        x:Name="ConfirmDeleteSwitch"
-                        Grid.Column="2"
-                        VerticalOptions="Center"/>
-
+    x:Name="ConfirmDeleteSwitch"
+    Grid.Column="2"
+    VerticalOptions="Center"/>
+                    
                 </Grid>
 
                 <!-- Appearance -->
@@ -77,9 +77,9 @@
                         VerticalOptions="Center"/>
 
                     <Switch
-                        x:Name="DarkModeSwitch"
-                        Grid.Column="2"
-                        VerticalOptions="Center"/>
+    x:Name="DarkModeSwitch"
+    Grid.Column="2"
+    VerticalOptions="Center"/>
 
                 </Grid>
                 <Button

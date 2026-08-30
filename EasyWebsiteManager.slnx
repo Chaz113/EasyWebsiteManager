@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="EasyWebsiteManager.csproj" />
+  <Project Path="EasyWebsiteManager.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>
