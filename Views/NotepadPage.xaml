@@ -8,15 +8,14 @@
     BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
 
     <Grid
-        Padding="24"
+        Padding="{OnPlatform WinUI=24, Android=16, iOS=16, MacCatalyst=20}"
         RowDefinitions="*,Auto,*">
 
         <Border
             Grid.Row="1"
             MaximumWidthRequest="520"
-            MinimumWidthRequest="360"
-            Padding="20"
-            HorizontalOptions="Center"
+            Padding="{OnPlatform WinUI=20, Android=16, iOS=16, MacCatalyst=20}"
+            HorizontalOptions="Fill"
             BackgroundColor="#F5EFE1"
             Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#41628F}"
             StrokeThickness="1"
@@ -48,83 +47,118 @@
                     FontSize="14"
                     TextColor="Black"/>
 
-                <HorizontalStackLayout
-                    Spacing="8"
-                    HorizontalOptions="Start">
+                <!-- Responsive color palette -->
+                <FlexLayout
+                    Direction="Row"
+                    Wrap="Wrap"
+                    JustifyContent="Start"
+                    AlignItems="Start">
 
                     <Button
                         BackgroundColor="#FFFFFF"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="WhiteColor_Clicked"/>
 
                     <Button
                         BackgroundColor="#F5EFE1"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="IvoryColor_Clicked"/>
 
                     <Button
                         BackgroundColor="#DDDBDD"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="CreamyGreyColor_Clicked"/>
 
                     <Button
                         BackgroundColor="#C5E1B0"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="MilkyOliveColor_Clicked"/>
 
                     <Button
                         BackgroundColor="#B8C3F6"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="MilkyGrapeColor_Clicked"/>
 
                     <Button
                         BackgroundColor="#E9CACB"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="CreamyRoseColor_Clicked"/>
 
                     <Button
                         BackgroundColor="#EDD2FF"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="MilkyMauveColor_Clicked"/>
 
                     <Button
                         BackgroundColor="#F1D1B0"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="MilkyBronzeColor_Clicked"/>
 
-                </HorizontalStackLayout>
+                </FlexLayout>
 
                 <HorizontalStackLayout
                     HorizontalOptions="End"

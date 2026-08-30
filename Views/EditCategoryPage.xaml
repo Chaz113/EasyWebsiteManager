@@ -8,14 +8,14 @@
     BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
 
     <Grid
-        Padding="24"
+        Padding="{OnPlatform WinUI=24, Android=16, iOS=16, MacCatalyst=20}"
         RowDefinitions="*,Auto,*">
 
         <Border
             Grid.Row="1"
             MaximumWidthRequest="500"
-            HorizontalOptions="Center"
-            Padding="24"
+            HorizontalOptions="Fill"
+            Padding="{OnPlatform WinUI=24, Android=16, iOS=16, MacCatalyst=20}"
             BackgroundColor="{AppThemeBinding Light=White, Dark=#1B2940}"
             Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#41628F}"
             StrokeThickness="1">
@@ -26,13 +26,11 @@
 
             <VerticalStackLayout Spacing="14">
 
-                <!-- Heading -->
                 <Label
                     Text="Edit Category"
                     FontSize="24"
                     FontAttributes="Bold"/>
 
-                <!-- Category Name -->
                 <Label
                     Text="Category Name"
                     FontSize="14"/>
@@ -41,170 +39,190 @@
                     x:Name="CategoryNameEntry"
                     Placeholder="Category name"/>
 
-                <!-- Category Text Color -->
                 <Label
                     Text="Category Text Color"
                     FontSize="14"/>
 
-                <Grid
-                    ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
-                    RowDefinitions="Auto,Auto"
-                    ColumnSpacing="8"
-                    RowSpacing="8">
+                <!-- Responsive color palette -->
+                <FlexLayout
+                    Direction="Row"
+                    Wrap="Wrap"
+                    JustifyContent="Start"
+                    AlignItems="Start">
 
-                    <!-- Row 1 -->
                     <Button
                         x:Name="BlackColorButton"
-                        Grid.Row="0"
-                        Grid.Column="0"
                         BackgroundColor="#000000"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="BlackColor_Clicked"/>
 
                     <Button
                         x:Name="WhiteColorButton"
-                        Grid.Row="0"
-                        Grid.Column="1"
                         BackgroundColor="#FFFFFF"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderColor="#888888"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="WhiteColor_Clicked"/>
 
                     <Button
                         x:Name="BlueColorButton"
-                        Grid.Row="0"
-                        Grid.Column="2"
                         BackgroundColor="#0000CD"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="BlueColor_Clicked"/>
 
                     <Button
                         x:Name="RedColorButton"
-                        Grid.Row="0"
-                        Grid.Column="3"
                         BackgroundColor="#FF0000"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="RedColor_Clicked"/>
 
                     <Button
                         x:Name="GreenColorButton"
-                        Grid.Row="0"
-                        Grid.Column="4"
                         BackgroundColor="#00FF00"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="GreenColor_Clicked"/>
 
                     <Button
                         x:Name="OrangeColorButton"
-                        Grid.Row="0"
-                        Grid.Column="5"
                         BackgroundColor="#FFA500"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="OrangeColor_Clicked"/>
 
-                    <!-- Row 2 -->
                     <Button
                         x:Name="PurpleColorButton"
-                        Grid.Row="1"
-                        Grid.Column="0"
                         BackgroundColor="#4B0082"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="PurpleColor_Clicked"/>
 
                     <Button
                         x:Name="VioletColorButton"
-                        Grid.Row="1"
-                        Grid.Column="1"
                         BackgroundColor="#8F00FF"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="VioletColor_Clicked"/>
 
                     <Button
                         x:Name="LightGreyColorButton"
-                        Grid.Row="1"
-                        Grid.Column="2"
                         BackgroundColor="#D3D3D3"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="LightGreyColor_Clicked"/>
 
                     <Button
                         x:Name="MediumGreyColorButton"
-                        Grid.Row="1"
-                        Grid.Column="3"
                         BackgroundColor="#808080"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="MediumGreyColor_Clicked"/>
 
                     <Button
                         x:Name="TealColorButton"
-                        Grid.Row="1"
-                        Grid.Column="4"
                         BackgroundColor="#008080"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="TealColor_Clicked"/>
 
                     <Button
                         x:Name="YellowColorButton"
-                        Grid.Row="1"
-                        Grid.Column="5"
                         BackgroundColor="#FFD700"
                         WidthRequest="32"
                         HeightRequest="32"
+                        MinimumWidthRequest="32"
+                        MinimumHeightRequest="32"
                         CornerRadius="16"
                         BorderWidth="1"
+                        Margin="0,0,8,8"
+                        Padding="0"
                         Clicked="YellowColor_Clicked"/>
 
-                </Grid>
+                </FlexLayout>
 
-                <!-- Add Website -->
                 <Button
-    Text="+  Add Website"
-    HorizontalOptions="Start"
-    WidthRequest="150"
-    HeightRequest="44"
-    Margin="0,8,0,0"
-    BackgroundColor="Transparent"
-    TextColor="{AppThemeBinding Light=#3478F6, Dark=#7FB0FF}"
-    BorderColor="{AppThemeBinding Light=#3478F6, Dark=#3478F6}"
-    BorderWidth="2"
-    CornerRadius="10"
-    FontAttributes="Bold"
-    Clicked="AddWebsiteButton_Clicked"/>
+                    Text="+  Add Website"
+                    HorizontalOptions="Start"
+                    WidthRequest="150"
+                    HeightRequest="44"
+                    Margin="0,8,0,0"
+                    BackgroundColor="Transparent"
+                    TextColor="{AppThemeBinding Light=#3478F6, Dark=#7FB0FF}"
+                    BorderColor="{AppThemeBinding Light=#3478F6, Dark=#3478F6}"
+                    BorderWidth="2"
+                    CornerRadius="10"
+                    FontAttributes="Bold"
+                    Clicked="AddWebsiteButton_Clicked"/>
 
-                <!-- Cancel / Save -->
                 <HorizontalStackLayout
                     HorizontalOptions="End"
                     Spacing="10"
