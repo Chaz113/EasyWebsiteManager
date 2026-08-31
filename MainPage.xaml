@@ -112,7 +112,7 @@
             TextColor="White"
             BorderWidth="0"
             Padding="0"
-            HorizontalOptions="End"
+            HorizontalOptions="Center"
             VerticalOptions="End"
             Margin="0,0,12,12"
             Clicked="AddButton_Clicked"
