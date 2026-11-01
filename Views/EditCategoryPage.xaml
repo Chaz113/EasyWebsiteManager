@@ -48,7 +48,8 @@
                     Direction="Row"
                     Wrap="Wrap"
                     JustifyContent="Start"
-                    AlignItems="Start">
+                    AlignItems="Start"
+                    Padding="4,2,0,0">
 
                     <Button
                         x:Name="BlackColorButton"

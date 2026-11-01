@@ -24,13 +24,53 @@
     Padding="8,0"
     Clicked="HomeButton_Clicked"/>
 
-            <!-- Search -->
-            <SearchBar
-    Grid.Column="1"
-    Placeholder="Search websites..."
-    Text="{Binding SearchText}"
-    VerticalOptions="Center"/>
-          
+            <!-- Search: consistent outline and icon in both themes -->
+            <Border
+                Grid.Column="1"
+                HeightRequest="44"
+                VerticalOptions="Center"
+                BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1F1F1F}"
+                Stroke="{AppThemeBinding Light=#B8BEC7, Dark=#3B3B3B}"
+                StrokeThickness="1"
+                Padding="10,0">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="6"/>
+                </Border.StrokeShape>
+
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Entry
+                        x:Name="SearchEntry"
+                        HandlerChanged="SearchEntry_HandlerChanged"
+                        Grid.Column="0"
+                        Placeholder="Search websites..."
+                        Text="{Binding SearchText}"
+                        BackgroundColor="Transparent"
+                        TextColor="{AppThemeBinding Light=#202020, Dark=#FFFFFF}"
+                        PlaceholderColor="{AppThemeBinding Light=#757575, Dark=#858585}"
+                        ClearButtonVisibility="WhileEditing"
+                        VerticalOptions="Center"
+                        FontSize="14"
+                        Margin="0"
+                        HorizontalOptions="Fill"/>
+
+                    <!-- Thin vector magnifying glass; identical shape on Windows and Android -->
+                    <Path
+                        Grid.Column="1"
+                        Data="M 10,3 A 7,7 0 1 1 10,17 A 7,7 0 1 1 10,3 M 15,15 L 21,21"
+                        WidthRequest="20"
+                        HeightRequest="20"
+                        Aspect="Uniform"
+                        Fill="Transparent"
+                        Stroke="{AppThemeBinding Light=#333333, Dark=#D0D0D0}"
+                        StrokeThickness="1.7"
+                        StrokeLineCap="Round"
+                        StrokeLineJoin="Round"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+                </Grid>
+            </Border>
+
 
             <!-- Settings -->
             <Button
@@ -59,6 +99,13 @@
                     <views:CategoryView/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
+            <!-- Windows-only bottom scroll clearance for the floating Add button. -->
+            <CollectionView.Footer>
+                <BoxView
+                    HeightRequest="{OnPlatform WinUI=90, Android=0, iOS=0, MacCatalyst=0}"
+                    Color="Transparent"/>
+            </CollectionView.Footer>
 
         </CollectionView>
 

@@ -121,9 +121,19 @@
                                 FontSize="17"
                                 FontAttributes="Bold"/>
 
-                            <Label
-                                Text="Use Export Data to create a backup. Use Import Data to restore your backup or move your data to another device."
-                                FontSize="14"/>
+                            <Label Text="Export / Save creates a backup of saved websites and categories." FontSize="14"/>
+
+                            <Label Text="The backup filename is:" FontSize="14"/>
+
+                            <Label Text="EasyWebsiteManagerBackup.json" FontSize="17" FontAttributes="Bold" LineBreakMode="WordWrap"/>
+
+                            <Label Text="A destination folder can be selected when exporting the backup. We recommend the Documents or Downloads folder for easy access. A USB drive or another secure location may also be used." FontSize="14"/>
+
+                            <Label Text="Import / Open restores saved websites and categories to Easy Website Manager from a previously exported backup." FontSize="14"/>
+
+                            <Label Text="To import, navigate to the folder containing EasyWebsiteManagerBackup.json, select the file, and open it." FontSize="14"/>
+
+                            <Label Text="The backup file can also be transferred to another device and imported into another copy of Easy Website Manager." FontSize="14"/>
                         </VerticalStackLayout>
 
                     </VerticalStackLayout>

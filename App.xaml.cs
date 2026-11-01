@@ -2,11 +2,17 @@
 
 public partial class App : Application
 {
+#if WINDOWS
+    private const double DefaultWidth = 560;
+    private const double DefaultHeight = 760;
+    private const double MinimumWidth = 520;
+    private const double MinimumHeight = 550;
+#else
     private const double DefaultWidth = 760;
     private const double DefaultHeight = 680;
-
     private const double MinimumWidth = 650;
     private const double MinimumHeight = 550;
+#endif
 
     public App()
     {
@@ -32,6 +38,16 @@ public partial class App : Application
     protected override Window CreateWindow(
         IActivationState? activationState)
     {
+#if WINDOWS
+        // Apply the new Windows default size once. Later user resizing is remembered.
+        const string layoutVersionKey = "WindowsCompactLayoutV2Applied";
+        if (!Preferences.Default.Get(layoutVersionKey, false))
+        {
+            Preferences.Default.Set("WindowWidth", DefaultWidth);
+            Preferences.Default.Set("WindowHeight", DefaultHeight);
+            Preferences.Default.Set(layoutVersionKey, true);
+        }
+#endif
         var window = new Window(new MainPage())
         {
             Width =

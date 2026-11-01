@@ -157,6 +157,28 @@ public partial class SettingsPage : ContentPage
             page);
     }
 
+    private async void RateAndReviewButton_Clicked(
+        object? sender,
+        EventArgs e)
+    {
+#if WINDOWS
+        const string reviewUri =
+            "ms-windows-store://review/?ProductId=9PCV8H3B97N5";
+
+        try
+        {
+            await Launcher.Default.OpenAsync(new Uri(reviewUri));
+        }
+        catch (Exception)
+        {
+            await DisplayAlertAsync(
+                "Microsoft Store",
+                "The Microsoft Store review page could not be opened.",
+                "OK");
+        }
+#endif
+    }
+
     private async void CloseButton_Clicked(
         object? sender,
         EventArgs e)

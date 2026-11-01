@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
 
 namespace EasyWebsiteManager;
 
@@ -13,6 +14,7 @@ namespace EasyWebsiteManager;
     Icon = "@mipmap/appicon",
     RoundIcon = "@mipmap/appicon_round",
     LaunchMode = LaunchMode.SingleTop,
+    WindowSoftInputMode = SoftInput.AdjustResize,
     ConfigurationChanges =
         ConfigChanges.ScreenSize |
         ConfigChanges.Orientation |

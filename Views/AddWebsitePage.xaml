@@ -7,154 +7,236 @@
     Title="Add Website"
     BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
 
-    <Grid
-        Padding="24"
-        RowDefinitions="*,Auto,*">
+    <ScrollView
+        VerticalScrollBarVisibility="Default">
 
-        <Border
-            Grid.Row="1"
-            MaximumWidthRequest="500"
-            HorizontalOptions="Center"
-            Padding="24"
-            BackgroundColor="{AppThemeBinding Light=White, Dark=#1B2940}"
-            Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#41628F}"
-            StrokeThickness="1">
+        <VerticalStackLayout
+            Padding="8"
+            Spacing="0">
 
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="12"/>
-            </Border.StrokeShape>
+            <Border
+                WidthRequest="340"
+                MaximumWidthRequest="500"
+                HorizontalOptions="Center"
+                Padding="10"
+                Margin="0,2"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=#1B2940}"
+                Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#41628F}"
+                StrokeThickness="1">
 
-            <VerticalStackLayout Spacing="14">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
 
-                <Label
-                    Text="Add Website"
-                    FontSize="24"
-                    FontAttributes="Bold"/>
-
-                <!-- =================================================
-                     NORMAL + BUTTON CATEGORY SELECTION
-                     ================================================= -->
-
-                <VerticalStackLayout
-                    x:Name="CategorySelectionSection"
-                    Spacing="14">
-
-                    <!-- Existing Category -->
-                    <Label
-                        Text="Select Existing Category"
-                        FontSize="14"/>
-
-                    <Border
-                        Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
-                        StrokeThickness="1"
-                        BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
-                        Padding="0"
-                        HeightRequest="46">
-
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="6"/>
-                        </Border.StrokeShape>
-
-                        <Picker
-                            x:Name="CategoryPicker"
-                            ItemsSource="{Binding Categories}"
-                            ItemDisplayBinding="{Binding Name}"
-                            BackgroundColor="Transparent"
-                            TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
-                            Margin="10,0"
-                            SelectedIndexChanged="CategoryPicker_SelectedIndexChanged"/>
-
-                    </Border>
-
-                    <!-- New Category -->
-                    <Label
-                        Text="New Category Name"
-                        FontSize="14"/>
-
-                    <Entry
-                        x:Name="NewCategoryEntry"
-                        Placeholder="Enter a new category name"
-                        TextChanged="NewCategoryEntry_TextChanged"/>
-
-                </VerticalStackLayout>
-
-                <!-- =================================================
-                     EDIT CATEGORY FIXED CATEGORY
-                     ================================================= -->
-
-                <VerticalStackLayout
-                    x:Name="FixedCategorySection"
-                    IsVisible="False"
-                    Spacing="6">
+                <VerticalStackLayout Spacing="3">
 
                     <Label
-                        Text="Category"
-                        FontSize="14"/>
+                        Text="Add Website"
+                        FontSize="22"
+                        FontAttributes="Bold"
+                        Margin="0,0,0,2"/>
 
-                    <Border
-                        Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
-                        StrokeThickness="1"
-                        BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
-                        Padding="12,10">
+                    <!-- =================================================
+                         NORMAL CATEGORY SELECTION
+                         ================================================= -->
 
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="6"/>
-                        </Border.StrokeShape>
+                    <VerticalStackLayout
+                        x:Name="CategorySelectionSection"
+                        Spacing="3">
+
+                        <!-- Existing Category -->
+                        <Label
+                            Text="Select Existing Category"
+                            FontSize="13"
+                            FontAttributes="Bold"/>
+
+                        <Border
+                            HeightRequest="44"
+                            Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
+                            StrokeThickness="1"
+                            BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
+                            Padding="0">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="6"/>
+                            </Border.StrokeShape>
+
+                            <Picker
+                                x:Name="CategoryPicker"
+                                ItemsSource="{Binding Categories}"
+                                ItemDisplayBinding="{Binding Name}"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
+                                Margin="8,0"
+                                VerticalOptions="Center"
+                                SelectedIndexChanged="CategoryPicker_SelectedIndexChanged"/>
+
+                        </Border>
+
+                        <!-- New Category -->
+                        <Label
+                            Text="New Category Name"
+                            FontSize="13"
+                            FontAttributes="Bold"
+                            Margin="0,1,0,0"/>
+
+                        <Border
+                            HeightRequest="40"
+                            Padding="8,0"
+                            BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
+                            Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
+                            StrokeThickness="1">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="6"/>
+                            </Border.StrokeShape>
+
+                            <Entry
+                                x:Name="NewCategoryEntry"
+                                Placeholder="Enter a new category name"
+                                BackgroundColor="Transparent"
+                                TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
+                                VerticalOptions="Center"
+                                TextChanged="NewCategoryEntry_TextChanged"/>
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- =================================================
+                         FIXED CATEGORY
+                         ================================================= -->
+
+                    <VerticalStackLayout
+                        x:Name="FixedCategorySection"
+                        IsVisible="False"
+                        Spacing="3">
 
                         <Label
-                            x:Name="FixedCategoryNameLabel"
-                            FontSize="15"
-                            FontAttributes="Bold"
-                            TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"/>
+                            Text="Category"
+                            FontSize="13"
+                            FontAttributes="Bold"/>
+
+                        <Border
+                            HeightRequest="50"
+                            MinimumWidthRequest="270"
+                            HorizontalOptions="Fill"
+                            Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
+                            StrokeThickness="1"
+                            BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
+                            Padding="12,0">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="6"/>
+                            </Border.StrokeShape>
+
+                            <Label
+                                x:Name="FixedCategoryNameLabel"
+                                FontSize="15"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Fill"
+                                TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"/>
+
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                    <!-- =================================================
+                         WEBSITE NAME
+                         ================================================= -->
+
+                    <Label
+                        Text="Website Name"
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        Margin="0,1,0,0"/>
+
+                    <Border
+                        HeightRequest="40"
+                        Padding="8,0"
+                        BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
+                        Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
+                        StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="6"/>
+                        </Border.StrokeShape>
+
+                        <Entry
+                            x:Name="WebsiteNameEntry"
+                            Placeholder="Website name"
+                            BackgroundColor="Transparent"
+                            TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
+                            VerticalOptions="Center"/>
 
                     </Border>
 
+                    <!-- =================================================
+                         WEBSITE URL
+                         ================================================= -->
+
+                    <Label
+                        Text="Website URL"
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        Margin="0,1,0,0"/>
+
+                    <Border
+                        HeightRequest="40"
+                        Padding="8,0"
+                        BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
+                        Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
+                        StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="6"/>
+                        </Border.StrokeShape>
+
+                        <Entry
+                            x:Name="UrlEntry"
+                            Placeholder="example.com"
+                            Keyboard="Url"
+                            BackgroundColor="Transparent"
+                            TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
+                            VerticalOptions="Center"/>
+
+                    </Border>
+
+                    <!-- =================================================
+                         CANCEL / SAVE
+                         ================================================= -->
+
+                    <HorizontalStackLayout
+                        HorizontalOptions="End"
+                        Spacing="6"
+                        Margin="0,2,0,0">
+
+                        <Button
+                            Text="Cancel"
+                            WidthRequest="86"
+                            HeightRequest="36"
+                            FontSize="13"
+                            Clicked="CancelButton_Clicked"/>
+
+                        <Button
+                            Text="Save"
+                            WidthRequest="86"
+                            HeightRequest="36"
+                            FontSize="13"
+                            BackgroundColor="#3478F6"
+                            TextColor="White"
+                            BorderWidth="0"
+                            Clicked="SaveButton_Clicked"/>
+
+                    </HorizontalStackLayout>
+
                 </VerticalStackLayout>
 
-                <!-- Website Name -->
-                <Label
-                    Text="Website Name"
-                    FontSize="14"/>
+            </Border>
 
-                <Entry
-                    x:Name="WebsiteNameEntry"
-                    Placeholder="Website name"/>
+        </VerticalStackLayout>
 
-                <!-- URL -->
-                <Label
-                    Text="Website URL"
-                    FontSize="14"/>
-
-                <Entry
-                    x:Name="UrlEntry"
-                    Placeholder="example.com"
-                    Keyboard="Url"/>
-
-                <!-- Cancel / Save -->
-                <HorizontalStackLayout
-                    HorizontalOptions="End"
-                    Spacing="10"
-                    Margin="0,8,0,0">
-
-                    <Button
-                        Text="Cancel"
-                        WidthRequest="90"
-                        Clicked="CancelButton_Clicked"/>
-
-                    <Button
-                        Text="Save"
-                        WidthRequest="90"
-                        BackgroundColor="#3478F6"
-                        TextColor="White"
-                        BorderWidth="0"
-                        Clicked="SaveButton_Clicked"/>
-
-                </HorizontalStackLayout>
-
-            </VerticalStackLayout>
-
-        </Border>
-
-    </Grid>
+    </ScrollView>
 
 </ContentPage>

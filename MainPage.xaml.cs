@@ -22,7 +22,42 @@ public partial class MainPage : ContentPage
         BindingContext = vm;
 
         CategoryListView.ChildAdded += CategoryListView_ChildAdded;
+
+#if ANDROID
+        if (Application.Current is not null)
+            Application.Current.RequestedThemeChanged += SearchCursor_RequestedThemeChanged;
+#endif
     }
+
+    // Keep the Android text insertion cursor visible in both themes.
+    // This changes only the native cursor tint, not search behavior.
+    private void SearchEntry_HandlerChanged(object? sender, EventArgs e)
+    {
+#if ANDROID
+        UpdateAndroidSearchCursor();
+#endif
+    }
+
+#if ANDROID
+    private void SearchCursor_RequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    {
+        MainThread.BeginInvokeOnMainThread(UpdateAndroidSearchCursor);
+    }
+
+    private void UpdateAndroidSearchCursor()
+    {
+        if (SearchEntry?.Handler?.PlatformView is not Android.Widget.EditText editText)
+            return;
+
+        // Android 10+ supports tinting the actual cursor drawable.
+        if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.Q)
+            return;
+
+        var dark = Application.Current?.RequestedTheme == AppTheme.Dark;
+        var color = dark ? Android.Graphics.Color.White : Android.Graphics.Color.Black;
+        editText.TextCursorDrawable?.SetTint(color);
+    }
+#endif
 
     protected override async void OnAppearing()
     {

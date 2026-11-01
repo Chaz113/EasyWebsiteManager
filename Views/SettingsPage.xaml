@@ -13,7 +13,7 @@
 
         <Border
             Grid.Row="1"
-            MaximumWidthRequest="500"
+            MaximumWidthRequest="{OnPlatform WinUI=365, Android=500, iOS=500, MacCatalyst=500}"
             HorizontalOptions="Center"
             Padding="24"
             BackgroundColor="{AppThemeBinding Light=White, Dark=#1B2940}"
@@ -54,7 +54,7 @@
     x:Name="ConfirmDeleteSwitch"
     Grid.Column="2"
     VerticalOptions="Center"/>
-                    
+
                 </Grid>
 
                 <!-- Appearance -->
@@ -82,37 +82,88 @@
     VerticalOptions="Center"/>
 
                 </Grid>
-                <Button
-    Text="Export Data"
-    HorizontalOptions="Start"
-    WidthRequest="120"
-    Clicked="ExportDataButton_Clicked"/>
-
-                <Button
-    Text="Import Data"
-    HorizontalOptions="Start"
-    WidthRequest="120"
-    Clicked="ImportDataButton_Clicked"/>
+                <!-- Data actions on the left; smaller information actions on the right. -->
                 <Grid
-    ColumnDefinitions="*,*"
-    ColumnSpacing="12">
+                    ColumnDefinitions="*,100"
+                    RowDefinitions="Auto,Auto"
+                    ColumnSpacing="12"
+                    RowSpacing="12">
 
                     <Button
-        Grid.Column="0"
-        Text="Help"
-        Clicked="HelpButton_Clicked"/>
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Export / Save"
+                        BackgroundColor="#0F8B8D"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="44"
+                        Clicked="ExportDataButton_Clicked"/>
 
                     <Button
-        Grid.Column="1"
-        Text="About"
-        Clicked="AboutButton_Clicked"/>
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="Help"
+                        BackgroundColor="#6366F1"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="40"
+                        FontSize="13"
+                        VerticalOptions="Center"
+                        Clicked="HelpButton_Clicked"/>
 
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="Import / Open"
+                        BackgroundColor="#0F8B8D"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="44"
+                        Clicked="ImportDataButton_Clicked"/>
+
+                    <Button
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="About"
+                        BackgroundColor="#6366F1"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="40"
+                        FontSize="13"
+                        VerticalOptions="Center"
+                        Clicked="AboutButton_Clicked"/>
                 </Grid>
+
+                <!-- Windows-only Microsoft Store review invitation. -->
+                <VerticalStackLayout
+                    Spacing="8"
+                    IsVisible="{OnPlatform WinUI=True, Android=False, iOS=False, MacCatalyst=False}">
+
+                    <Label
+                        Text="Please rate and write a review of Easy Website Manager in Microsoft Store."
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"/>
+
+                    <Button
+                        Text="★  Rate &amp; Review"
+                        BackgroundColor="#6366F1"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="40"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        Clicked="RateAndReviewButton_Clicked"/>
+                </VerticalStackLayout>
 
                 <Button
                     Text="Close"
                     HorizontalOptions="End"
-                    WidthRequest="90"
+                    WidthRequest="80"
+                    HeightRequest="36"
+                    FontSize="13"
+                    CornerRadius="8"
+                    BackgroundColor="#475569"
+                    TextColor="White"
                     Clicked="CloseButton_Clicked"/>
 
             </VerticalStackLayout>
