@@ -107,14 +107,55 @@ public partial class CategoryView : ContentView
                 url = "https://" + url;
             }
 
-            await Browser.Default.OpenAsync(
-                url,
-                BrowserLaunchMode.SystemPreferred);
+            if (!WebsiteUrlIsValid(url))
+            {
+                await ShowInvalidWebsiteAddressAsync();
+                return;
+            }
+
+            try
+            {
+                await Browser.Default.OpenAsync(
+                    url,
+                    BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception)
+            {
+                await ShowInvalidWebsiteAddressAsync();
+            }
         }
         finally
         {
             label.Opacity = originalOpacity;
             label.Scale = originalScale;
+        }
+    }
+
+    private static bool WebsiteUrlIsValid(string address)
+    {
+        if (!Uri.TryCreate(address, UriKind.Absolute, out var uri) ||
+            (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            return false;
+
+        var host = uri.IdnHost;
+        if (string.IsNullOrWhiteSpace(host) || !host.Contains('.') ||
+            host.StartsWith('.') || host.EndsWith('.'))
+            return false;
+
+        var labels = host.Split('.');
+        return labels.All(label => label.Length > 0 && label.Length <= 63 &&
+            label[0] != '-' && label[^1] != '-' &&
+            label.All(c => char.IsLetterOrDigit(c) || c == '-'));
+    }
+
+    private async Task ShowInvalidWebsiteAddressAsync()
+    {
+        if (Window?.Page is Page page)
+        {
+            await page.DisplayAlertAsync(
+                "Unable to Open Website",
+                "The website address is invalid or could not be opened. Please edit the URL and try again.",
+                "OK");
         }
     }
 

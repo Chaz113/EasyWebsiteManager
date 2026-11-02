@@ -52,11 +52,7 @@
 
                     <Label.Triggers>
 
-                        <!--
-                            Black and White both mean:
-                            use the normal readable color
-                            for the current appearance.
-                        -->
+                        <!-- Match the exact color selected in Edit Category. -->
                         <DataTrigger
                             TargetType="Label"
                             Binding="{Binding TextColor}"

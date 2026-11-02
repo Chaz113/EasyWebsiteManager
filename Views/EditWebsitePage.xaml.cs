@@ -1,3 +1,4 @@
+using System.Linq;
 using EasyWebsiteManager.Models;
 
 namespace EasyWebsiteManager.Views;
@@ -26,6 +27,14 @@ public partial class EditWebsitePage : ContentPage
     private bool IsDarkTheme =>
         App.Current?.RequestedTheme == AppTheme.Dark;
 
+    private void SelectThemeDefaultColor()
+    {
+        if (IsDarkTheme)
+            SelectColor(WhiteColorButton, "#FFFFFF");
+        else
+            SelectColor(BlackColorButton, "#000000");
+    }
+
     private void SelectColor(
         Button selectedButton,
         string color)
@@ -50,42 +59,26 @@ public partial class EditWebsitePage : ContentPage
 
         foreach (var button in colorButtons)
         {
-            button.BorderColor =
-                IsDarkTheme
-                    ? Colors.Gray
-                    : Colors.DarkGray;
-
+            // The checkmark, not the border, indicates selection.
+            button.Text = string.Empty;
+            button.BorderColor = IsDarkTheme ? Colors.Gray : Colors.DarkGray;
             button.BorderWidth = 1;
             button.Scale = 1.0;
         }
 
-        selectedButton.BorderColor =
-            IsDarkTheme
-                ? Colors.White
-                : Colors.Black;
-
-        selectedButton.BorderWidth = 3;
-        selectedButton.Scale = 1.10;
-    }
-
-    private void SelectDefaultTextColor()
-    {
-        /*
-         * Black and White are now the same logical setting:
-         * the normal text color for the active appearance.
-         */
-        if (IsDarkTheme)
+        // Contrast is based on the swatch, not on the application theme.
+        // White is legible on dark swatches; black on lighter swatches.
+        selectedButton.Text = "✓";
+        selectedButton.TextColor = color switch
         {
-            SelectColor(
-                WhiteColorButton,
-                "#FFFFFF");
-        }
-        else
-        {
-            SelectColor(
-                BlackColorButton,
-                "#000000");
-        }
+            "#000000" or "#0000CD" or "#FF0000" or "#4B0082"
+                or "#8F00FF" or "#008080" => Colors.White,
+            _ => Colors.Black
+        };
+        selectedButton.FontAttributes = FontAttributes.Bold;
+        selectedButton.FontSize = 20;
+        selectedButton.BorderWidth = 1;
+        selectedButton.Scale = 1.0;
     }
 
     private void HighlightCurrentColor()
@@ -102,7 +95,7 @@ public partial class EditWebsitePage : ContentPage
              */
             case "#000000":
             case "#FFFFFF":
-                SelectDefaultTextColor();
+                SelectThemeDefaultColor();
                 break;
 
             case "#0000CD":
@@ -166,7 +159,7 @@ public partial class EditWebsitePage : ContentPage
                 break;
 
             default:
-                SelectDefaultTextColor();
+                SelectThemeDefaultColor();
                 break;
         }
     }
@@ -175,18 +168,14 @@ public partial class EditWebsitePage : ContentPage
     // DEFAULT TEXT COLOR
     // ---------------------------------------------------------
 
-    private void BlackColor_Clicked(
-        object? sender,
-        EventArgs e)
+    private void BlackColor_Clicked(object? sender, EventArgs e)
     {
-        SelectDefaultTextColor();
+        SelectThemeDefaultColor();
     }
 
-    private void WhiteColor_Clicked(
-        object? sender,
-        EventArgs e)
+    private void WhiteColor_Clicked(object? sender, EventArgs e)
     {
-        SelectDefaultTextColor();
+        SelectThemeDefaultColor();
     }
 
     // ---------------------------------------------------------
@@ -273,6 +262,28 @@ public partial class EditWebsitePage : ContentPage
             SelectColor(button, "#FFD700");
     }
 
+    private static bool WebsiteUrlIsValid(string address)
+    {
+        var candidate = address.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                        address.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+            ? address
+            : "https://" + address;
+
+        if (!Uri.TryCreate(candidate, UriKind.Absolute, out var uri) ||
+            (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            return false;
+
+        var host = uri.IdnHost;
+        if (string.IsNullOrWhiteSpace(host) || !host.Contains('.') ||
+            host.StartsWith('.') || host.EndsWith('.'))
+            return false;
+
+        var labels = host.Split('.');
+        return labels.All(label => label.Length > 0 && label.Length <= 63 &&
+            label[0] != '-' && label[^1] != '-' &&
+            label.All(c => char.IsLetterOrDigit(c) || c == '-'));
+    }
+
     // ---------------------------------------------------------
     // CANCEL
     // ---------------------------------------------------------
@@ -315,6 +326,15 @@ public partial class EditWebsitePage : ContentPage
                 "Enter a website URL.",
                 "OK");
 
+            return;
+        }
+
+        if (!WebsiteUrlIsValid(url))
+        {
+            await DisplayAlertAsync(
+                "Invalid Website Address",
+                "The website address is invalid. Please correct the URL and try again.",
+                "OK");
             return;
         }
 

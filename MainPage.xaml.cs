@@ -52,6 +52,10 @@ public partial class MainPage : ContentPage
         // Android 10+ supports tinting the actual cursor drawable.
         if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.Q)
             return;
+        // Remove Android's native search-field underline.
+        editText.BackgroundTintList =
+            Android.Content.Res.ColorStateList.ValueOf(
+                Android.Graphics.Color.Transparent);
 
         var dark = Application.Current?.RequestedTheme == AppTheme.Dark;
         var color = dark ? Android.Graphics.Color.White : Android.Graphics.Color.Black;

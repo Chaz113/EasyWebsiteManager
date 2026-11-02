@@ -176,6 +176,31 @@ public partial class SettingsPage : ContentPage
                 "The Microsoft Store review page could not be opened.",
                 "OK");
         }
+#elif ANDROID
+        // Use the installed application's actual package ID, including for test builds.
+        var packageName = AppInfo.Current.PackageName;
+        var playStoreUri = new Uri($"market://details?id={Uri.EscapeDataString(packageName)}");
+        var webStoreUri = new Uri($"https://play.google.com/store/apps/details?id={Uri.EscapeDataString(packageName)}");
+
+        try
+        {
+            // Google Play app is preferred when installed.
+            await Launcher.Default.OpenAsync(playStoreUri);
+        }
+        catch (Exception)
+        {
+            try
+            {
+                await Launcher.Default.OpenAsync(webStoreUri);
+            }
+            catch (Exception)
+            {
+                await DisplayAlertAsync(
+                    "Google Play",
+                    "The Google Play page could not be opened.",
+                    "OK");
+            }
+        }
 #endif
     }
 

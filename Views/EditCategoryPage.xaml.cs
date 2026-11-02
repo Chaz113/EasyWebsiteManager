@@ -24,6 +24,25 @@ public partial class EditCategoryPage : ContentPage
         HighlightCurrentColor();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Reapply after native controls have been attached and styled.
+        Dispatcher.Dispatch(HighlightCurrentColor);
+    }
+
+    private bool IsDarkTheme =>
+        App.Current?.RequestedTheme == AppTheme.Dark;
+
+    private void SelectThemeDefaultColor()
+    {
+        if (IsDarkTheme)
+            SelectColor(WhiteColorButton, "#FFFFFF");
+        else
+            SelectColor(BlackColorButton, "#000000");
+    }
+
     private void SelectColor(
         Button selectedButton,
         string color)
@@ -48,38 +67,34 @@ public partial class EditCategoryPage : ContentPage
 
         foreach (var button in colorButtons)
         {
-            button.BorderColor =
-                App.Current?.RequestedTheme == AppTheme.Dark
-                    ? Colors.Gray
-                    : Colors.DarkGray;
-
+            button.Text = string.Empty;
+            button.BorderColor = Colors.Gray;
             button.BorderWidth = 1;
             button.Scale = 1.0;
         }
 
-        selectedButton.BorderColor =
-            App.Current?.RequestedTheme == AppTheme.Dark
-                ? Colors.White
-                : Colors.Black;
-
-        selectedButton.BorderWidth = 3;
-        selectedButton.Scale = 1.10;
+        // A checkmark inside the selected swatch is visible on both themes.
+        selectedButton.Text = "✓";
+        selectedButton.TextColor = color.ToUpperInvariant() switch
+        {
+            "#FFFFFF" or "#00FF00" or "#FFA500" or "#D3D3D3" or "#FFD700"
+                => Colors.Black,
+            _ => Colors.White
+        };
+        selectedButton.Padding = new Thickness(0);
+        selectedButton.FontSize = 20;
+        selectedButton.FontAttributes = FontAttributes.Bold;
+        selectedButton.BorderColor = Colors.Gray;
+        selectedButton.BorderWidth = 2;
     }
 
     private void HighlightCurrentColor()
     {
-        switch (_selectedTextColor.ToUpperInvariant())
+        switch ((_selectedTextColor ?? string.Empty).ToUpperInvariant())
         {
             case "#000000":
-                SelectColor(
-                    BlackColorButton,
-                    "#000000");
-                break;
-
             case "#FFFFFF":
-                SelectColor(
-                    WhiteColorButton,
-                    "#FFFFFF");
+                SelectThemeDefaultColor();
                 break;
 
             case "#0000CD":
@@ -141,6 +156,10 @@ public partial class EditCategoryPage : ContentPage
                     YellowColorButton,
                     "#FFD700");
                 break;
+
+            default:
+                SelectThemeDefaultColor();
+                break;
         }
     }
 
@@ -148,16 +167,14 @@ public partial class EditCategoryPage : ContentPage
         object? sender,
         EventArgs e)
     {
-        if (sender is Button button)
-            SelectColor(button, "#000000");
+        SelectThemeDefaultColor();
     }
 
     private void WhiteColor_Clicked(
         object? sender,
         EventArgs e)
     {
-        if (sender is Button button)
-            SelectColor(button, "#FFFFFF");
+        SelectThemeDefaultColor();
     }
 
     private void BlueColor_Clicked(

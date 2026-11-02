@@ -155,6 +155,27 @@
                         Clicked="RateAndReviewButton_Clicked"/>
                 </VerticalStackLayout>
 
+                <!-- Android-only Google Play review invitation. -->
+                <VerticalStackLayout
+                    Spacing="8"
+                    IsVisible="{OnPlatform WinUI=False, Android=True, iOS=False, MacCatalyst=False}">
+
+                    <Label
+                        Text="Please rate and write a review of Easy Website Manager in Google Play."
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"/>
+
+                    <Button
+                        Text="★  Rate &amp; Review"
+                        BackgroundColor="#6366F1"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="40"
+                        FontSize="13"
+                        HorizontalOptions="Center"
+                        Clicked="RateAndReviewButton_Clicked"/>
+                </VerticalStackLayout>
+
                 <Button
                     Text="Close"
                     HorizontalOptions="End"

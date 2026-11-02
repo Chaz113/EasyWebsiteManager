@@ -27,7 +27,51 @@ public partial class NotepadPage : ContentPage
     {
         _selectedColor = color;
         NoteCard.BackgroundColor = Color.FromArgb(color);
+
+        // A soft-pewter outline identifies the selected pastel swatch.
+        // No text or checkmark is displayed inside any color.
+        foreach (var swatch in GetColorButtons())
+        {
+            swatch.Text = string.Empty;
+            swatch.BorderWidth = 1;
+            swatch.BorderColor = Color.FromArgb("#888888");
+        }
+
+        foreach (var (swatch, swatchColor) in GetColorOptions())
+        {
+            if (!string.Equals(color, swatchColor, StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            swatch.BorderWidth = 3;
+            swatch.BorderColor = Color.FromArgb("#7A858A");
+            break;
+        }
     }
+
+
+    private Button[] GetColorButtons() =>
+    [
+        WhiteColorButton,
+        IvoryColorButton,
+        CreamyGreyColorButton,
+        MilkyOliveColorButton,
+        MilkyGrapeColorButton,
+        CreamyRoseColorButton,
+        MilkyMauveColorButton,
+        MilkyBronzeColorButton
+    ];
+
+    private (Button Button, string Color)[] GetColorOptions() =>
+    [
+        (WhiteColorButton, "#FFFFFF"),
+        (IvoryColorButton, "#F5EFE1"),
+        (CreamyGreyColorButton, "#DDDBDD"),
+        (MilkyOliveColorButton, "#C5E1B0"),
+        (MilkyGrapeColorButton, "#B8C3F6"),
+        (CreamyRoseColorButton, "#E9CACB"),
+        (MilkyMauveColorButton, "#EDD2FF"),
+        (MilkyBronzeColorButton, "#F1D1B0")
+    ];
 
     private void WhiteColor_Clicked(object? sender, EventArgs e)
         => ApplyColor("#FFFFFF");

@@ -1,5 +1,6 @@
 using EasyWebsiteManager.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EasyWebsiteManager.Views;
 
@@ -108,6 +109,28 @@ public partial class AddWebsitePage : ContentPage
         _updatingCategorySelection = false;
     }
 
+    private static bool WebsiteUrlIsValid(string address)
+    {
+        var candidate = address.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                        address.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+            ? address
+            : "https://" + address;
+
+        if (!Uri.TryCreate(candidate, UriKind.Absolute, out var uri) ||
+            (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            return false;
+
+        var host = uri.IdnHost;
+        if (string.IsNullOrWhiteSpace(host) || !host.Contains('.') ||
+            host.StartsWith('.') || host.EndsWith('.'))
+            return false;
+
+        var labels = host.Split('.');
+        return labels.All(label => label.Length > 0 && label.Length <= 63 &&
+            label[0] != '-' && label[^1] != '-' &&
+            label.All(c => char.IsLetterOrDigit(c) || c == '-'));
+    }
+
     // ---------------------------------------------------------
     // CANCEL
     // ---------------------------------------------------------
@@ -176,6 +199,15 @@ public partial class AddWebsitePage : ContentPage
                 "Enter a website URL.",
                 "OK");
 
+            return;
+        }
+
+        if (!WebsiteUrlIsValid(url))
+        {
+            await DisplayAlertAsync(
+                "Invalid Website Address",
+                "The website address is invalid. Please correct the URL and try again.",
+                "OK");
             return;
         }
 

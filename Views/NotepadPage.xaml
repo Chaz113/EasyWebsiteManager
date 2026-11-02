@@ -55,6 +55,7 @@
                     AlignItems="Start">
 
                     <Button
+                        x:Name="WhiteColorButton"
                         BackgroundColor="#FFFFFF"
                         WidthRequest="32"
                         HeightRequest="32"
@@ -65,9 +66,13 @@
                         BorderWidth="1"
                         Margin="0,0,8,8"
                         Padding="0"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="19"
                         Clicked="WhiteColor_Clicked"/>
 
                     <Button
+                        x:Name="IvoryColorButton"
                         BackgroundColor="#F5EFE1"
                         WidthRequest="32"
                         HeightRequest="32"
@@ -78,9 +83,13 @@
                         BorderWidth="1"
                         Margin="0,0,8,8"
                         Padding="0"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="19"
                         Clicked="IvoryColor_Clicked"/>
 
                     <Button
+                        x:Name="CreamyGreyColorButton"
                         BackgroundColor="#DDDBDD"
                         WidthRequest="32"
                         HeightRequest="32"
@@ -91,9 +100,13 @@
                         BorderWidth="1"
                         Margin="0,0,8,8"
                         Padding="0"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="19"
                         Clicked="CreamyGreyColor_Clicked"/>
 
                     <Button
+                        x:Name="MilkyOliveColorButton"
                         BackgroundColor="#C5E1B0"
                         WidthRequest="32"
                         HeightRequest="32"
@@ -104,9 +117,13 @@
                         BorderWidth="1"
                         Margin="0,0,8,8"
                         Padding="0"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="19"
                         Clicked="MilkyOliveColor_Clicked"/>
 
                     <Button
+                        x:Name="MilkyGrapeColorButton"
                         BackgroundColor="#B8C3F6"
                         WidthRequest="32"
                         HeightRequest="32"
@@ -117,9 +134,13 @@
                         BorderWidth="1"
                         Margin="0,0,8,8"
                         Padding="0"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="19"
                         Clicked="MilkyGrapeColor_Clicked"/>
 
                     <Button
+                        x:Name="CreamyRoseColorButton"
                         BackgroundColor="#E9CACB"
                         WidthRequest="32"
                         HeightRequest="32"
@@ -130,9 +151,13 @@
                         BorderWidth="1"
                         Margin="0,0,8,8"
                         Padding="0"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="19"
                         Clicked="CreamyRoseColor_Clicked"/>
 
                     <Button
+                        x:Name="MilkyMauveColorButton"
                         BackgroundColor="#EDD2FF"
                         WidthRequest="32"
                         HeightRequest="32"
@@ -143,9 +168,13 @@
                         BorderWidth="1"
                         Margin="0,0,8,8"
                         Padding="0"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="19"
                         Clicked="MilkyMauveColor_Clicked"/>
 
                     <Button
+                        x:Name="MilkyBronzeColorButton"
                         BackgroundColor="#F1D1B0"
                         WidthRequest="32"
                         HeightRequest="32"
@@ -156,6 +185,9 @@
                         BorderWidth="1"
                         Margin="0,0,8,8"
                         Padding="0"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="19"
                         Clicked="MilkyBronzeColor_Clicked"/>
 
                 </FlexLayout>
