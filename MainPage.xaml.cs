@@ -14,6 +14,96 @@ public partial class MainPage : ContentPage
     private CancellationTokenSource? _undoCancellation;
     private bool _dataLoaded;
 
+#if WINDOWS
+    // Keep a surviving category at the same physical screen position.
+    // This is deliberately Windows-only; Android is not involved.
+    private sealed record WindowsScrollAnchor(Guid CategoryId, double ScreenY);
+
+    private Microsoft.UI.Xaml.Controls.ListViewBase? GetWindowsCategoryList()
+        => CategoryListView.Handler?.PlatformView as Microsoft.UI.Xaml.Controls.ListViewBase;
+
+    private static T? FindWindowsDescendant<T>(Microsoft.UI.Xaml.DependencyObject root)
+        where T : Microsoft.UI.Xaml.DependencyObject
+    {
+        if (root is T matching) return matching;
+        for (int i = 0; i < Microsoft.UI.Xaml.Media.VisualTreeHelper.GetChildrenCount(root); i++)
+        {
+            var found = FindWindowsDescendant<T>(
+                Microsoft.UI.Xaml.Media.VisualTreeHelper.GetChild(root, i));
+            if (found != null) return found;
+        }
+        return null;
+    }
+
+    private WindowsScrollAnchor? CaptureWindowsAnchor(WebsiteCategory changedCategory)
+    {
+        if (BindingContext is not MainViewModel vm) return null;
+        var list = GetWindowsCategoryList();
+        if (list == null) return null;
+        var scroller = FindWindowsDescendant<Microsoft.UI.Xaml.Controls.ScrollViewer>(list);
+        if (scroller == null) return null;
+
+        // Prefer the first visible category that will SURVIVE the deletion.
+        // ContainerFromIndex only returns realized (on-screen) items.
+        WindowsScrollAnchor? best = null;
+        double bestY = double.MaxValue;
+        for (int i = 0; i < vm.FilteredCategories.Count; i++)
+        {
+            var category = vm.FilteredCategories[i];
+            if (category.Id == changedCategory.Id) continue;
+            if (list.ContainerFromIndex(i) is not Microsoft.UI.Xaml.FrameworkElement container)
+                continue;
+            var y = container.TransformToVisual(scroller)
+                .TransformPoint(new Windows.Foundation.Point(0, 0)).Y;
+            if (y + container.ActualHeight <= 0 || y >= scroller.ViewportHeight)
+                continue;
+            if (y < bestY)
+            {
+                bestY = y;
+                best = new WindowsScrollAnchor(category.Id, y);
+            }
+        }
+        return best;
+    }
+
+    private void RestoreWindowsAnchor(WindowsScrollAnchor? anchor)
+    {
+        if (anchor == null) return;
+        // Wait for native CollectionView layout to process the removal/insertion.
+        CategoryListView.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(80), () =>
+        {
+            if (BindingContext is not MainViewModel vm) return;
+            var list = GetWindowsCategoryList();
+            if (list == null) return;
+            var scroller = FindWindowsDescendant<Microsoft.UI.Xaml.Controls.ScrollViewer>(list);
+            if (scroller == null) return;
+            var index = vm.FilteredCategories.ToList().FindIndex(c => c.Id == anchor.CategoryId);
+            if (index < 0) return;
+
+            // A reset can unrealize the anchor. Bring it into view first, then
+            // restore its precise vertical position in the following layout pass.
+            if (list.ContainerFromIndex(index) is not Microsoft.UI.Xaml.FrameworkElement)
+                list.ScrollIntoView(vm.FilteredCategories[index]);
+
+            CategoryListView.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(80), () =>
+            {
+                var currentList = GetWindowsCategoryList();
+                if (currentList == null) return;
+                var currentScroller = FindWindowsDescendant<Microsoft.UI.Xaml.Controls.ScrollViewer>(currentList);
+                if (currentScroller == null) return;
+                var currentIndex = vm.FilteredCategories.ToList().FindIndex(c => c.Id == anchor.CategoryId);
+                if (currentIndex < 0 || currentList.ContainerFromIndex(currentIndex) is not Microsoft.UI.Xaml.FrameworkElement container)
+                    return;
+                var currentY = container.TransformToVisual(currentScroller)
+                    .TransformPoint(new Windows.Foundation.Point(0, 0)).Y;
+                var desiredOffset = Math.Clamp(currentScroller.VerticalOffset + currentY - anchor.ScreenY,
+                    0, currentScroller.ScrollableHeight);
+                currentScroller.ChangeView(null, desiredOffset, null, true);
+            });
+        });
+    }
+#endif
+
     public MainPage()
     {
         InitializeComponent();
@@ -451,14 +541,44 @@ public partial class MainPage : ContentPage
         if (BindingContext is not MainViewModel vm)
             return;
 
+        // Remember the category name and its displayed position before editing.
+        // A colour-only edit must not rebuild the CollectionView's ItemsSource.
+        var originalName = category.Name;
+#if WINDOWS
+        var originalDisplayIndex = vm.FilteredCategories.IndexOf(category);
+        if (originalDisplayIndex < 0)
+            originalDisplayIndex = vm.FilteredCategories
+                .ToList().FindIndex(c => c.Id == category.Id);
+#endif
+
         var editPage =
             new EditCategoryPage(category);
 
         editPage.CategoryUpdated +=
             async updatedCategory =>
             {
-                vm.ResortCategories();
+                if (!string.Equals(originalName, updatedCategory.Name,
+                        StringComparison.Ordinal))
+                {
+                    // Renamed categories must remain alphabetically sorted.
+                    vm.ResortCategories();
 
+#if WINDOWS
+                    // ResortCategories currently rebuilds the displayed list.
+                    // Return to the prior viewport rather than the first item.
+                    if (originalDisplayIndex >= 0 && vm.FilteredCategories.Count > 0)
+                    {
+                        var restoreIndex = Math.Min(originalDisplayIndex,
+                            vm.FilteredCategories.Count - 1);
+                        CategoryListView.Dispatcher.Dispatch(() =>
+                            CategoryListView.ScrollTo(restoreIndex,
+                                position: ScrollToPosition.Start, animate: false));
+                    }
+#endif
+                }
+
+                // A colour-only edit updates the observable model directly;
+                // no collection rebuild or scroll reset is necessary.
                 await SaveCurrentDataAsync();
             };
 
@@ -513,8 +633,14 @@ public partial class MainPage : ContentPage
                 return;
         }
 
+#if WINDOWS
+        var scrollAnchor = CaptureWindowsAnchor(category);
+#endif
         if (!vm.DeleteCategory(category))
             return;
+#if WINDOWS
+        RestoreWindowsAnchor(scrollAnchor);
+#endif
 
         _deletedWholeCategory = category;
 
@@ -544,9 +670,15 @@ public partial class MainPage : ContentPage
         {
             if (BindingContext is MainViewModel vm)
             {
+#if WINDOWS
+                // Use a surviving visible category as the reference for Undo too.
+                var scrollAnchor = CaptureWindowsAnchor(_deletedWholeCategory);
+#endif
                 vm.RestoreCategory(
                     _deletedWholeCategory);
-
+#if WINDOWS
+                RestoreWindowsAnchor(scrollAnchor);
+#endif
                 await SaveCurrentDataAsync();
             }
 

@@ -26,6 +26,7 @@
                  ===================================================== -->
 
             <Grid
+                x:Name="CategoryHeaderGrid"
                 Grid.Row="0"
                 ColumnDefinitions="*,Auto,Auto,Auto"
                 ColumnSpacing="{OnPlatform WinUI=2,
@@ -43,6 +44,7 @@
 
                 <!-- Category Name -->
                 <Label
+                    x:Name="CategoryNameLabel"
                     Grid.Column="0"
                     Text="{Binding Name}"
                     TextColor="{AppThemeBinding Light=Black, Dark=White}"
@@ -215,6 +217,7 @@
 
                 <!-- Expand / Collapse -->
                 <Image
+                    x:Name="CategoryChevron"
                     Grid.Column="3"
                     Source="{AppThemeBinding Light=chevron_light.png, Dark=chevron_dark.png}"
                     WidthRequest="{OnPlatform WinUI=18,

@@ -108,29 +108,60 @@ public class MainViewModel
         ApplySearch();
     }
 
-    public bool DeleteCategory(
-        WebsiteCategory category)
+    public bool DeleteCategory(WebsiteCategory category)
     {
-        var removed =
-            Categories.Remove(category);
+        var original = Categories.FirstOrDefault(c =>
+            ReferenceEquals(c, category) || c.Id == category.Id);
+        if (original == null || !Categories.Remove(original))
+            return false;
 
-        if (removed)
+#if WINDOWS
+        // An individual Remove keeps the CollectionView's viewport intact.
+        // Do not reset the entire list during ordinary category deletion.
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            var displayed = FilteredCategories.FirstOrDefault(c => c.Id == original.Id);
+            if (displayed != null)
+                FilteredCategories.Remove(displayed);
+        }
+        else
         {
             ApplySearch();
         }
-
-        return removed;
+#else
+        ApplySearch();
+#endif
+        return true;
     }
 
-    public void RestoreCategory(
-        WebsiteCategory category)
+    public void RestoreCategory(WebsiteCategory category)
     {
-        if (Categories.Contains(category))
+        if (Categories.Any(c => c.Id == category.Id))
             return;
 
-        Categories.Add(category);
+#if WINDOWS
+        // Insert the one restored item at its sorted position, avoiding a
+        // Clear/Add reset of every category and its displayed controls.
+        var categoryIndex = Categories.TakeWhile(c =>
+            string.Compare(c.Name, category.Name,
+                StringComparison.CurrentCultureIgnoreCase) <= 0).Count();
+        Categories.Insert(categoryIndex, category);
 
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            var visibleIndex = FilteredCategories.TakeWhile(c =>
+                string.Compare(c.Name, category.Name,
+                    StringComparison.CurrentCultureIgnoreCase) <= 0).Count();
+            FilteredCategories.Insert(visibleIndex, category);
+        }
+        else
+        {
+            ApplySearch();
+        }
+#else
+        Categories.Add(category);
         ResortCategories();
+#endif
     }
 
     public void ResortCategories()

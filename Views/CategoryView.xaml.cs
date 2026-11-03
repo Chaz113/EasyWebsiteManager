@@ -30,7 +30,26 @@ public partial class CategoryView : ContentView
     public CategoryView()
     {
         InitializeComponent();
+
+#if WINDOWS
+        // On Windows, the header-level gesture can also react to clicks on
+        // its child ImageButtons. Limit expand/collapse to the name and chevron.
+        // Android and other platforms retain their original header gesture.
+        CategoryHeaderGrid.GestureRecognizers.Clear();
+        CategoryNameLabel.GestureRecognizers.Add(
+            new TapGestureRecognizer { Command = new Command(ToggleCategoryExpansion) });
+        CategoryChevron.GestureRecognizers.Add(
+            new TapGestureRecognizer { Command = new Command(ToggleCategoryExpansion) });
+#endif
     }
+
+#if WINDOWS
+    private void ToggleCategoryExpansion()
+    {
+        if (BindingContext is WebsiteCategory category)
+            category.IsExpanded = !category.IsExpanded;
+    }
+#endif
 
     // ---------------------------------------------------------
     // TAP / CLICK FEEDBACK

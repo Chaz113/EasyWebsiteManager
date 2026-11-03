@@ -3,9 +3,9 @@
 public partial class App : Application
 {
 #if WINDOWS
-    private const double DefaultWidth = 560;
+    private const double DefaultWidth = 480;
     private const double DefaultHeight = 760;
-    private const double MinimumWidth = 520;
+    private const double MinimumWidth = 420;
     private const double MinimumHeight = 550;
 #else
     private const double DefaultWidth = 760;
@@ -39,8 +39,8 @@ public partial class App : Application
         IActivationState? activationState)
     {
 #if WINDOWS
-        // Apply the new Windows default size once. Later user resizing is remembered.
-        const string layoutVersionKey = "WindowsCompactLayoutV2Applied";
+        // Apply the compact Windows default once; subsequent user resizing is remembered.
+        const string layoutVersionKey = "WindowsCompactLayoutV3Applied";
         if (!Preferences.Default.Get(layoutVersionKey, false))
         {
             Preferences.Default.Set("WindowWidth", DefaultWidth);
