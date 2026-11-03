@@ -7,6 +7,7 @@ namespace EasyWebsiteManager.Views;
 public partial class AddWebsitePage : ContentPage
 {
     private bool _updatingCategorySelection;
+    private WebsiteCategory? _selectedCategory;
 
     private readonly WebsiteCategory? _fixedCategory;
 
@@ -57,6 +58,16 @@ public partial class AddWebsitePage : ContentPage
         }
     }
 
+    private static Color GetPlaceholderColor() =>
+        Application.Current?.RequestedTheme == AppTheme.Dark
+            ? Color.FromArgb("#858585")
+            : Color.FromArgb("#C4C4C4");
+
+    private static Color GetSelectedTextColor() =>
+        Application.Current?.RequestedTheme == AppTheme.Dark
+            ? Color.FromArgb("#F0F0F0")
+            : Color.FromArgb("#222222");
+
     // ---------------------------------------------------------
     // NEW CATEGORY
     // ---------------------------------------------------------
@@ -76,7 +87,10 @@ public partial class AddWebsitePage : ContentPage
 
         _updatingCategorySelection = true;
 
-        CategoryPicker.SelectedItem = null;
+        _selectedCategory = null;
+        SelectedCategoryLabel.Text = "Select";
+        SelectedCategoryLabel.TextColor = GetPlaceholderColor();
+        CategoryDropdownList.IsVisible = false;
 
         _updatingCategorySelection = false;
     }
@@ -85,28 +99,36 @@ public partial class AddWebsitePage : ContentPage
     // EXISTING CATEGORY
     // ---------------------------------------------------------
 
-    private void CategoryPicker_SelectedIndexChanged(
-        object? sender,
-        EventArgs e)
+    private void CategoryDropdown_Tapped(object? sender, TappedEventArgs e)
     {
-        if (_updatingCategorySelection)
-            return;
-
         if (_fixedCategory != null)
             return;
 
-        if (CategoryPicker.SelectedItem == null)
+        CategoryDropdownList.IsVisible = !CategoryDropdownList.IsVisible;
+    }
+
+    private void CategoryOption_Tapped(object? sender, TappedEventArgs e)
+    {
+        if (_updatingCategorySelection || _fixedCategory != null)
             return;
 
-        if (string.IsNullOrWhiteSpace(NewCategoryEntry.Text))
+        if (sender is not BindableObject option ||
+            option.BindingContext is not WebsiteCategory category)
             return;
 
         _updatingCategorySelection = true;
-
-        NewCategoryEntry.Text =
-            string.Empty;
-
-        _updatingCategorySelection = false;
+        try
+        {
+            _selectedCategory = category;
+            SelectedCategoryLabel.Text = category.Name;
+            SelectedCategoryLabel.TextColor = GetSelectedTextColor();
+            NewCategoryEntry.Text = string.Empty;
+            CategoryDropdownList.IsVisible = false;
+        }
+        finally
+        {
+            _updatingCategorySelection = false;
+        }
     }
 
     private static bool WebsiteUrlIsValid(string address)
@@ -156,9 +178,7 @@ public partial class AddWebsitePage : ContentPage
 
         if (_fixedCategory == null)
         {
-            selectedCategory =
-                CategoryPicker.SelectedItem
-                    as WebsiteCategory;
+            selectedCategory = _selectedCategory;
 
             newCategoryName =
                 NewCategoryEntry.Text?.Trim();

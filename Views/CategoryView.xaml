@@ -150,57 +150,57 @@
                 </Label>
 
                 <!-- Category Edit -->
-                <Button
+                <ImageButton
                     Grid.Column="1"
-                    ImageSource="{AppThemeBinding Light=edit_light.png, Dark=edit_dark.png}"
+                    Source="{AppThemeBinding Light=edit_light.png, Dark=edit_dark.png}"
                     BackgroundColor="Transparent"
                     WidthRequest="{OnPlatform WinUI=28,
-                                              Android=44,
+                                              Android=32,
                                               iOS=44,
                                               MacCatalyst=34}"
                     HeightRequest="{OnPlatform WinUI=28,
-                                               Android=44,
+                                               Android=32,
                                                iOS=44,
                                                MacCatalyst=34}"
                     MinimumHeightRequest="{OnPlatform WinUI=0}"
                     Padding="{OnPlatform WinUI=3,
-                                         Android=14,
+                                         Android=6,
                                          iOS=14,
                                          MacCatalyst=9}"
                     Opacity="0.82"
                     Clicked="EditCategory_Clicked"/>
 
                 <!-- Category Delete -->
-                <Button
+                <ImageButton
                     Grid.Column="2"
-                    ImageSource="{AppThemeBinding Light=delete_light.png, Dark=delete_dark.png}"
+                    Source="{AppThemeBinding Light=delete_light.png, Dark=delete_dark.png}"
                     BackgroundColor="Transparent"
                     WidthRequest="{OnPlatform WinUI=28,
-                                              Android=44,
+                                              Android=32,
                                               iOS=44,
                                               MacCatalyst=34}"
                     HeightRequest="{OnPlatform WinUI=28,
-                                               Android=44,
+                                               Android=32,
                                                iOS=44,
                                                MacCatalyst=34}"
                     MinimumHeightRequest="{OnPlatform WinUI=0}"
                     Padding="{OnPlatform WinUI=3,
-                                         Android=14,
+                                         Android=6,
                                          iOS=14,
                                          MacCatalyst=9}"
                     Opacity="0.82"
                     Clicked="DeleteCategory_Clicked">
 
-                    <Button.Triggers>
+                    <ImageButton.Triggers>
 
                         <DataTrigger
-                            TargetType="Button"
+                            TargetType="ImageButton"
                             Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
                                               Path=Settings.ConfirmDelete}"
                             Value="False">
 
                             <Setter
-                                Property="ImageSource"
+                                Property="Source"
                                 Value="delete_red.png"/>
 
                             <Setter
@@ -209,9 +209,9 @@
 
                         </DataTrigger>
 
-                    </Button.Triggers>
+                    </ImageButton.Triggers>
 
-                </Button>
+                </ImageButton>
 
                 <!-- Expand / Collapse -->
                 <Image
@@ -418,6 +418,7 @@
                                 <!-- Website Actions -->
                                 <HorizontalStackLayout
                                     Grid.Column="1"
+                                    Margin="0,0,10,0"
                                     Spacing="{OnPlatform WinUI=2,
                                                          Android=3,
                                                          iOS=3,
@@ -425,54 +426,54 @@
                                     VerticalOptions="Center">
 
                                     <!-- Website Edit -->
-                                    <Button
-                                        ImageSource="{AppThemeBinding Light=edit_light.png, Dark=edit_dark.png}"
+                                    <ImageButton
+                                        Source="{AppThemeBinding Light=edit_light.png, Dark=edit_dark.png}"
                                         BackgroundColor="Transparent"
                                         WidthRequest="{OnPlatform WinUI=30,
-                                                                  Android=42,
+                                                                  Android=32,
                                                                   iOS=42,
                                                                   MacCatalyst=30}"
                                         HeightRequest="{OnPlatform WinUI=30,
-                                                                   Android=42,
+                                                                   Android=32,
                                                                    iOS=42,
                                                                    MacCatalyst=30}"
                                         MinimumHeightRequest="{OnPlatform WinUI=0}"
                                         Padding="{OnPlatform WinUI=3,
-                                                             Android=13,
+                                                             Android=6,
                                                              iOS=13,
                                                              MacCatalyst=8}"
                                         Opacity="0.82"
                                         Clicked="EditWebsite_Clicked"/>
 
                                     <!-- Notepad -->
-                                    <Button
-                                        ImageSource="{AppThemeBinding Light=note_light.png, Dark=note_dark.png}"
+                                    <ImageButton
+                                        Source="{AppThemeBinding Light=note_light.png, Dark=note_dark.png}"
                                         BackgroundColor="Transparent"
                                         WidthRequest="{OnPlatform WinUI=30,
-                                                                  Android=42,
+                                                                  Android=32,
                                                                   iOS=42,
                                                                   MacCatalyst=30}"
                                         HeightRequest="{OnPlatform WinUI=30,
-                                                                   Android=42,
+                                                                   Android=32,
                                                                    iOS=42,
                                                                    MacCatalyst=30}"
                                         MinimumHeightRequest="{OnPlatform WinUI=0}"
                                         Padding="{OnPlatform WinUI=3,
-                                                             Android=13,
+                                                             Android=6,
                                                              iOS=13,
                                                              MacCatalyst=8}"
                                         Opacity="0.82"
                                         Clicked="NotepadButton_Clicked">
 
-                                        <Button.Triggers>
+                                        <ImageButton.Triggers>
 
                                             <DataTrigger
-                                                TargetType="Button"
+                                                TargetType="ImageButton"
                                                 Binding="{Binding Note.HasNote}"
                                                 Value="True">
 
                                                 <Setter
-                                                    Property="ImageSource"
+                                                    Property="Source"
                                                     Value="note_yellow.png"/>
 
                                                 <Setter
@@ -481,25 +482,25 @@
 
                                             </DataTrigger>
 
-                                        </Button.Triggers>
+                                        </ImageButton.Triggers>
 
-                                    </Button>
+                                    </ImageButton>
 
                                     <!-- Website Delete -->
-                                    <Button
-                                        ImageSource="{AppThemeBinding Light=delete_light.png, Dark=delete_dark.png}"
+                                    <ImageButton
+                                        Source="{AppThemeBinding Light=delete_light.png, Dark=delete_dark.png}"
                                         BackgroundColor="Transparent"
                                         WidthRequest="{OnPlatform WinUI=30,
-                                                                  Android=42,
+                                                                  Android=32,
                                                                   iOS=42,
                                                                   MacCatalyst=30}"
                                         HeightRequest="{OnPlatform WinUI=30,
-                                                                   Android=42,
+                                                                   Android=32,
                                                                    iOS=42,
                                                                    MacCatalyst=30}"
                                         MinimumHeightRequest="{OnPlatform WinUI=0}"
                                         Padding="{OnPlatform WinUI=3,
-                                                             Android=13,
+                                                             Android=6,
                                                              iOS=13,
                                                              MacCatalyst=8}"
                                         Margin="{OnPlatform WinUI='1,0,0,0',
@@ -509,16 +510,16 @@
                                         Opacity="0.82"
                                         Clicked="DeleteWebsite_Clicked">
 
-                                        <Button.Triggers>
+                                        <ImageButton.Triggers>
 
                                             <DataTrigger
-                                                TargetType="Button"
+                                                TargetType="ImageButton"
                                                 Binding="{Binding Source={RelativeSource AncestorType={x:Type ContentView}},
                                                                   Path=Settings.ConfirmDelete}"
                                                 Value="False">
 
                                                 <Setter
-                                                    Property="ImageSource"
+                                                    Property="Source"
                                                     Value="delete_red.png"/>
 
                                                 <Setter
@@ -527,9 +528,9 @@
 
                                             </DataTrigger>
 
-                                        </Button.Triggers>
+                                        </ImageButton.Triggers>
 
-                                    </Button>
+                                    </ImageButton>
 
                                 </HorizontalStackLayout>
 

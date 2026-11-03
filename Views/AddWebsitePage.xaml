@@ -50,27 +50,65 @@
                             FontSize="13"
                             FontAttributes="Bold"/>
 
+                        <!-- Cross-platform inline dropdown: no native radio-button dialog -->
                         <Border
                             HeightRequest="44"
                             Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
                             StrokeThickness="1"
                             BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
-                            Padding="0">
-
+                            Padding="10,0">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="6"/>
                             </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="CategoryDropdown_Tapped"/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <Label
+                                    x:Name="SelectedCategoryLabel"
+                                    Text="Select"
+                                    TextColor="{AppThemeBinding Light=#C4C4C4, Dark=#858585}"
+                                    VerticalOptions="Center"
+                                    InputTransparent="True"/>
+                                <Label
+                                    Grid.Column="1"
+                                    Text="▼"
+                                    FontSize="12"
+                                    TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
+                                    VerticalOptions="Center"
+                                    InputTransparent="True"/>
+                            </Grid>
+                        </Border>
 
-                            <Picker
-                                x:Name="CategoryPicker"
+                        <Border
+                            x:Name="CategoryDropdownList"
+                            IsVisible="False"
+                            Stroke="{AppThemeBinding Light=#B8B8B8, Dark=#41628F}"
+                            StrokeThickness="1"
+                            BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#142033}"
+                            Padding="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="6"/>
+                            </Border.StrokeShape>
+                            <CollectionView
+                                x:Name="CategoryOptions"
                                 ItemsSource="{Binding Categories}"
-                                ItemDisplayBinding="{Binding Name}"
-                                BackgroundColor="Transparent"
-                                TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
-                                Margin="8,0"
-                                VerticalOptions="Center"
-                                SelectedIndexChanged="CategoryPicker_SelectedIndexChanged"/>
-
+                                SelectionMode="None"
+                                HeightRequest="180">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="12,10" MinimumHeightRequest="42">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="CategoryOption_Tapped"/>
+                                            </Grid.GestureRecognizers>
+                                            <Label
+                                                Text="{Binding Name}"
+                                                TextColor="{AppThemeBinding Light=#222222, Dark=#F0F0F0}"
+                                                VerticalOptions="Center"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </Border>
 
                         <!-- New Category -->

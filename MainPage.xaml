@@ -109,15 +109,17 @@
 
         </CollectionView>
 
-        <!-- Undo Delete Banner -->
+        <!-- Compact, left-aligned Undo notification on Android; Windows unchanged -->
         <Border
             x:Name="UndoBanner"
             Grid.RowSpan="2"
             IsVisible="False"
-            HorizontalOptions="Center"
-            VerticalOptions="End"
-            Margin="0,0,0,90"
-            Padding="14,10"
+            HorizontalOptions="{OnPlatform Android=Start, WinUI=Center, iOS=Center, MacCatalyst=Center}"
+            VerticalOptions="Center"
+            WidthRequest="{OnPlatform Android=150, WinUI=240, iOS=240, MacCatalyst=240}"
+            MaximumWidthRequest="300"
+            Margin="{OnPlatform Android=4, WinUI='12,0', iOS='12,0', MacCatalyst='12,0'}"
+            Padding="{OnPlatform Android='8,8', WinUI='16,14', iOS='16,14', MacCatalyst='16,14'}"
             BackgroundColor="{AppThemeBinding Light=#F2F2F2, Dark=#2B2B2B}"
             Stroke="{AppThemeBinding Light=#D0D0D0, Dark=#4A4A4A}"
             StrokeThickness="1"
@@ -127,21 +129,27 @@
                 <RoundRectangle CornerRadius="10"/>
             </Border.StrokeShape>
 
-            <HorizontalStackLayout Spacing="14">
-
+            <VerticalStackLayout Spacing="{OnPlatform Android=5, WinUI=10, iOS=10, MacCatalyst=10}" HorizontalOptions="Center">
                 <Label
                     x:Name="UndoMessageLabel"
                     Text="Website deleted"
-                    VerticalOptions="Center"/>
-
+                    HorizontalTextAlignment="Center"
+                    HorizontalOptions="Center"
+                    LineBreakMode="WordWrap"
+                    MaxLines="2"
+                    FontSize="{OnPlatform Android=12, WinUI=14, iOS=14, MacCatalyst=14}"
+                    TextColor="{AppThemeBinding Light=#202020, Dark=#FFFFFF}"/>
                 <Button
                     Text="Undo"
-                    BackgroundColor="Transparent"
-                    TextColor="#3478F6"
-                    Padding="8,0"
+                    BackgroundColor="{OnPlatform Android=#FF8C00, WinUI=#FF8C00, iOS=#3478F6, MacCatalyst=#3478F6}"
+                    TextColor="{OnPlatform Android=#202020, WinUI=#202020, iOS=White, MacCatalyst=White}"
+                    CornerRadius="8"
+                    Padding="{OnPlatform Android='8,4', WinUI='20,8', iOS='20,8', MacCatalyst='20,8'}"
+                    MinimumWidthRequest="{OnPlatform Android=70, WinUI=100, iOS=100, MacCatalyst=100}"
+                    FontSize="{OnPlatform Android=12, WinUI=14, iOS=14, MacCatalyst=14}"
+                    HorizontalOptions="Center"
                     Clicked="UndoDelete_Clicked"/>
-
-            </HorizontalStackLayout>
+            </VerticalStackLayout>
 
         </Border>
 

@@ -327,35 +327,97 @@ public partial class MainPage : ContentPage
         WebsiteCategory category,
         WebsiteItem website)
     {
+        try
+        {
+            // Search results can use a temporary category. Always remove
+            // from the original category held by the ViewModel.
+            if (BindingContext is not MainViewModel vm)
+                return;
+
+            var originalCategory = vm.Categories.FirstOrDefault(c =>
+                ReferenceEquals(c, category) || c.Id == category.Id);
+            if (originalCategory == null)
+                return;
+
+            if (!originalCategory.Websites.Contains(website))
+            {
+                // Already removed from the original collection by CategoryView.
+            }
+            else
+            {
+                originalCategory.Websites.Remove(website);
+            }
+
+            category = originalCategory;
+            await SaveCurrentDataAsync();
+
+            // Refresh any temporary search-result categories.
+            if (!string.IsNullOrWhiteSpace(vm.SearchText))
+            {
+                var search = vm.SearchText;
+                vm.SearchText = string.Empty;
+                vm.SearchText = search;
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Website deletion save failed: {ex}");
+            // Restore the item in memory if persistence failed.
+            if (!category.Websites.Contains(website))
+            {
+                var insertAt = category.Websites.Count(item =>
+                    string.Compare(item.Name, website.Name,
+                        StringComparison.CurrentCultureIgnoreCase) <= 0);
+                category.Websites.Insert(insertAt, website);
+            }
+
+            await DisplayAlertAsync("Delete Failed",
+                "The deletion could not be saved. The website has been restored.",
+                "OK");
+            return;
+        }
+
         _deletedCategory = category;
         _deletedWebsite = website;
         _deletedWholeCategory = null;
-
-        await SaveCurrentDataAsync();
-
-        UndoMessageLabel.Text =
-            $"{website.Name} deleted";
-
+        UndoMessageLabel.Text = "Website deleted";
         UndoBanner.IsVisible = true;
+        StartUndoCountdown();
+    }
 
+    private void StartUndoCountdown()
+    {
         _undoCancellation?.Cancel();
+        _undoCancellation?.Dispose();
+        var cancellation = new CancellationTokenSource();
+        _undoCancellation = cancellation;
+        _ = ExpireUndoAsync(cancellation);
+    }
 
-        _undoCancellation =
-            new CancellationTokenSource();
-
+    private async Task ExpireUndoAsync(CancellationTokenSource cancellation)
+    {
         try
         {
-            await Task.Delay(
-                TimeSpan.FromSeconds(5),
-                _undoCancellation.Token);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellation.Token);
+            if (!ReferenceEquals(_undoCancellation, cancellation))
+                return;
 
             UndoBanner.IsVisible = false;
-
             _deletedCategory = null;
             _deletedWebsite = null;
+            _deletedWholeCategory = null;
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
+            // A newer deletion or Undo replaced this countdown.
+        }
+        finally
+        {
+            if (ReferenceEquals(_undoCancellation, cancellation))
+            {
+                _undoCancellation = null;
+                cancellation.Dispose();
+            }
         }
     }
 
@@ -461,29 +523,11 @@ public partial class MainPage : ContentPage
 
         await SaveCurrentDataAsync();
 
-        UndoMessageLabel.Text =
-            $"{category.Name} category deleted";
+        UndoMessageLabel.Text = "Category deleted";
 
         UndoBanner.IsVisible = true;
 
-        _undoCancellation?.Cancel();
-
-        _undoCancellation =
-            new CancellationTokenSource();
-
-        try
-        {
-            await Task.Delay(
-                TimeSpan.FromSeconds(5),
-                _undoCancellation.Token);
-
-            UndoBanner.IsVisible = false;
-
-            _deletedWholeCategory = null;
-        }
-        catch (TaskCanceledException)
-        {
-        }
+        StartUndoCountdown();
     }
 
     // ---------------------------------------------------------
@@ -519,20 +563,13 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        _deletedCategory.Websites.Add(
-            _deletedWebsite);
-
-        var sorted =
-            _deletedCategory.Websites
-                .OrderBy(w => w.Name)
-                .ToList();
-
-        _deletedCategory.Websites.Clear();
-
-        foreach (var website in sorted)
+        // Restore one item without clearing/recreating bound Android buttons.
+        if (!_deletedCategory.Websites.Contains(_deletedWebsite))
         {
-            _deletedCategory.Websites.Add(
-                website);
+            var insertAt = _deletedCategory.Websites.Count(item =>
+                string.Compare(item.Name, _deletedWebsite.Name,
+                    StringComparison.CurrentCultureIgnoreCase) <= 0);
+            _deletedCategory.Websites.Insert(insertAt, _deletedWebsite);
         }
 
         await SaveCurrentDataAsync();

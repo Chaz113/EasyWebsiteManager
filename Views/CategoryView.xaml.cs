@@ -25,6 +25,8 @@ public partial class CategoryView : ContentView
     public event Action<WebsiteCategory>? CategoryEditRequested;
     public event Action<WebsiteCategory>? CategoryDeleteRequested;
 
+    private bool _websiteDeleteInProgress;
+
     public CategoryView()
     {
         InitializeComponent();
@@ -163,11 +165,12 @@ public partial class CategoryView : ContentView
     // EDIT WEBSITE
     // ---------------------------------------------------------
 
+
     private async void EditWebsite_Clicked(
         object? sender,
         EventArgs e)
     {
-        if (sender is not Button button)
+        if (sender is not ImageButton button)
             return;
 
         await ShowTapFeedback(button);
@@ -175,29 +178,21 @@ public partial class CategoryView : ContentView
         if (button.BindingContext is not WebsiteItem website)
             return;
 
-        if (BindingContext is not WebsiteCategory category)
+        if (BindingContext is not WebsiteCategory)
             return;
 
         var editPage = new EditWebsitePage(website);
 
         editPage.WebsiteUpdated += updatedWebsite =>
         {
-            var sortedWebsites = category.Websites
-                .OrderBy(w => w.Name)
-                .ToList();
-
-            category.Websites.Clear();
-
-            foreach (var item in sortedWebsites)
-            {
-                category.Websites.Add(item);
-            }
-
+            // Do not clear or rebuild category.Websites.
+            // That operation caused the Android disposed-button crash.
             WebsiteUpdated?.Invoke(updatedWebsite);
         };
 
         await Navigation.PushModalAsync(editPage);
     }
+
 
     // ---------------------------------------------------------
     // NOTEPAD
@@ -207,7 +202,7 @@ public partial class CategoryView : ContentView
         object? sender,
         EventArgs e)
     {
-        if (sender is not Button button)
+        if (sender is not ImageButton button)
             return;
 
         await ShowTapFeedback(button);
@@ -229,44 +224,73 @@ public partial class CategoryView : ContentView
     // DELETE WEBSITE
     // ---------------------------------------------------------
 
-    private async void DeleteWebsite_Clicked(
-        object? sender,
-        EventArgs e)
+    private async void DeleteWebsite_Clicked(object? sender, EventArgs e)
     {
-        if (sender is not Button button)
+        if (_websiteDeleteInProgress || sender is not ImageButton button)
             return;
 
-        await ShowTapFeedback(button);
+        _websiteDeleteInProgress = true;
+        WebsiteItem? website = button.BindingContext as WebsiteItem;
+        WebsiteCategory? category = BindingContext as WebsiteCategory;
+        bool removed = false;
 
-        if (button.BindingContext is not WebsiteItem website)
-            return;
-
-        if (BindingContext is not WebsiteCategory category)
-            return;
-
-        var confirmDelete =
-            Settings?.ConfirmDelete ?? true;
-
-        if (confirmDelete)
+        try
         {
-            if (Window?.Page is not Page page)
+            if (website is null || category is null)
                 return;
 
-            var confirmed =
-                await DialogService.ConfirmAsync(
-                    page,
-                    "Delete Website",
-                    $"Delete {website.Name}?");
+            button.IsEnabled = false;
+            if (!OperatingSystem.IsAndroid())
+                await ShowTapFeedback(button);
 
-            if (!confirmed)
-                return;
+            if (Settings?.ConfirmDelete ?? true)
+            {
+                if (Window?.Page is not Page page)
+                    return;
+
+                if (!await DialogService.ConfirmAsync(
+                        page, "Delete Website", $"Delete {website.Name}?"))
+                    return;
+            }
+
+            try
+            {
+                removed = category.Websites.Remove(website);
+            }
+            catch (ObjectDisposedException ex) when (OperatingSystem.IsAndroid())
+            {
+                // MAUI BindableLayout can throw while disconnecting a removed
+                // Android MaterialButton. ObservableCollection may already have
+                // completed the removal before the UI exception propagates.
+                System.Diagnostics.Debug.WriteLine(
+                    $"Android website removal UI cleanup exception: {ex}");
+                removed = !category.Websites.Contains(website);
+                if (!removed)
+                    throw;
+            }
+
+            if (removed)
+                WebsiteDeleted?.Invoke(category, website);
         }
-
-        if (category.Websites.Remove(website))
+        catch (Exception ex)
         {
-            WebsiteDeleted?.Invoke(
-                category,
-                website);
+            System.Diagnostics.Debug.WriteLine($"Website deletion failed: {ex}");
+            if (Window?.Page is Page page)
+                await page.DisplayAlertAsync(
+                    "Delete Failed",
+                    "The website could not be deleted. Please try again.",
+                    "OK");
+        }
+        finally
+        {
+            // Do not touch a button that was removed from the Android layout.
+            // The surviving controls are restored only if deletion was canceled.
+            if (!removed)
+            {
+                try { button.IsEnabled = true; }
+                catch (ObjectDisposedException) { }
+            }
+            _websiteDeleteInProgress = false;
         }
     }
 
@@ -278,7 +302,7 @@ public partial class CategoryView : ContentView
         object? sender,
         EventArgs e)
     {
-        if (sender is Button button)
+        if (sender is ImageButton button)
         {
             await ShowTapFeedback(button);
         }
@@ -297,7 +321,7 @@ public partial class CategoryView : ContentView
         object? sender,
         EventArgs e)
     {
-        if (sender is Button button)
+        if (sender is ImageButton button)
         {
             await ShowTapFeedback(button);
         }
