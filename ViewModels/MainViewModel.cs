@@ -85,27 +85,30 @@ public class MainViewModel
             ResortCategories();
         }
 
-        category.Websites.Add(
-            new WebsiteItem
-            {
-                Name = websiteName,
-                Url = url,
-                TextColor = category.TextColor
-            });
-
-        var sortedWebsites =
-            category.Websites
-                .OrderBy(w => w.Name)
-                .ToList();
-
-        category.Websites.Clear();
-
-        foreach (var website in sortedWebsites)
+        // Insert only the new website. Clearing and repopulating the entire
+        // ObservableCollection can disrupt the currently displayed Windows UI.
+        var newWebsite = new WebsiteItem
         {
-            category.Websites.Add(website);
+            Name = websiteName,
+            Url = url,
+            TextColor = category.TextColor
+        };
+
+        var insertIndex = 0;
+        while (insertIndex < category.Websites.Count &&
+               string.Compare(category.Websites[insertIndex].Name,
+                   newWebsite.Name, StringComparison.CurrentCultureIgnoreCase) <= 0)
+        {
+            insertIndex++;
         }
 
-        ApplySearch();
+        category.Websites.Insert(insertIndex, newWebsite);
+
+        // The unfiltered view holds the same category and observable website
+        // collection, so it updates automatically without a category-list reset.
+        // Search results, however, may contain temporary filtered categories.
+        if (!string.IsNullOrWhiteSpace(SearchText))
+            ApplySearch();
     }
 
     public bool DeleteCategory(WebsiteCategory category)

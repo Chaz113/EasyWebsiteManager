@@ -70,7 +70,20 @@
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 
 		<DefaultLanguage>en</DefaultLanguage>
+
+		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+
+		<PackageCertificateThumbprint>E711C4D66C20B32CA3599664E27976D2BFBFAC8A</PackageCertificateThumbprint>
 	</PropertyGroup>
+
+	<!-- Windows Release: self-contained MSIX -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0' and '$(Configuration)' == 'Release'">
+		<WindowsPackageType>MSIX</WindowsPackageType>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<SelfContained>true</SelfContained>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	</PropertyGroup>
+
 
 	<ItemGroup>
 
